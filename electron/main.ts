@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron'
 import path from 'node:path'
-import { setupIPCListeners } from '../src/controllers/ipcHandler'
+import { setupIPCListeners } from '../src/api/ipcHandler'
 import { initializeDatabase } from '../src/models/database'
 
 // The built directory structure

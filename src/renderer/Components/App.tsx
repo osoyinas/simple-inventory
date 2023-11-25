@@ -2,28 +2,27 @@ import { useState, useEffect } from "react";
 import reactLogo from "@/assets/react.svg";
 import viteLogo from "/electron-vite.animate.svg";
 import "./App.css";
-
-type User = {id: number; name: string}
+import { getPersons, addPerson } from "@/api/person";
+import { Person } from "@/types/api";
 
 function App() {
-  const [users, setUsers] = useState<User[]>([]);
-
-
+  const [persons, setPersons] = useState<Person[]>([]);
+  const [name, setName] = useState(""); // Inicializar el estado con una cadena vacía
+  const [status, setStatus] = useState("");
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value); // Actualizar el estado con el valor del input
+  };
   useEffect(() => {
-    window.ipcRenderer.send("getUsers");
-    window.ipcRenderer.on("usersResponse", (_event, users) => {
-      console.log(users);
-      setUsers(users);
+    getPersons().then((payload) => {
+      console.log(payload);
+      setPersons(payload.persons);
     });
   }, []);
 
-  const addUser = () => {
-    const newUser = { id: 40 , name: "Personita jiji" }; // Crear un nuevo usuario
-    window.ipcRenderer.send("addUser", newUser); // Enviar el nuevo usuario al main process
-    window.ipcRenderer.send("getUsers");
-    window.ipcRenderer.on("usersResponse", (_event, users) => {
-      console.log(users);
-      setUsers(users);
+  const handleAddPerson = () => {
+    const newPerson = { name };
+    addPerson(newPerson).then((payload) => {
+      setStatus(payload.message);
     });
   };
   return (
@@ -39,13 +38,33 @@ function App() {
       <h1>Vite + React</h1>
       <div className="card">
         <ul>
-          {users.map((user) => (
-            <li key={user.id}><h1>{user.name}</h1></li>
+          {persons.map((person) => (
+            <li key={person.id}>
+              <h1>{person.name}</h1>
+            </li>
           ))}
         </ul>
       </div>
-      <button onClick={addUser}>Añadir usuario</button> {/* Botón para añadir un nuevo usuario */}
-
+      <input
+        type="text"
+        name="name"
+        id=""
+        placeholder="Juan juanito juan"
+        onChange={handleNameChange}
+      />
+      <button onClick={handleAddPerson}>Añadir usuario</button>{" "}
+      {/* Botón para añadir un nuevo usuario */}
+      <button
+        onClick={() => {
+          getPersons().then((payload) => {
+            console.log(payload);
+            setPersons(payload.persons);
+          });
+        }}
+      >
+        Recargar
+      </button>
+      {status && <p>{status}</p>} {/* Si hay un error, mostrarlo */}
     </>
   );
 }
