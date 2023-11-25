@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
+import reactLogo from "@/assets/react.svg";
 import viteLogo from "/electron-vite.animate.svg";
 import "./App.css";
 
@@ -17,6 +17,15 @@ function App() {
     });
   }, []);
 
+  const addUser = () => {
+    const newUser = { id: 40 , name: "Personita jiji" }; // Crear un nuevo usuario
+    window.ipcRenderer.send("addUser", newUser); // Enviar el nuevo usuario al main process
+    window.ipcRenderer.send("getUsers");
+    window.ipcRenderer.on("usersResponse", (_event, users) => {
+      console.log(users);
+      setUsers(users);
+    });
+  };
   return (
     <>
       <div>
@@ -35,9 +44,8 @@ function App() {
           ))}
         </ul>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <button onClick={addUser}>Añadir usuario</button> {/* Botón para añadir un nuevo usuario */}
+
     </>
   );
 }
