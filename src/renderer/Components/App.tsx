@@ -1,14 +1,21 @@
 import { PersonDasboard } from "Components/PersonDashboard";
 import { NavBar } from "./NavBar";
+import { Routes, Route } from "react-router-dom";
 
+const Home = () => <h1>Home</h1>;
 function App() {
   return (
-    <main className="grid grid-cols-4 w-full h-full relative">
-      <NavBar />
-      <section className="col-span-3">
-        <PersonDasboard />
-      </section>
-    </main>
+    <>
+      <main className="flex  relative h-full">
+        <NavBar className=""/>
+        <aside className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/persons" element={<PersonDasboard />} />
+          </Routes>
+        </aside>
+      </main>
+    </>
   );
 }
 
