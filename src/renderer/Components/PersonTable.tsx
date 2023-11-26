@@ -2,8 +2,8 @@ import { Person } from "@/types/api";
 
 export function PersonTable({ persons }: { persons: Person[] }) {
   return (
-    <div className="overflow-x-auto relative">
-      <table className="table min-w-max max-w-xl w-1/2">
+    <div className="overflow-x-auto relative rounded-2xl flex flex-col items-center p-4">
+      <table className="table min-w-max max-w-xl bg-secondary-content">
         <thead>
           <tr>
             <th></th>
@@ -17,6 +17,8 @@ export function PersonTable({ persons }: { persons: Person[] }) {
               <th></th>
               <td>{person.id}</td>
               <td>{person.name}</td>
+              <td><button className="btn btn-error"> Eliminar</button></td>
+              <td><button className="btn btn-accent"> Editar</button></td>
             </tr>
           ))}
         </tbody>

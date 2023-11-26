@@ -6,7 +6,7 @@ const Home = () => <h1>Home</h1>;
 function App() {
   return (
     <>
-      <main className="flex  relative h-full">
+      <main className="flex  relative h-full text-accent-content">
         <NavBar className=""/>
         <aside className="flex-1">
           <Routes>

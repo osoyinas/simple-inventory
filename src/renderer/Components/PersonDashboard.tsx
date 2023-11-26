@@ -14,31 +14,32 @@ export function PersonDasboard() {
 
   const handleAddPerson = () => {
     if (name === "") return;
-    addPerson({name}).then((response) => {
-        setStatus(response.message);
-        getPersons().then((persons) => setPersons(persons.persons));
+    addPerson({ name }).then((response) => {
+      setStatus(response.message);
+      getPersons().then((persons) => setPersons(persons.persons));
     });
-};
+  };
   return (
     <AsideSection>
-      <h1 className="text-6xl font-semibold">Personas</h1>
-      <PersonTable persons={persons}/>
-      <form onSubmit={handleAddPerson}>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border-2 rounded-md p-2"
-          placeholder="Nombre de la persona"
-        />
-        <button type="submit" className="bg-blue-500 text-white rounded-md p-2 mt-2">
+      <PersonTable persons={persons} />
+      <form onSubmit={handleAddPerson} className="flex gap-8 items-end">
+        <div className="form-control w-full max-w-xs">
+          <label className="label">
+            <span className="label-text">Insertar una persona</span>
+          </label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="input input-bordered input-primary w-full max-w-xs"
+            placeholder="Nombre de la persona"
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
           Añadir
         </button>
       </form>
-      {status && (<p>{status}</p>)}
+      {status && <p>{status}</p>}
     </AsideSection>
-
-    
-    
   );
 }

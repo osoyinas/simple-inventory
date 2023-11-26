@@ -8,6 +8,9 @@ module.exports = {
   variants: {
     extend: {},
   },
+  daisyui: {
+    themes: ["light", "dark", "dracula"],
+  },
   // eslint-disable-next-line no-undef
   plugins: [require("daisyui")],
 }
