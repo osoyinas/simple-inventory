@@ -20,6 +20,10 @@ function App() {
   }, []);
 
   const handleAddPerson = () => {
+    if (!name) {
+      setStatus("El nombre no puede estar vacío");
+      return;
+    }
     const newPerson = { name };
     addPerson(newPerson).then((payload) => {
       setStatus(payload.message);
@@ -59,6 +63,7 @@ function App() {
           getPersons().then((payload) => {
             console.log(payload);
             setPersons(payload.persons);
+            setStatus("");
           });
         }}
       >
