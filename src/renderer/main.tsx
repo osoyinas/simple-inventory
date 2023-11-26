@@ -9,7 +9,3 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>,
 )
 
-// Remove Preload scripts loading
-postMessage({ payload: 'removeLoading' }, '*')
-
-
