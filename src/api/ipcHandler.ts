@@ -17,7 +17,7 @@ function setupPersonsListeners() {
     executeQuery('SELECT * FROM Person').then((users) => {
       event.reply('getPersonsResponse', {status: 'success', persons: users});
     }).catch((error) => {
-      event.reply('getPersonsResponse', {status: 'failed', message: error});
+      event.reply('getPersonsResponse', {status: 'error', message: error});
 
     });
     
@@ -26,11 +26,13 @@ function setupPersonsListeners() {
   ipcMain.on('addPerson', (event: IpcMainEvent, data: { name:string }) => {
     executeQuery(`INSERT INTO Person (name) VALUES ('${data.name}');`)
     .then(() => {
-      event.reply('addPersonResponse', {status: 'success', message: 'Persona añadida de forma exitosa.'});
+      return executeQuery(`SELECT * FROM Person WHERE id = last_insert_rowid();`);
+    })
+    .then((result) => {
+      event.reply('addPersonResponse', {status: 'success', message: 'Persona añadida de forma exitosa.', person: result});
     })
     .catch((error) => {
-      event.reply('addPersonResponse', {status: 'failed', message: error});
-
+      event.reply('addPersonResponse', {status: 'error', message: error});
     });
   });
 }
@@ -43,7 +45,7 @@ function setupMaterialsListeners() {
     executeQuery('SELECT * FROM Material').then((materials) => {
       event.reply('getMaterialsResponse', {status: 'success', materials: materials});
     }).catch((error) => {
-      event.reply('getMaterialsResponse', {status: 'failed', message: error});
+      event.reply('getMaterialsResponse', {status: 'error', message: error});
 
     });
     
@@ -55,7 +57,7 @@ function setupMaterialsListeners() {
       event.reply('addMaterialResponse', {status: 'success', message: 'Material añadido de forma exitosa.'});
     })
     .catch((error) => {
-      event.reply('addMaterialResponse', {status: 'failed', message: error});
+      event.reply('addMaterialResponse', {status: 'error', message: error});
     });
   });
 }
