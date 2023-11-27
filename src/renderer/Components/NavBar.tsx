@@ -1,16 +1,19 @@
 import { NavLink } from "react-router-dom";
-export function NavBar({className}: {className?: string}) {
+export function NavBar() {
   return (
-    <nav className={`${className}`}>
-      <h1>Inventario</h1>
-      <ul className="menu  w-52 h-full ">
-        <li>
-          <NavLink to="/persons">Personas</NavLink>
-        </li>
-        <li>
-          <NavLink to="/">Home</NavLink>
-        </li>
-      </ul>
+    <nav className="navbar bg-base-100 px-40 items-center justify-between">
+      <aside className="flex gap-6">
+        <div>
+          <NavLink to="/home" className="btn btn-ghost text-xl">
+            Inventario
+          </NavLink>
+        </div>
+        <div className="">
+          <NavLink to="/persons" className="btn btn-ghost text-xl">
+            Personas
+          </NavLink>
+        </div>
+      </aside>
     </nav>
   );
 }
