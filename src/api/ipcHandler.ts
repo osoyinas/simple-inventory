@@ -35,6 +35,16 @@ function setupPersonsListeners() {
       event.reply('addPersonResponse', {status: 'error', message: error});
     });
   });
+
+  ipcMain.on('deletePerson', (event: IpcMainEvent, data: { id:number }) => {
+    executeQuery(`DELETE FROM Person WHERE id = '${data.id}';`)
+    .then(() => {
+      event.reply('deletePersonResponse', {status: 'success', message: 'Persona eliminada de forma exitosa.'});
+    })
+    .catch((error) => {
+      event.reply('deletePersonResponse', {status: 'error', message: error});
+    });
+  });
 }
 
 

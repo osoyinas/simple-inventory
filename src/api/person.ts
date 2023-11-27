@@ -25,3 +25,16 @@ export function addPerson(person: Person): Promise<Response> {
     });
   });
 }
+
+export function deletePerson(person: Person): Promise<Response> {
+  return new Promise((resolve, reject) => {
+    window.ipcRenderer.send("deletePerson", person);
+    window.ipcRenderer.on("deletePersonResponse", (_event, payload) => {
+      if (payload.status === "error") {
+        reject(payload);
+      } else {
+        resolve(payload);
+      }
+    });
+  });
+}

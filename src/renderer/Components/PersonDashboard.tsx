@@ -3,6 +3,7 @@ import { getPersons, addPerson } from "@/api/person";
 import { PersonTable } from "./PersonTable";
 import { Person } from "@/types/api";
 import { AsideSection } from "./AsideSection";
+import { DeleteModal } from "./DeleteModal";
 export function PersonDasboard({alertFunction}: {alertFunction: (alert: string) => void}) {
   const [persons, setPersons] = useState<Person[]>([]);
   const [name, setName] = useState("");
@@ -58,6 +59,7 @@ export function PersonDasboard({alertFunction}: {alertFunction: (alert: string) 
       </header>
 
       <PersonTable persons={filteredPersons} />
+      <DeleteModal />
       <form
         onSubmit={handleAddPerson}
         className="flex gap-8 rounded-2xl bg-white  p-4  w-2/5 min-w-max justify-around items-center"
