@@ -1,4 +1,6 @@
 import { Person } from "@/types/api";
+import { DeleteModal } from "./DeleteModal";
+import { deletePerson } from "@/api/person";
 
 export function PersonTable({ persons }: { persons: Person[] }) {
   return (
@@ -13,10 +15,13 @@ export function PersonTable({ persons }: { persons: Person[] }) {
         </thead>
         <tbody>
           {persons.map((person) => (
-            <tr key={person.id} className="hover:bg-base-200 cursor-pointer">
+            <tr key={person.id} className="">
               <th></th>
               <td>{person.id}</td>
               <td>{person.name}</td>
+              <td><DeleteModal deleteFunction={()=>{
+                deletePerson(person);
+              }}/></td>
             </tr>
           ))}
         </tbody>
