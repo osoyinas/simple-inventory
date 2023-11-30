@@ -13,18 +13,15 @@ export function NavBar({ alert }: { alert: string }) {
         <ul className="flex justify-start gap-4 relative h-full">
           {options.map((option) => {
             const match = useMatch(option.path);
-            console.log(match);
-            const activeStyle = match ? "text-primary opacity-100" : "";
-
             return (
               <>
                 <li
                   key={option.name}
-                  className="relative h-full grid items-center "
+                  className="relative h-full grid items-center"
                 >
                   <NavLink
                     to={option.path}
-                    className={`btn btn-ghost btn-sm rounded-btn font-bold text-2xl opacity-70    ${activeStyle}`}
+                    className={`btn btn-ghost btn-sm rounded-btn font-bold text-2xl ${match ? "text-primary opacity-100" : "opacity-70"}`}
                   >
                     {option.name}
                   </NavLink>
