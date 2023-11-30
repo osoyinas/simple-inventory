@@ -3,10 +3,11 @@ import { getPersons } from "@/api/person";
 import { PersonsTable } from "./PersonTable";
 import { Person } from "@/types/api";
 import { AsideSection } from "./AsideSection";
-import { PersonForm } from "./PersonForm";
+import { PersonHeader } from "./PersonHeader";
 
 export function PersonDasboard() {
   const [persons, setPersons] = useState<Person[]>([]);
+  const [filteredPersons, setFilteredPersons] = useState<Person[]>([]);
 
   useEffect(() => {
     refreshPersons();
@@ -14,13 +15,16 @@ export function PersonDasboard() {
 
   const refreshPersons = () => {
     getPersons()
-    .then((response) => setPersons(response.persons))
-    .catch((error) => console.error(error));
-    }
+      .then((response) => {
+        setPersons(response.persons);
+        setFilteredPersons(response.persons);
+      })
+      .catch((error) => console.error(error));
+  };
   return (
     <AsideSection>
-      <PersonsTable persons={persons} />
-      <PersonForm refreshPersons={refreshPersons} />
+      <PersonHeader persons={persons} setFilteredPersons={setFilteredPersons} refreshPersons={refreshPersons} />
+      <PersonsTable persons={filteredPersons} />
     </AsideSection>
   );
 }

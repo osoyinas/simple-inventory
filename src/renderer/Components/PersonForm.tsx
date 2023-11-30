@@ -17,10 +17,10 @@ export function PersonForm({ refreshPersons }: { refreshPersons: () => void }) {
 
   return (
     <form
-      className="bg-base-100 p-4 rounded-2xl flex items-end gap-4"
+      className=" rounded-2xl flex items-end join"
       onSubmit={handleSubmit}
     >
-      <label className="form-control w-full max-w-xs">
+      <label className="form-control">
         <div className="label">
           <span className="label-text">Añadir persona</span>
         </div>
@@ -28,11 +28,15 @@ export function PersonForm({ refreshPersons }: { refreshPersons: () => void }) {
           ref={inputRef}
           type="text"
           placeholder="Nombre de la persona"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered join-item"
           name="personName"
         />
       </label>
-      <button className="btn btn-primary text-base-100">Añadir</button>
+      <div className="indicator">
+
+      <button className="btn btn-primary text-base-100 join-item">Añadir</button>
+      
+      </div>
     </form>
   );
 }
