@@ -8,7 +8,7 @@ export function NavBar() {
     { name: "Personas", path: "/persons" },
   ];
   return (
-    <nav className="navbar w-[100vw] bg-base-100 px-40 py-0 items-center justify-between relative h-[65px] border border-b-slate-500">
+    <nav className="navbar bg-base-100 px-40 py-0 items-center justify-between relative h-[65px] w-full border border-b-slate-500 border-r-0">
       <ul className="flex justify-start gap-4 relative h-full">
         {options.map((option) => {
           const match = useMatch(option.path);
