@@ -3,14 +3,14 @@ import { NavBar } from "./NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AsideSection } from "./AsideSection";
 import { useState } from "react";
-const Home = () => <AsideSection><h1>HOMEEEEEEEEEEEEEEEEE</h1></AsideSection>;
+const Home = () => <AsideSection><h1 className="h-[2000px]">HOMEEEEEEEEEEEEEEEEE</h1></AsideSection>;
 function App() {
 
   const [alert, setAlert] = useState('')
   return (
     <>
-      <main className="relative h-full text-accent-content items-center bg-base-200">
-        <NavBar alert={alert}/>
+      <main className="relative h-full w-[100vw] text-accent-content items-center bg-base-200">
+        <NavBar />
         <AsideSection>
           <Routes>
             <Route path="/" element={<Navigate to="/moves" />} /> {/* Agrega esta línea */}

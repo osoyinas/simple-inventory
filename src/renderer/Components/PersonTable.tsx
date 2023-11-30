@@ -2,7 +2,7 @@ import { Person } from "@/types/api";
 
 export function PersonsTable({ persons }: { persons: Person[] }) {
   return (
-    <table className="table bg-white h-[300px]">
+    <table className="table bg-white h-[300px] max-w-6xl min-w-max">
       <thead className="text-lg font-bold text-black opacity-70">
         <tr>
           <th>
