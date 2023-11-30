@@ -9,10 +9,16 @@ export function DeleteModal({
 
   return (
     <>
-      <button className="btn bg-error text-error-content" onClick={() => setIsModalOpen(true)}>
+      <button
+        className="btn bg-error text-error-content"
+        onClick={() => setIsModalOpen(true)}
+      >
         Eliminar
       </button>
-      <dialog className="modal cursor-default" open={isModalOpen ? true : undefined}>
+      <dialog
+        className="modal cursor-default"
+        open={isModalOpen ? true : undefined}
+      >
         <div className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
           <p className="py-4">¿Seguro que quieres eliminar?</p>
@@ -23,7 +29,8 @@ export function DeleteModal({
                 className="btn bg-error text-error-content"
                 onClick={() => {
                   setIsModalOpen(false);
-                  deleteFunction();}}
+                  deleteFunction();
+                }}
               >
                 Eliminar
               </button>
@@ -31,7 +38,8 @@ export function DeleteModal({
               <button
                 className="btn"
                 onClick={() => {
-                  setIsModalOpen(false);}}
+                  setIsModalOpen(false);
+                }}
               >
                 Cancelar
               </button>

@@ -1,12 +1,14 @@
 import { Person } from "@/types/api";
-import { useState } from "react";
-
+import { Dispatch, SetStateAction, useState } from "react";
+import { deletePerson } from "@/api/person";
 export function PersonsTable({
   persons,
   page = 1,
+  setPersons,
 }: {
   persons: Person[];
   page?: number;
+  setPersons: Dispatch<SetStateAction<Person[]>>;
 }) {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(page);
@@ -23,17 +25,14 @@ export function PersonsTable({
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-  console.log(selectedPersons);
 
   const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const person = persons[Number(event.target.value)];
-    console.log(event.target.checked);
     if (event.target.checked) {
       event.target.checked = true;
 
       setSelectedPersons([...selectedPersons, person]);
     } else {
-      console.log("ENTRANDO EN ELSE");
       const newSelectedPersons = [...selectedPersons];
       setSelectedPersons(
         newSelectedPersons.filter(
@@ -43,12 +42,30 @@ export function PersonsTable({
       event.target.checked = false;
     }
   };
+
+  const handleDelete = () => {
+    selectedPersons.forEach((person) => {
+      deletePerson(person).catch((error) => console.error(error));
+    });
+    setPersons((prevPersons) => {
+      return prevPersons.filter((person) => !selectedPersons.includes(person));
+    });
+    setTimeout(() => {
+      console.log(currentPersons.length);
+      if (currentPersons.length === 0 && currentPage > 1) {
+        console.log("entrado");
+        setCurrentPage((prevPage) => prevPage - 1);
+      }
+    }, 1000);
+
+    setSelectedPersons([]);
+  };
   return (
     <section className="w-full relative flex flex-col gap-8 items-end min-w-0">
       <table className="table bg-white min-w-0 overflow-x-scroll">
         <thead className="text-lg font-bold text-black opacity-70">
           <tr>
-            <th></th>
+            <th>#</th>
             <th>ID</th>
             <th>Nombre</th>
             <th>Materiales que ha obtenido</th>
@@ -89,14 +106,20 @@ export function PersonsTable({
       <footer className="flex items-center justify-between w-full">
         <aside className="flex gap-8">
           <button
-            className={`btn btn-error ${selectedPersons.length === 0 ? "btn-disabled" :""}`}
-            onClick={() => {
-              console.log("Eliminar");
-            }}
+            className={`btn btn-error ${
+              selectedPersons.length === 0 ? "btn-disabled" : ""
+            }`}
+            onClick={handleDelete}
           >
             Eliminar
           </button>
-          <button className={`btn btn-info ${selectedPersons.length !== 1  ? "btn-disabled" :""}`}>Modificar</button>
+          <button
+            className={`btn btn-info ${
+              selectedPersons.length !== 1 ? "btn-disabled" : ""
+            }`}
+          >
+            Modificar
+          </button>
         </aside>
         {totalPages > 1 && (
           <div className="pagination join">
