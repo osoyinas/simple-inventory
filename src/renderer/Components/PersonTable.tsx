@@ -1,31 +1,34 @@
 import { Person } from "@/types/api";
-import { DeleteModal } from "./DeleteModal";
-import { deletePerson } from "@/api/person";
 
-export function PersonTable({ persons }: { persons: Person[] }) {
+export function PersonsTable({ persons }: { persons: Person[] }) {
   return (
-    <div className="overflow-x-auto w-3/5 min-w-max max-w-[800px] relative rounded-2xl flex flex-col items-center h-auto  max-h-[600px] p-4">
-      <table className="table bg-white">
-        <thead>
-          <tr>
-            <th></th>
-            <th>ID</th>
-            <th>Nombre</th>
+    <table className="table bg-white h-[300px]">
+      <thead className="text-lg font-bold text-black opacity-70">
+        <tr>
+          <th>
+            <label>
+              <input type="checkbox" className="checkbox" />
+            </label>
+          </th>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Materiales que ha obtenido</th>
+          <th>Obras en las que trabaja</th>
+        </tr>
+      </thead>
+      <tbody className="text-xl">
+        {persons.map((person) => (
+          <tr key={person.id}>
+            <td>
+              <label>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </td>
+            <td>{person.id}</td>
+            <td>{person.name}</td>
           </tr>
-        </thead>
-        <tbody>
-          {persons.map((person) => (
-            <tr key={person.id} className="">
-              <th></th>
-              <td>{person.id}</td>
-              <td>{person.name}</td>
-              <td><DeleteModal deleteFunction={()=>{
-                deletePerson(person);
-              }}/></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }
