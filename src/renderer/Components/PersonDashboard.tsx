@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getPersons, addPerson } from "@/api/person";
+import { getPersons } from "@/api/person";
 import { PersonsTable } from "./PersonTable";
 import { Person } from "@/types/api";
 import { AsideSection } from "./AsideSection";
