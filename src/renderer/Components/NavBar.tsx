@@ -9,22 +9,30 @@ export function NavBar({ alert }: { alert: string }) {
   ];
   return (
     <>
-      <nav className="navbar bg-base-100 px-40 items-center justify-between">
-        <ul className="flex justify-start gap-4">
+      <nav className="navbar bg-base-100 px-40 py-0 items-center justify-between relative h-[65px]">
+        <ul className="flex justify-start gap-4 relative h-full">
           {options.map((option) => {
             const match = useMatch(option.path);
             console.log(match);
-            const activeStyle = match ? "text-primary underline" : "";
+            const activeStyle = match ? "text-primary opacity-100" : "";
 
             return (
-              <li key={option.name}>
-                <NavLink
-                  to={option.path}
-                  className={`btn btn-ghost btn-sm rounded-btn font-bold text-2xl opacity-70   ${activeStyle}`}
+              <>
+                <li
+                  key={option.name}
+                  className="relative h-full grid items-center "
                 >
-                  {option.name}
-                </NavLink>
-              </li>
+                  <NavLink
+                    to={option.path}
+                    className={`btn btn-ghost btn-sm rounded-btn font-bold text-2xl opacity-70    ${activeStyle}`}
+                  >
+                    {option.name}
+                  </NavLink>
+                  {match && (
+                    <div className="w-full h-[4px] bg-primary rounded-full absolute bottom-0"></div>
+                  )}
+                </li>
+              </>
             );
           })}
         </ul>
