@@ -1,20 +1,33 @@
-import { NavLink } from "react-router-dom";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { NavLink, useMatch } from "react-router-dom";
 export function NavBar({ alert }: { alert: string }) {
+  const options = [
+    { name: "Movimientos", path: "/moves" },
+    { name: "Materiales", path: "/materials" },
+    { name: "Obras", path: "/works" },
+    { name: "Personas", path: "/persons" },
+  ];
   return (
     <>
       <nav className="navbar bg-base-100 px-40 items-center justify-between">
-        <aside className="flex gap-6">
-          <div>
-            <NavLink to="/home" className="btn btn-ghost text-xl">
-              Inventario
-            </NavLink>
-          </div>
-          <div className="">
-            <NavLink to="/persons" className="btn btn-ghost text-xl">
-              Personas
-            </NavLink>
-          </div>
-        </aside>
+        <ul className="flex justify-start gap-4">
+          {options.map((option) => {
+            const match = useMatch(option.path);
+            console.log(match);
+            const activeStyle = match ? "text-primary underline" : "";
+
+            return (
+              <li key={option.name}>
+                <NavLink
+                  to={option.path}
+                  className={`btn btn-ghost btn-sm rounded-btn font-bold text-2xl opacity-70   ${activeStyle}`}
+                >
+                  {option.name}
+                </NavLink>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
       {alert && (
         <div className="alert alert-success w-60 text-success-content font-semibold">
