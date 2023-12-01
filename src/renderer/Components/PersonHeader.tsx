@@ -1,22 +1,17 @@
-import { Person } from "@/types/api";
-import { Dispatch, SetStateAction } from "react";
 import { PersonForm } from "./PersonForm";
 import { PersonSearch } from "./PersonSearch";
 
+interface Props {
+    setFilter: (value:string) => void;
+    refreshPersons: () => void;
+  }
+
 export function PersonHeader({
-    persons,
-    setFilteredPersons,
+    setFilter,
     refreshPersons,
-}: {
-  persons: Person[];
-  setFilteredPersons: Dispatch<SetStateAction<Person[]>>;
-  refreshPersons: () => void;
-}) {
+}:Props ) {
     const handleSearchChange = (search: string) => {
-        const filteredPersons = persons.filter((person) =>
-            person.name.toLocaleLowerCase().includes(search as string)
-        );
-        setFilteredPersons(filteredPersons);
+        setFilter(search);
     };
     return (
         <header className="flex w-full justify-between items-end gap-2 flex-wrap">
