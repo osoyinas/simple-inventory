@@ -10,6 +10,6 @@ export interface PersonsResponse {
 }
 
 export interface Person {
-  id?: string;
+  id: number;
   name: string;
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getPersons } from "@/api/person";
+import { deletePerson, getPersons } from "@/api/person";
 import { PersonsTable } from "./PersonTable";
 import { Person } from "@/types/api";
 import { AsideSection } from "./AsideSection";
@@ -11,6 +11,10 @@ export function PersonDasboard() {
     useEffect(() => {
         refreshPersons();
     }, []);
+
+    useEffect(() => {
+
+    }, [filter]);
     const refreshPersons = () => {
         getPersons()
             .then((response) => {
@@ -21,17 +25,29 @@ export function PersonDasboard() {
 
     const filteredPersons = filter !== null && filter.length > 0 
         ? persons.filter((person:Person) => {
-            console.log(person.name);
             return person.name.toLowerCase().includes(filter.toLowerCase());
         })
         : persons;
+
+    const handleDelete = (ids:number[]) => {
+        ids.forEach((id) => {
+            deletePerson(id)
+                .then(() => {
+                    console.log("eliminado", id);
+                    setPersons(prevPersons => prevPersons.filter((person) => person.id !== id));
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        });
+    }
     return (
         <AsideSection>
             <PersonHeader
                 setFilter={setFilter}
                 refreshPersons={refreshPersons}
             />
-            <PersonsTable persons={filteredPersons} setPersons={setPersons} />
+            <PersonsTable persons={filteredPersons} handleDelete={handleDelete} />
         </AsideSection>
     );
 }
