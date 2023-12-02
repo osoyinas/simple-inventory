@@ -3,52 +3,52 @@ import fs = require('fs');
 
 // Mantén una única conexión de base de datos
 const db = new sqlite3.Database("./database.db", (err: Error | null) => {
-  if (err) {
-    console.error(err.message);
-  } else {
-    console.log("Connected to the SQLite database.");
-    // Ejecuta el archivo inic.sql al inicio
-    const sqlFile = fs.readFileSync("./inic.sql", 'utf8');
-    db.exec(sqlFile, (err: Error | null) => {
-      if (err) {
+    if (err) {
         console.error(err.message);
-      } else {
-        console.log("Tables created successfully.");
-      }
-    });
-  }
+    } else {
+        console.log("Connected to the SQLite database.");
+        // Ejecuta el archivo inic.sql al inicio
+        const sqlFile = fs.readFileSync("./inic.sql", 'utf8');
+        db.exec(sqlFile, (err: Error | null) => {
+            if (err) {
+                console.error(err.message);
+            } else {
+                console.log("Tables created successfully.");
+            }
+        });
+    }
 });
 
 export function executeQuery(query: string): Promise<never[]> {
-  return new Promise((resolve, reject) => {
-    const db = new sqlite3.Database("./database.db", (err: Error | null) => {
-      if (err) {
-        reject(err.message);
-      }
-    });
+    return new Promise((resolve, reject) => {
+        const db = new sqlite3.Database("./database.db", (err: Error | null) => {
+            if (err) {
+                reject(err.message);
+            }
+        });
 
-    db.all(query, (err: Error | null, rows: never[]) => {
-      if (err) {
-        reject(err.message);
-      }
-      resolve(rows);
-    });
+        db.all(query, (err: Error | null, rows: never[]) => {
+            if (err) {
+                reject(err.message);
+            }
+            resolve(rows);
+        });
 
-    db.close((err: Error | null) => {
-      if (err) {
-        reject(err.message);
-      }
+        db.close((err: Error | null) => {
+            if (err) {
+                reject(err.message);
+            }
+        });
     });
-  });
 }
 
 // Cerrar la conexión cuando sea necesario (puede ser al cerrar la aplicación)
 export function closeDatabase(): void {
-  db.close((err: Error | null) => {
-    if (err) {
-      console.error(err.message);
-    } else {
-      console.log("Closed the database connection.");
-    }
-  });
+    db.close((err: Error | null) => {
+        if (err) {
+            console.error(err.message);
+        } else {
+            console.log("Closed the database connection.");
+        }
+    });
 }
