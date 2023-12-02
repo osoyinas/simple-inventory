@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Movement (
   FOREIGN KEY (id_work) REFERENCES Work(id)
 );
 
-CREATE VIEW MaterialView AS
+CREATE VIEW IF NOT EXISTS MaterialView AS
 SELECT 
     m.id,
     m.name,

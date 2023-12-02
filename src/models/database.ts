@@ -21,23 +21,13 @@ const db = new sqlite3.Database("./database.db", (err: Error | null) => {
 
 export function executeQuery(query: string): Promise<never[]> {
     return new Promise((resolve, reject) => {
-        const db = new sqlite3.Database("./database.db", (err: Error | null) => {
-            if (err) {
-                reject(err.message);
-            }
-        });
 
         db.all(query, (err: Error | null, rows: never[]) => {
             if (err) {
+                console.log(err);
                 reject(err.message);
             }
             resolve(rows);
-        });
-
-        db.close((err: Error | null) => {
-            if (err) {
-                reject(err.message);
-            }
         });
     });
 }
