@@ -1,12 +1,13 @@
-import { PersonsResponse, Response } from "@/types/api";
+import { Response } from "@/types/types";
 
-export function getPersons(): Promise<PersonsResponse> {
+export function getPersons(): Promise<Response> {
     return new Promise((resolve, reject) => {
         window.ipcRenderer.send("getPersons");
         window.ipcRenderer.on("getPersonsResponse", (_event, payload) => {
             if (payload.status === "error") {
                 reject(payload.message);
             } else {
+                console.log(payload);
                 resolve(payload);
             }
         });
@@ -20,7 +21,7 @@ export function addPerson({name}: {name:string}): Promise<Response> {
             if (payload.status === "error") {
                 reject(payload);
             } else {
-                resolve(payload);
+                resolve(payload.persons);
             }
         });
     });

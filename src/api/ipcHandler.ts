@@ -17,7 +17,7 @@ function setupPersonsListeners() {
             .then((users) => {
                 event.reply("getPersonsResponse", {
                     status: "success",
-                    persons: users,
+                    data: users,
                 });
             })
             .catch((error) => {
@@ -36,7 +36,7 @@ function setupPersonsListeners() {
                 event.reply("addPersonResponse", {
                     status: "success",
                     message: "Persona añadida de forma exitosa.",
-                    person: result,
+                    data: result,
                 });
             })
             .catch((error) => {
@@ -69,7 +69,7 @@ function setupMaterialsListeners() {
             .then((materials) => {
                 event.reply("getMaterialsResponse", {
                     status: "success",
-                    materials: materials,
+                    data: materials,
                 });
             })
             .catch((error) => {

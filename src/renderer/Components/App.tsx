@@ -1,4 +1,5 @@
 import { PersonDasboard } from "@/renderer/Components/persons/PersonDashboard";
+import { MaterialDashboard } from "@/renderer/Components/materials/MaterialDashboard";
 import { NavBar } from "./NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AsideSection } from "./AsideSection";
@@ -19,7 +20,7 @@ function App() {
                     <Route path="/moves" element={<Home />} />
                     <Route path="/persons" element={<PersonDasboard />} />
                     <Route path="/works" element={<PersonDasboard />} />
-                    <Route path="/materials" element={<PersonDasboard />} />
+                    <Route path="/materials" element={<MaterialDashboard />} />
                 </Routes>
             </AsideSection>
         </main>

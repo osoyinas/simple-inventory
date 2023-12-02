@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
 import { PersonsTable } from "./PersonTable";
-import { Person, SORT_BY } from "@/types/api";
+import { Person, SORT_BY } from "@/types/types";
 import { AsideSection } from "../AsideSection";
 import { PersonHeader } from "./PersonHeader";
 
@@ -19,7 +19,8 @@ export function PersonDasboard() {
     const refreshPersons = () => {
         getPersons()
             .then((response) => {
-                setPersons(response.persons);
+                console.log(response);
+                setPersons(response.data as Person[]);
             })
             .catch((error) => console.error(error));
     };
