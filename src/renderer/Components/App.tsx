@@ -1,4 +1,4 @@
-import { PersonDasboard } from "Components/PersonDashboard";
+import { PersonDasboard } from "@/renderer/Components/persons/PersonDashboard";
 import { NavBar } from "./NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AsideSection } from "./AsideSection";
