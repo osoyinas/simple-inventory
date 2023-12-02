@@ -1,25 +1,31 @@
-import { Person, SORT_BY } from "@/types/types";
+import { SORT_BY, Item} from "@/types/types";
 import { Dispatch, useState } from "react";
+
+
+interface header {
+    name: string;
+    sortBy: SORT_BY;
+}
 interface Props {
-  persons: Person[];
-  page?: number;
+  headers: header[];
+  items: Item[];
   handleDelete: (ids:number[]) => void;
   setSort: Dispatch<React.SetStateAction<SORT_BY>>;
 }
 const ITEMS_PER_PAGE = 10;
 
-export function PersonsTable({persons, page = 1, handleDelete, setSort}: Props) {
+export function Table({headers ,items, handleDelete, setSort}: Props) {
 
-    const [currentPage, setCurrentPage] = useState(page);
-    const [selectedPersons, setSelectedPersons] = useState<number[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
-    const totalPages = Math.ceil(persons.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    const currentPersons = persons.slice(startIndex, endIndex);
-    if (currentPersons.length === 0 && currentPage > 1) {
+    const currentItems = items.slice(startIndex, endIndex);
+    if (currentItems.length === 0 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
     }
 
@@ -28,13 +34,13 @@ export function PersonsTable({persons, page = 1, handleDelete, setSort}: Props) 
     };
 
     const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const personId = Number(event.target.value);
+        const itemId = Number(event.target.value);
         if (event.target.checked) {
             event.target.checked = true;
-            setSelectedPersons([...selectedPersons, personId]);
+            setSelectedItems([...selectedItems, itemId]);
         } else {
-            setSelectedPersons(prevSelectedPersons =>
-                prevSelectedPersons.filter((id) => id !== personId
+            setSelectedItems(prevSelectedItems =>
+                prevSelectedItems.filter((id) => id !== itemId
                 ))
             event.target.checked = false;
         }
@@ -46,39 +52,41 @@ export function PersonsTable({persons, page = 1, handleDelete, setSort}: Props) 
             <table className="table bg-white min-w-0 overflow-x-scroll">
                 <thead className="text-lg font-bold text-black opacity-70">
                     <tr>
-                        <th className='cursor-pointer' onClick={()=>{
-                            setSort(SORT_BY.none);}}>#</th>
-                        <th className='cursor-pointer' onClick={()=>{
-                            setSort(SORT_BY.id);
-                        }}>ID</th>
-                        <th className='cursor-pointer'  onClick={()=> {
-                            setSort(SORT_BY.name); 
-                        }}>Nombre</th>
-                        <th>Materiales que ha obtenido</th>
-                        <th>Obras en las que trabaja</th>
+                        <th  className='cursor-pointer' onClick={
+                            ()=>{
+                                setSort(SORT_BY.none);
+                            }
+                        }>#</th>
+                        {headers.map((header) => (
+                            <th key={header.name} 
+                                className='cursor-pointer' 
+                                onClick={()=>{
+                                    setSort(header.sortBy)
+                                }}>{header.name}</th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody className="text-xl">
-                    {currentPersons.map((person) => {
+                    {currentItems.map((item) => {
                         return (
-                            <tr key={person.id}>
+                            <tr key={item.id}>
                                 <td>
                                     <label>
                                         <input
                                             type="checkbox"
                                             className="checkbox"
                                             onChange={handleCheckChange}
-                                            value={person.id}
-                                            checked={selectedPersons.includes(person.id)}
+                                            value={item.id}
+                                            checked={selectedItems.includes(item.id)}
                                         />
                                     </label>
                                 </td>
-                                <td>{person.id}</td>
+                                <td>{item.id}</td>
                                 <td
-                                    title={person.name}
+                                    title={item.name}
                                     className="max-w-[60px] overflow-hidden overflow-ellipsis"
                                 >
-                                    {person.name}
+                                    {item.name}
                                 </td>
                             </tr>
                         );
@@ -90,18 +98,18 @@ export function PersonsTable({persons, page = 1, handleDelete, setSort}: Props) 
                 <aside className="flex gap-8">
                     <button
                         className={`btn btn-error ${
-                            selectedPersons.length === 0 ? "btn-disabled" : ""
+                            selectedItems.length === 0 ? "btn-disabled" : ""
                         }`}
                         onClick={()=>{
-                            handleDelete(selectedPersons);
-                            setSelectedPersons([]);
+                            handleDelete(selectedItems);
+                            setSelectedItems([]);
                         }}
                     >
             Eliminar
                     </button>
                     <button
                         className={`btn btn-info ${
-                            selectedPersons.length !== 1 ? "btn-disabled" : ""
+                            selectedItems.length !== 1 ? "btn-disabled" : ""
                         }`}
                     >
             Modificar

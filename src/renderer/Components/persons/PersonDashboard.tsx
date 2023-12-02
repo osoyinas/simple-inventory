@@ -1,25 +1,24 @@
 import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
-import { PersonsTable } from "./PersonTable";
+import {Table} from "@/renderer/Components/Table"
 import { Person, SORT_BY } from "@/types/types";
 import { AsideSection } from "../AsideSection";
-import { PersonHeader } from "./PersonHeader";
+import { useFilter } from "@/renderer/hooks/useFilter";
+import { useSort } from "@/renderer/hooks/useSort";
+import {TableHeader} from "@/renderer/Components/TableHeader";
 
 export function PersonDasboard() {
     const [persons, setPersons] = useState<Person[]>([]);
-    const [filter, setFilter] = useState<string|null>(null);
-    const [sort, setSort] = useState<SORT_BY>(SORT_BY.none);
+    const {filteredItems : filteredPersons, setFilter} = useFilter(persons);
+    const {sortedItems: sortedPersons, setSort} = useSort(filteredPersons);
+
     useEffect(() => {
         refreshPersons();
     }, []);
-
-    useEffect(() => {
-
-    }, [filter]);
+    
     const refreshPersons = () => {
         getPersons()
             .then((response) => {
-                console.log(response);
                 setPersons(response.data as Person[]);
             })
             .catch((error) => console.error(error));
@@ -39,32 +38,22 @@ export function PersonDasboard() {
         });
     }
 
-    const filteredPersons = filter !== null && filter.length > 0 
-        ? persons.filter((person:Person) => {
-            return person.name.toLowerCase().includes(filter.toLowerCase());
-        })
-        : persons;
-
-    const compareFunction = (a:Person, b:Person) => {
-        if (sort === SORT_BY.name) {
-            return a.name.localeCompare(b.name);
-        }
-        else if (sort === SORT_BY.id) {
-            return a.id - b.id;
-        }
-        return 0;
-    }    
-    const sortedPersons = sort === SORT_BY.none 
-        ? filteredPersons
-        : filteredPersons.sort(compareFunction)
         
     return (
         <AsideSection>
-            <PersonHeader
+            <TableHeader
+                name="Personas"
                 setFilter={setFilter}
-                refreshPersons={refreshPersons}
             />
-            <PersonsTable persons={sortedPersons} handleDelete={handleDelete} setSort={setSort}/>
+            <Table 
+                headers={
+                    [
+                        {name: "ID", sortBy: SORT_BY.id},
+                        {name: "Nombre", sortBy: SORT_BY.name}
+                    ]} 
+                items={sortedPersons} 
+                handleDelete={handleDelete}
+                setSort={setSort}/>
         </AsideSection>
     );
 }

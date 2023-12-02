@@ -7,7 +7,6 @@ export function getPersons(): Promise<Response> {
             if (payload.status === "error") {
                 reject(payload.message);
             } else {
-                console.log(payload);
                 resolve(payload);
             }
         });
