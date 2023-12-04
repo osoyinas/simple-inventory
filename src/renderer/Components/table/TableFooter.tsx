@@ -1,10 +1,9 @@
 import { AddButton } from "./AddButton";
 import { DeleteButton } from "./DeleteButton";
-import { Item } from "@/types/types";
 
-interface Props {
+interface Props<T> {
     handleDelete: (ids:number[]) => void;
-    handleAdd: (item: Item) => void;
+    handleAdd: (item: T) => void;
     selectedItems: number[];
     resetSelectedItems: () => void;
     totalPages: number;
@@ -18,7 +17,7 @@ interface Field {
     name: string;
 }
 
-export function TableFooter ({handleDelete, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields: fields}: Props) {
+export function TableFooter<T> ({handleDelete, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields: fields}: Props<T>) {
     return (
         <footer className="flex items-center justify-between w-full">
             <aside className="flex gap-8">
@@ -36,7 +35,7 @@ export function TableFooter ({handleDelete, handleAdd, selectedItems, resetSelec
                         selectedItems.length !== 1 ? "btn-disabled" : ""
                     }`}
                 >
-    Modificar
+                Modificar
                 </button>
             </aside>
             {totalPages > 1 && (
