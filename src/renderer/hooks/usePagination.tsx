@@ -1,12 +1,11 @@
 import {useState} from "react";
-import { Item } from "@/types/types";
 
 const ITEMS_PER_PAGE = 10;
 
-interface Params {
-    items: Item[];
+interface Params<T> {
+    items: T[];
 }
-export function usePagination({items}: Params ) {
+export function usePagination<T>({items}: Params<T> ) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);

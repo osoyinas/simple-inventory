@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
-import {Table} from "@/renderer/Components/table/Table"
+import {PersonTable} from "@/renderer/Components/persons/PersonsTable"
 import { Person, SORT_BY } from "@/types/types";
 import { AsideSection } from "../AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
@@ -27,6 +27,11 @@ export function PersonDasboard() {
     };
 
 
+    const handleAdd = (item: Person) => {
+        addPerson(item).catch((error) => console.error(error));
+        refreshPersons();
+    }
+
     const handleDelete = (ids:number[]) => {
         ids.forEach((id) => {
             deletePerson(id)
@@ -43,8 +48,7 @@ export function PersonDasboard() {
         
     return (
         <AsideSection>
-
-            <Table 
+            <PersonTable 
                 headers={
                     [
                         {name: "ID", sortBy: SORT_BY.id},
@@ -52,7 +56,7 @@ export function PersonDasboard() {
                     ]} 
                 items={sortedPersons} 
                 handleDelete={handleDelete}
-                handleAdd={addPerson}
+                handleAdd={handleAdd}
                 handleSort={(value:SORT_BY)=>{setSort(value as SORT_BY)}}
                 handleFilter={(value:string)=> {setFilter(value)}}/>
         </AsideSection>

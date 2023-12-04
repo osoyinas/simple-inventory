@@ -1,6 +1,7 @@
 import { AddButton } from "./AddButton";
 import { DeleteButton } from "./DeleteButton";
 import { Item } from "@/types/types";
+
 interface Props {
     handleDelete: (ids:number[]) => void;
     handleAdd: (item: Item) => void;
@@ -17,12 +18,12 @@ interface Field {
     name: string;
 }
 
-export function TableFooter ({handleDelete, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields}: Props) {
+export function TableFooter ({handleDelete, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields: fields}: Props) {
     return (
         <footer className="flex items-center justify-between w-full">
             <aside className="flex gap-8">
                 <AddButton 
-                    fields={formFields}
+                    fields={fields}
                     addItem={handleAdd}
                 />
                 <DeleteButton 

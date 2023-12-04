@@ -1,8 +1,8 @@
-import { SORT_BY, Item} from "@/types/types";
-import { TableFooter } from "./TableFooter";
+import { SORT_BY, Item, Person} from "@/types/types";
+import { TableFooter } from  "@/renderer/Components/table/TableFooter";
+import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import { usePagination } from "@/renderer/hooks/usePagination";
 import { useSelection } from "@/renderer/hooks/useSelection";
-import {TableHeader} from "@/renderer/Components/table/TableHeader";
 
 interface header {
     name: string;
@@ -10,17 +10,15 @@ interface header {
 }
 interface Props {
   headers: header[];
-  items: Item[];
+  items: Person[];
   handleDelete: (ids:number[]) => void;
   handleAdd: (item: Item) => void;
   handleSort: (sort: SORT_BY) => void;
   handleFilter: (value:string) => void;
 }
+export function PersonTable({headers ,items, handleDelete, handleAdd, handleSort, handleFilter}: Props) {
 
-
-export function Table({headers ,items, handleDelete, handleAdd, handleSort, handleFilter}: Props) {
-
-    const {currentItems, totalPages, currentPage, handlePageChange} = usePagination({items});
+    const {currentItems, totalPages, currentPage, handlePageChange} = usePagination<Person>({items});
     const {selectedItems, resetSelectedItems, handleCheckChange} = useSelection();
 
     return (
@@ -76,7 +74,7 @@ function TableHead({headers}: TableHeadProps) {
 
 
 interface TableBodyProps {
-    currentItems: Item[];
+    currentItems: Person[];
     handleCheckChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     selectedItems: number[];
 }

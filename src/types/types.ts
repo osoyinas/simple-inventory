@@ -16,9 +16,8 @@ export interface Material {
   id: number;
   name: string;
   units: string;
-  available_quantity: number;
-  total_quantity: number;
-
+  available_amount?: number;
+  absolute_amount: number;
 }
 
 export enum SORT_BY {

@@ -1,6 +1,8 @@
 // ipcHandler.ts
 import { ipcMain, IpcMainEvent } from "electron";
 import { executeQuery } from "../models/database";
+import { Material } from "@/types/types";
+
 function setupIPCListeners() {
     setupPersonsListeners();
     setupMaterialsListeners();
@@ -62,8 +64,6 @@ function setupPersonsListeners() {
 
 function setupMaterialsListeners() {
     ipcMain.on("getMaterials", (event: IpcMainEvent) => {
-    // Lógica para obtener usuarios de la base de datos u otro lugar
-    // const users = [{ id: 1, name: 'User 1' }, { id: 2, name: 'User 2' }, { id: 3, name: 'User 3' }, { id: 4, name: 'User 4' }];
         executeQuery("SELECT * FROM Material")
             .then((materials) => {
                 event.reply("getMaterialsResponse", {
@@ -83,10 +83,10 @@ function setupMaterialsListeners() {
         "addMaterial",
         (
             event: IpcMainEvent,
-            data: { name: string; available_amount: number; description: string }
+            data: Material
         ) => {
             executeQuery(
-                `INSERT INTO Material (name, available_amount, description) VALUES ('${data.name}', ${data.available_amount}, '${data.description}');`
+                `INSERT INTO Material (name, units, absolute_amount, available_amount ) VALUES ('${data.name}', '${data.units}', ${data.absolute_amount}, ${data.absolute_amount} );`
             )
                 .then(() => {
                     event.reply("addMaterialResponse", {
@@ -102,12 +102,27 @@ function setupMaterialsListeners() {
                 });
         }
     );
+
+    ipcMain.on("deleteMaterial", (event: IpcMainEvent, data: { id: number }) => {
+        executeQuery(`DELETE FROM Material WHERE id = '${data.id}';`)
+            .then(() => {
+                event.reply("deleteMaterialResponse", {
+                    status: "success",
+                    message: "Material eliminado de forma exitosa.",
+                });
+            })
+            .catch((error) => {
+                event.reply("deleteMaterialResponse", {
+                    status: "error",
+                    message: error,
+                });
+            });
+    });
 }
 
 function setupWorksListeners() {
     ipcMain.on("getWorks", (event: IpcMainEvent) => {
-    // Lógica para obtener usuarios de la base de datos u otro lugar
-    // const users = [{ id: 1, name: 'User 1' }, { id: 2, name: 'User 2' }, { id: 3, name: 'User 3' }, { id: 4, name: 'User 4' }];
+
         executeQuery("SELECT * FROM Work")
             .then((works) => {
                 event.reply("getWorksResponse", { status: "success", works: works });

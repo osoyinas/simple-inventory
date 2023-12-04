@@ -1,45 +1,57 @@
+-- Crear la tabla Person
 CREATE TABLE IF NOT EXISTS Person (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name VARCHAR(255) NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL
 );
 
+-- Crear la tabla Material
 CREATE TABLE IF NOT EXISTS Material (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name VARCHAR(255) NOT NULL,
-  units VARCHAR(255) NOT NULL,
-  absolute_amount INT NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    units VARCHAR(255) NOT NULL,
+    absolute_amount INT NOT NULL,
+    available_amount INT NOT NULL CHECK (available_amount >= 0)
 );
 
+-- Crear la tabla Work
 CREATE TABLE IF NOT EXISTS Work (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name VARCHAR(255) NOT NULL,
-  start_date DATE,
-  status VARCHAR(50) CHECK (status IN ('PENDING', 'DONE')),
-  description TEXT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    start_date DATE,
+    status VARCHAR(50) CHECK (status IN ('PENDING', 'DONE')),
+    description TEXT
 );
 
+-- Crear la tabla Movement
 CREATE TABLE IF NOT EXISTS Movement (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  id_person INT,
-  id_material INT,
-  id_work INT,
-  amount INT,
-  date DATE,
-  type VARCHAR(3) CHECK (type IN ('IN', 'OUT')) NOT NULL,
-  FOREIGN KEY (id_person) REFERENCES Person(id),
-  FOREIGN KEY (id_material) REFERENCES Material(id),
-  FOREIGN KEY (id_work) REFERENCES Work(id)
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_person INT,
+    id_material INT,
+    id_work INT,
+    units INT NOT NULL CHECK (units > 0),
+    date DATE,
+    type VARCHAR(3) CHECK (type IN ('IN', 'OUT')) NOT NULL,
+    FOREIGN KEY (id_person) REFERENCES Person(id),
+    FOREIGN KEY (id_material) REFERENCES Material(id),
+    FOREIGN KEY (id_work) REFERENCES Work(id)
 );
 
-CREATE VIEW IF NOT EXISTS MaterialView AS
-SELECT 
-    m.id,
-    m.name,
-    m.units,
-    m.absolute_amount + COALESCE(SUM(CASE WHEN mov.type = 'IN' THEN mov.amount ELSE -mov.amount END), 0) AS available_amount
-FROM 
-    Material m
-LEFT JOIN 
-    Movement mov ON m.id = mov.id_material
-GROUP BY 
-    m.id, m.name, m.units, m.absolute_amount;
+-- Crear un trigger para verificar las transacciones de salida
+CREATE TRIGGER IF NOT EXISTS check_outbound
+BEFORE INSERT ON Movement
+WHEN NEW.type = 'OUT'
+BEGIN
+    SELECT CASE WHEN (SELECT available_amount FROM Material WHERE id = NEW.id_material) < NEW.units
+                THEN RAISE(ABORT, 'Cantidad no disponible') 
+                ELSE 0
+           END;
+END;
+
+-- Crear un trigger para actualizar la cantidad disponible después de una transacción
+CREATE TRIGGER IF NOT EXISTS update_available_amount
+AFTER INSERT ON Movement
+BEGIN
+    UPDATE Material
+    SET available_amount = available_amount + CASE WHEN NEW.type = 'IN' THEN NEW.units ELSE -NEW.units END
+    WHERE id = NEW.id_material;
+END;

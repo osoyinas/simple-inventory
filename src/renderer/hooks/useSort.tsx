@@ -14,9 +14,9 @@ export function useSort(items: Item[]) {
         const compareProperties: Record<string,(item: unknown)=> any> ={
             [SORT_BY.name]: item => (item as Item).name,
             [SORT_BY.id]: item => (item as Item).id.toString(),
-            [SORT_BY.available_quantity]: item => (item as Material).available_quantity,
-            [SORT_BY.total_quantity]: item => (item as Material).total_quantity,
-            [SORT_BY.units]: item => (item as Material).total_quantity,
+            [SORT_BY.available_quantity]: item => (item as Material).absolute_amount,
+            [SORT_BY.total_quantity]: item => (item as Material).absolute_amount,
+            [SORT_BY.units]: item => (item as Material).units,
         }
         return items.sort((a: Item, b: Item) => {
 

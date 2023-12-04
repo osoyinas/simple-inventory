@@ -1,44 +1,68 @@
 import { useEffect, useState } from "react";
-import { Material, SORT_BY } from "@/types/types";
+import { Item, Material, SORT_BY } from "@/types/types";
 import { AsideSection } from "../AsideSection";
 import { getMaterials } from "@/api/material";
-import { Table } from "../table/Table";
+import { MaterialsTable } from "./MaterialsTable";
+import { addMaterial } from "@/api/material";
 import { useFilter } from "@/renderer/hooks/useFilter";
-import { TableHeader } from "@/renderer/Components/table/TableHeader";
+import { useSort } from "@/renderer/hooks/useSort";
+import { deleteMaterial } from "@/api/material";
 
 export function MaterialDashboard() {
     const [materials, setMaterials] = useState<Material[]>([]);
-    const {filteredItems: filteredMaterials, setFilter} = useFilter(materials);
-    const [sort, setSort] = useState<SORT_BY>(SORT_BY.none);
+    const {filteredItems : filteredMaterials, setFilter} = useFilter(materials);
+    const {sortedItems: sortedMaterials, setSort} = useSort(filteredMaterials);
     
     useEffect(() => {
         getMaterials().then((response) => {
+            console.log(response);
             setMaterials(response.data as Material[]);
         });
     }, []);
 
-    const handleDelete = (ids:number[]) => {
-        console.log("Delete");
-        console.log(ids);
+    const refreshMaterials = () => {
+        getMaterials()
+            .then((response) => {
+                console.log(response);
+                setMaterials(response.data as Material[]);
+            })
+            .catch((error) => console.error(error));
+    };
+
+    const handleAdd = (item: Item) => {
+        addMaterial(item as Material).catch((error) => console.error(error));
+        refreshMaterials();
     }
 
-    const sortedMaterials = sort === SORT_BY.none ? filteredMaterials : []
+    const handleDelete = (ids:number[]) => {
+        ids.forEach((id) => {
+            deleteMaterial(id)
+                .then(() => {
+                    console.log("eliminado", id);
+                    setMaterials(prevMaterials => prevMaterials.filter((material) => material.id !== id));
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        });
+        refreshMaterials();
+    }
+
     return (
         <AsideSection>
-            <TableHeader
-                name="Materiales"
-                setFilter={setFilter}
-            />
-            <Table
+
+            <MaterialsTable 
+                handleAdd={handleAdd}
                 headers={[
-                    {name: "Nombre", sortBy: SORT_BY.name},
-                    {name: "Cantidad disponible", sortBy: SORT_BY.available_quantity},
-                    {name: "Cantidad total", sortBy: SORT_BY.total_quantity},
-                    {name: "Unidades", sortBy: SORT_BY.units},
-                ]} 
-                items={sortedMaterials}
+                    {name: "ID"},
+                    {name: "Nombre"},
+                    {name: "Cantidad total"},
+                    {name: "Cantidad disponible"},
+                ]}
+                items={sortedMaterials as Material[]}
                 handleDelete={handleDelete}
-                setSort={setSort}
+                handleSort={(value:SORT_BY)=>{setSort(value as SORT_BY)}}
+                handleFilter={(value:string)=> {setFilter(value)}}
             />
         </AsideSection>
     );
