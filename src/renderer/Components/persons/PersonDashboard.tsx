@@ -51,8 +51,8 @@ export function PersonDasboard() {
             <PersonTable 
                 headers={
                     [
-                        {name: "ID", sortBy: SORT_BY.id},
-                        {name: "Nombre", sortBy: SORT_BY.name}
+                        {name: "ID"},
+                        {name: "Nombre"}
                     ]} 
                 items={sortedPersons} 
                 handleDelete={handleDelete}

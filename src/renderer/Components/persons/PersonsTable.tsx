@@ -1,14 +1,11 @@
-import { SORT_BY, Item, Person} from "@/types/types";
+import { SORT_BY, Item, Person, header} from "@/types/types";
 import { TableFooter } from  "@/renderer/Components/table/TableFooter";
 import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import {TableHead} from "@/renderer/Components/table/TableHead";
 import { usePagination } from "@/renderer/hooks/usePagination";
 import { useSelection } from "@/renderer/hooks/useSelection";
 
-interface header {
-    name: string;
-    sortBy: SORT_BY;
-}
+
 interface Props {
   headers: header[];
   items: Person[];

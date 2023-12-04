@@ -3,6 +3,7 @@ import { TableFooter } from  "@/renderer/Components/table/TableFooter";
 import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import { usePagination } from "@/renderer/hooks/usePagination";
 import { useSelection } from "@/renderer/hooks/useSelection";
+import { TableHead } from "../table/TableHead";
 
 interface header {
     name: string;
@@ -59,24 +60,6 @@ export function MaterialsTable({headers ,items, handleDelete, handleAdd, handleS
 
         </>
     );
-}
-
-interface TableHeadProps {
-    headers: header[];
-}
-
-function TableHead({headers}: TableHeadProps) {
-    return (
-        <thead className="text-lg font-bold text-black opacity-70">
-            <tr>
-                <th  className='cursor-pointer'>#</th>
-                {headers.map((header) => (
-                    <th key={header.name} 
-                        className='cursor-pointer'>{header.name}</th>
-                ))}
-            </tr>
-        </thead>
-    )
 }
 
 

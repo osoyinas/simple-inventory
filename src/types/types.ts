@@ -28,3 +28,7 @@ export enum SORT_BY {
   total_quantity = 'totalQuantity',
   units = 'units'
 }
+
+export interface header {
+  name: string;
+}

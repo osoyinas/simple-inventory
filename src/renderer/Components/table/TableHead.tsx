@@ -1,9 +1,4 @@
-import { SORT_BY } from "@/types/types";
-
-interface header {
-    name: string;
-    sortBy: SORT_BY;
-} 
+import { header } from "@/types/types";
 
 interface TableHeadProps {
     headers: header[];
