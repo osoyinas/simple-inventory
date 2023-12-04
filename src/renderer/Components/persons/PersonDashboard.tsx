@@ -7,6 +7,8 @@ import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import {TableHeader} from "@/renderer/Components/TableHeader";
 import { addPerson } from "@/api/person";
+
+
 export function PersonDasboard() {
     const [persons, setPersons] = useState<Person[]>([]);
     const {filteredItems : filteredPersons, setFilter} = useFilter(persons);
@@ -19,6 +21,7 @@ export function PersonDasboard() {
     const refreshPersons = () => {
         getPersons()
             .then((response) => {
+                console.log(response);
                 setPersons(response.data as Person[]);
             })
             .catch((error) => console.error(error));

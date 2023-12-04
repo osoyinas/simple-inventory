@@ -1,6 +1,6 @@
 import { Person, Response } from "@/types/types";
 
-export function getPersons(): Promise<Response<Person>> {
+export function getPersons(): Promise<Response<Person[]>> {
     return new Promise((resolve, reject) => {
         window.ipcRenderer.send("getPersons");
         window.ipcRenderer.on("getPersonsResponse", (_event, payload) => {
@@ -20,7 +20,7 @@ export function addPerson({name}: {name:string}): Promise<Response<Person>> {
             if (payload.status === "error") {
                 reject(payload);
             } else {
-                resolve(payload.persons);
+                resolve(payload.data);
             }
         });
     });
