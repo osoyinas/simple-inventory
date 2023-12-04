@@ -1,4 +1,4 @@
-import { SORT_BY, Item, Person, header} from "@/types/types";
+import { SORT_BY, Person, header} from "@/types/types";
 import { TableFooter } from  "@/renderer/Components/table/TableFooter";
 import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import {TableHead} from "@/renderer/Components/table/TableHead";
@@ -10,7 +10,7 @@ interface Props {
   headers: header[];
   items: Person[];
   handleDelete: (ids:number[]) => void;
-  handleAdd: (item: Item) => void;
+  handleAdd: (item: Person) => void;
   handleSort: (sort: SORT_BY) => void;
   handleFilter: (value:string) => void;
 }

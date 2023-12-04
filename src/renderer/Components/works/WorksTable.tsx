@@ -1,24 +1,22 @@
-import { SORT_BY, Material} from "@/types/types";
+import { SORT_BY, header, Work} from "@/types/types";
 import { TableFooter } from  "@/renderer/Components/table/TableFooter";
 import {TableHeader} from "@/renderer/Components/table/TableHeader";
+import {TableHead} from "@/renderer/Components/table/TableHead";
 import { usePagination } from "@/renderer/hooks/usePagination";
 import { useSelection } from "@/renderer/hooks/useSelection";
-import { TableHead } from "../table/TableHead";
 
-interface header {
-    name: string;
-}
+
 interface Props {
   headers: header[];
-  items: Material[];
+  items: Work[];
   handleDelete: (ids:number[]) => void;
-  handleAdd: (item: Material) => void;
+  handleAdd: (item: Work) => void;
   handleSort: (sort: SORT_BY) => void;
   handleFilter: (value:string) => void;
 }
-export function MaterialsTable({headers ,items, handleDelete, handleAdd, handleSort, handleFilter}: Props) {
+export function WorksTable({headers ,items, handleDelete, handleAdd, handleSort, handleFilter}: Props) {
 
-    const {currentItems, totalPages, currentPage, handlePageChange} = usePagination<Material>({items});
+    const {currentItems, totalPages, currentPage, handlePageChange} = usePagination<Work>({items});
     const {selectedItems, resetSelectedItems, handleCheckChange} = useSelection();
 
     return (
@@ -47,12 +45,12 @@ export function MaterialsTable({headers ,items, handleDelete, handleAdd, handleS
                             name: "name",
                         },
                         {
-                            label: "Cantidad total",
-                            name: "absolute_amount",
+                            label: "Fecha de inicio",
+                            name: "date",
                         },
                         {
-                            label: "Unidades",
-                            name: "units",
+                            label: "Descripción",
+                            name: "description",
                         },
                     ]}
                 />
@@ -61,10 +59,8 @@ export function MaterialsTable({headers ,items, handleDelete, handleAdd, handleS
         </>
     );
 }
-
-
 interface TableBodyProps {
-    currentItems: Material[];
+    currentItems: Work[];
     handleCheckChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     selectedItems: number[];
 }
@@ -94,14 +90,23 @@ function TableBody ({currentItems, handleCheckChange, selectedItems}: TableBodyP
                             {item.name}
                         </td>
                         <td
-                            title={item.absolute_amount.toString()}
+                            title={item.start_date.toString()}
                             className="max-w-[60px] overflow-hidden overflow-ellipsis"
                         >
-                            {item.absolute_amount} <span className="opacity-70 text-lg">{item.units}</span>
+                            {item.start_date.toString()}
                         </td>
-                        <td title={item.absolute_amount.toString()}
-                            className="max-w-[60px] overflow-hidden overflow-ellipsis">
-                            {item.available_amount} <span className="opacity-70 text-lg">{item.units}</span>
+
+                        <td
+                            title={item.status}
+                            className="max-w-[60px] overflow-hidden overflow-ellipsis"
+                        >
+                            {item.status}
+                        </td>
+                        <td
+                            title={item.description}
+                            className="max-w-[60px] overflow-hidden overflow-ellipsis"
+                        >
+                            {item.description}
                         </td>
                     </tr>
                 );

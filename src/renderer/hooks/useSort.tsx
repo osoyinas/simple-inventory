@@ -2,7 +2,7 @@
 import { useState, useMemo } from 'react';
 import { Item, Material, SORT_BY } from "@/types/types";
 
-export function useSort(items: Item[]) {
+export function useSort(items: T) {
     const [sort, setSort] = useState<SORT_BY>(SORT_BY.none);
 
 

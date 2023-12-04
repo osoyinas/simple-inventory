@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Item, Material, SORT_BY } from "@/types/types";
+import { Material, SORT_BY } from "@/types/types";
 import { AsideSection } from "../AsideSection";
 import { getMaterials } from "@/api/material";
 import { MaterialsTable } from "./MaterialsTable";
@@ -29,8 +29,8 @@ export function MaterialDashboard() {
             .catch((error) => console.error(error));
     };
 
-    const handleAdd = (item: Item) => {
-        addMaterial(item as Material).catch((error) => console.error(error));
+    const handleAdd = (item: Material) => {
+        addMaterial(item).catch((error) => console.error(error));
         refreshMaterials();
     }
 
@@ -52,13 +52,13 @@ export function MaterialDashboard() {
         <AsideSection>
 
             <MaterialsTable 
-                handleAdd={handleAdd}
                 headers={[
                     {name: "ID"},
                     {name: "Nombre"},
                     {name: "Cantidad total"},
                     {name: "Cantidad disponible"},
                 ]}
+                handleAdd={handleAdd}
                 items={sortedMaterials as Material[]}
                 handleDelete={handleDelete}
                 handleSort={(value:SORT_BY)=>{setSort(value as SORT_BY)}}

@@ -3,6 +3,7 @@ import { MaterialDashboard } from "@/renderer/Components/materials/MaterialDashb
 import { NavBar } from "./NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AsideSection } from "./AsideSection";
+import { WorkDashboard } from "./works/WorksDashboard";
 
 const Home = () => (
     <AsideSection>
@@ -19,7 +20,7 @@ function App() {
                     {/* Agrega esta línea */}
                     <Route path="/moves" element={<Home />} />
                     <Route path="/persons" element={<PersonDasboard />} />
-                    <Route path="/works" element={<PersonDasboard />} />
+                    <Route path="/works" element={<WorkDashboard />} />
                     <Route path="/materials" element={<MaterialDashboard />} />
                 </Routes>
             </AsideSection>

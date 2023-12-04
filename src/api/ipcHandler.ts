@@ -1,7 +1,7 @@
 // ipcHandler.ts
 import { ipcMain, IpcMainEvent } from "electron";
 import { executeQuery } from "../models/database";
-import { Material } from "@/types/types";
+import { Material, Work } from "@/types/types";
 
 function setupIPCListeners() {
     setupPersonsListeners();
@@ -125,7 +125,7 @@ function setupWorksListeners() {
 
         executeQuery("SELECT * FROM Work")
             .then((works) => {
-                event.reply("getWorksResponse", { status: "success", works: works });
+                event.reply("getWorksResponse", { status: "success", data: works });
             })
             .catch((error) => {
                 event.reply("getWorksResponse", { status: "error", message: error });
@@ -136,12 +136,7 @@ function setupWorksListeners() {
         "addWork",
         (
             event: IpcMainEvent,
-            data: {
-        name: string;
-        start_date: string;
-        status: string;
-        description: string;
-      }
+            data: Work
         ) => {
             executeQuery(
                 `INSERT INTO Work (name, start_date, status, description) VALUES ('${data.name}', '${data.start_date}', '${data.status}', '${data.description}');`

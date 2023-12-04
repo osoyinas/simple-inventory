@@ -54,7 +54,7 @@ export function PersonDasboard() {
                         {name: "ID"},
                         {name: "Nombre"}
                     ]} 
-                items={sortedPersons} 
+                items={sortedPersons as Person[]} 
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
                 handleSort={(value:SORT_BY)=>{setSort(value as SORT_BY)}}
