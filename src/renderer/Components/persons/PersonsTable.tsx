@@ -1,6 +1,7 @@
 import { SORT_BY, Item, Person} from "@/types/types";
 import { TableFooter } from  "@/renderer/Components/table/TableFooter";
 import {TableHeader} from "@/renderer/Components/table/TableHeader";
+import {TableHead} from "@/renderer/Components/table/TableHead";
 import { usePagination } from "@/renderer/hooks/usePagination";
 import { useSelection } from "@/renderer/hooks/useSelection";
 
@@ -53,26 +54,6 @@ export function PersonTable({headers ,items, handleDelete, handleAdd, handleSort
         </>
     );
 }
-
-interface TableHeadProps {
-    headers: header[];
-}
-
-function TableHead({headers}: TableHeadProps) {
-    return (
-        <thead className="text-lg font-bold text-black opacity-70">
-            <tr>
-                <th  className='cursor-pointer'>#</th>
-                {headers.map((header) => (
-                    <th key={header.name} 
-                        className='cursor-pointer'>{header.name}</th>
-                ))}
-            </tr>
-        </thead>
-    )
-}
-
-
 interface TableBodyProps {
     currentItems: Person[];
     handleCheckChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
