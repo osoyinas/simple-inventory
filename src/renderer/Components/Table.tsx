@@ -1,6 +1,6 @@
 import { SORT_BY, Item} from "@/types/types";
 import { Dispatch, useState } from "react";
-
+import { AddButton } from "./AddButton";
 
 interface header {
     name: string;
@@ -96,6 +96,7 @@ export function Table({headers ,items, handleDelete, setSort}: Props) {
 
             <footer className="flex items-center justify-between w-full">
                 <aside className="flex gap-8">
+                    <AddButton />
                     <button
                         className={`btn btn-error ${
                             selectedItems.length === 0 ? "btn-disabled" : ""
