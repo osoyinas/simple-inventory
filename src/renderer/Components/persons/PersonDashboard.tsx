@@ -6,7 +6,7 @@ import { AsideSection } from "../AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import {TableHeader} from "@/renderer/Components/TableHeader";
-
+import { addPerson } from "@/api/person";
 export function PersonDasboard() {
     const [persons, setPersons] = useState<Person[]>([]);
     const {filteredItems : filteredPersons, setFilter} = useFilter(persons);
@@ -53,6 +53,7 @@ export function PersonDasboard() {
                     ]} 
                 items={sortedPersons} 
                 handleDelete={handleDelete}
+                handleAdd={addPerson}
                 setSort={setSort}/>
         </AsideSection>
     );

@@ -10,11 +10,12 @@ interface Props {
   headers: header[];
   items: Item[];
   handleDelete: (ids:number[]) => void;
+  handleAdd: (item: Item) => void;
   setSort: Dispatch<React.SetStateAction<SORT_BY>>;
 }
 const ITEMS_PER_PAGE = 10;
 
-export function Table({headers ,items, handleDelete, setSort}: Props) {
+export function Table({headers ,items, handleDelete, handleAdd, setSort}: Props) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedItems, setSelectedItems] = useState<number[]>([]);
@@ -96,7 +97,15 @@ export function Table({headers ,items, handleDelete, setSort}: Props) {
 
             <footer className="flex items-center justify-between w-full">
                 <aside className="flex gap-8">
-                    <AddButton />
+                    <AddButton 
+                        fields={
+                            [  {
+                                label: "Nombre",
+                                name: "name",
+                            },
+                            ]}
+                        addItem={handleAdd}
+                    />
                     <button
                         className={`btn btn-error ${
                             selectedItems.length === 0 ? "btn-disabled" : ""
