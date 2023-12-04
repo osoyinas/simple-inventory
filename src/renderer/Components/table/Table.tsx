@@ -1,7 +1,6 @@
 import { SORT_BY, Item} from "@/types/types";
 import { Dispatch, useState } from "react";
-import { AddButton } from "./AddButton";
-
+import { TableFooter } from "./TableFooter";
 interface header {
     name: string;
     sortBy: SORT_BY;
@@ -94,55 +93,21 @@ export function Table({headers ,items, handleDelete, handleAdd, setSort}: Props)
                     })}
                 </tbody>
             </table>
-
-            <footer className="flex items-center justify-between w-full">
-                <aside className="flex gap-8">
-                    <AddButton 
-                        fields={
-                            [  {
-                                label: "Nombre",
-                                name: "name",
-                            },
-                            ]}
-                        addItem={handleAdd}
-                    />
-                    <button
-                        className={`btn btn-error ${
-                            selectedItems.length === 0 ? "btn-disabled" : ""
-                        }`}
-                        onClick={()=>{
-                            handleDelete(selectedItems);
-                            setSelectedItems([]);
-                        }}
-                    >
-            Eliminar
-                    </button>
-                    <button
-                        className={`btn btn-info ${
-                            selectedItems.length !== 1 ? "btn-disabled" : ""
-                        }`}
-                    >
-            Modificar
-                    </button>
-                </aside>
-                {totalPages > 1 && (
-                    <div className="pagination join">
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <input
-                                key={index}
-                                type="radio"
-                                className="join-item btn btn-square btn-outline"
-                                aria-label={`${index + 1}`}
-                                checked={index + 1 == currentPage}
-                                name="options"
-                                onChange={() => {
-                                    handlePageChange(index + 1);
-                                }}
-                            />
-                        ))}
-                    </div>
-                )}
-            </footer>
+            <TableFooter 
+                selectedItems={selectedItems}
+                setSelectedItems={setSelectedItems}
+                totalPages={totalPages}
+                handlePageChange={handlePageChange}
+                currentPage={currentPage}
+                handleDelete={handleDelete}
+                handleAdd={handleAdd}
+                fields={[
+                    {
+                        label: "Nombre",
+                        name: "name",
+                    },
+                ]}
+            />
         </section>
 
     );

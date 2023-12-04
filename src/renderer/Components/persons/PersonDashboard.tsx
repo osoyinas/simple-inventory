@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
-import {Table} from "@/renderer/Components/Table"
+import {Table} from "@/renderer/Components/table/Table"
 import { Person, SORT_BY } from "@/types/types";
 import { AsideSection } from "../AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
-import {TableHeader} from "@/renderer/Components/TableHeader";
+import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import { addPerson } from "@/api/person";
 
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useModal } from "@/renderer/hooks/useModal";
 interface Props<T> {
     addItem: (item: T) => void;
     fields: Field[];
@@ -11,11 +11,9 @@ interface Field {
 }
 
 export function AddButton<T> ({addItem, fields}: Props<T>) {
-    const [isOpen, setIsOpen] = useState(false);
+    const {isOpen, closeModal, openModal} = useModal();
     const [formValues, setFormValues] = useState<Record<string, string>>({});
-    const handleClick = () => {
-        setIsOpen((prevIsOpen) => !prevIsOpen);
-    }
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormValues({
@@ -28,12 +26,12 @@ export function AddButton<T> ({addItem, fields}: Props<T>) {
         addItem(formValues as T);
         console.log(formValues as T);
         setFormValues({});
-        setIsOpen(false);
+        closeModal();
     }
 
     return (
         <>
-            <button onClick={handleClick} className="btn btn-primary text-primary-content">Añadir</button>
+            <button onClick={openModal} className="btn btn-primary text-primary-content">Añadir</button>
             <dialog className="modal" open={isOpen}>
                 <div className="modal-box z-50">
                     <h3 className="font-bold text-xl">Añadir</h3>
@@ -59,7 +57,7 @@ export function AddButton<T> ({addItem, fields}: Props<T>) {
                         <div className="divider"></div>
                         <footer className="flex justify-between">
 
-                            <button className="btn btn-error" onClick={handleClick}>Cancelar</button>
+                            <button className="btn btn-error" onClick={closeModal}>Cancelar</button>
                             <button className="btn btn-primary" onClick={handleAddClick}>Añadir</button>
                         </footer>
                     </main>

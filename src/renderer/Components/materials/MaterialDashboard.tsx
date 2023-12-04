@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Material, SORT_BY } from "@/types/types";
 import { AsideSection } from "../AsideSection";
 import { getMaterials } from "@/api/material";
-import { Table } from "../Table";
+import { Table } from "../table/Table";
 import { useFilter } from "@/renderer/hooks/useFilter";
-import { TableHeader } from "@/renderer/Components/TableHeader";
+import { TableHeader } from "@/renderer/Components/table/TableHeader";
 
 export function MaterialDashboard() {
     const [materials, setMaterials] = useState<Material[]>([]);
