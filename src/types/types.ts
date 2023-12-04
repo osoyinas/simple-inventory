@@ -62,3 +62,9 @@ export enum MOVEMENT_TYPE {
 export interface header {
   name: string;
 }
+export interface Field {
+  label: string;
+  name: string;
+  type?: string;
+  value?: string;
+}

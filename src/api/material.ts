@@ -39,3 +39,29 @@ export function deleteMaterial(id:number): Promise<Response<Material>> {
         });
     });
 }
+
+export function getMaterial(id:number): Promise<Response<Material>> {
+    return new Promise((resolve, reject) => {
+        window.ipcRenderer.send("getMaterial", {id});
+        window.ipcRenderer.on("getMaterialResponse", (_event, payload) => {
+            if (payload.status === "error") {
+                reject(payload.message);
+            } else {
+                resolve(payload);
+            }
+        });
+    });
+}
+
+export function updateMaterial(material:Material): Promise<Response<Material>> {
+    return new Promise((resolve, reject) => {
+        window.ipcRenderer.send("updateMaterial", material);
+        window.ipcRenderer.on("updateMaterialResponse", (_event, payload) => {
+            if (payload.status === "error") {
+                reject(payload.message);
+            } else {
+                resolve(payload);
+            }
+        });
+    });
+}

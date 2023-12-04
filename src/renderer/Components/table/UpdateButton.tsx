@@ -1,27 +1,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, useEffect, useState } from "react";
 import { useModal } from "@/renderer/hooks/useModal";
-import { Field } from "@/types/types";
+import { Field, Response } from "@/types/types";
 
 interface Props<T> {
-    addItem: (item: T) => void;
+    getItem: (id: number) => Promise<Response<T>>;
+    selectedItem: number;
+    updateItem: (item: T) => void;
     fields: Field[];
     children?: ReactNode;
 }
 
 
-export function AddButton<T> ({addItem, fields, children}: Props<T>) {
+export function UpdateButton<T> ({getItem, selectedItem, updateItem, fields, children}: Props<T>) {
+    const [toUpdateItem, settoUpdateItem] = useState<T | undefined>();
     const {isOpen, closeModal, openModal} = useModal();
     const [formValues, setFormValues] = useState<Record<string, string>>({});
 
     useEffect(() => {
-        fields.forEach((field) => {
-            setFormValues({
-                [field.name]: field.value? field.value : '',
-            });
+        console.log("selectedItem en UpdateButton", selectedItem);
+        getItem(selectedItem).then((response) => {
+            console.log("USEFFECT");
+            console.log(response.data);
+            settoUpdateItem(response.data as T);
         });
-    }, [])
+    }, [selectedItem])
 
+    useEffect(() => {
+        if (toUpdateItem) {
+            fields.forEach((field) => {
+                if (typeof toUpdateItem === 'object' && field.name in toUpdateItem) {
+                    field.value = (toUpdateItem as Record<string, any>)[field.name]?.toString();
+                    setFormValues((prevValues) => ({
+                        ...(prevValues as Record<string, string>),
+                        [field.name]: field.value ? field.value : '',
+                    }));
+                      
+                }
+            });
+        }
+    }, [toUpdateItem]);
+      
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormValues({
             ...formValues,
@@ -29,8 +48,9 @@ export function AddButton<T> ({addItem, fields, children}: Props<T>) {
         });
     }
 
+    console.log("TOPUDATE", toUpdateItem);
     const handleAddClick = () => {
-        addItem(formValues as T);
+        updateItem(formValues as T);
         console.log(formValues as T);
         setFormValues({});
         closeModal();
@@ -61,9 +81,8 @@ export function AddButton<T> ({addItem, fields, children}: Props<T>) {
 
                         <div className="divider"></div>
                         <footer className="flex justify-between">
-
                             <button className="btn btn-error" onClick={closeModal}>Cancelar</button>
-                            <button className="btn btn-primary" onClick={handleAddClick}>Añadir</button>
+                            <button className="btn btn-primary" onClick={handleAddClick}>Modificar</button>
                         </footer>
                     </main>
                 </div>
