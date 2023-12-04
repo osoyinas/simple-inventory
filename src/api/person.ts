@@ -1,6 +1,6 @@
-import { Response } from "@/types/types";
+import { Person, Response } from "@/types/types";
 
-export function getPersons(): Promise<Response> {
+export function getPersons(): Promise<Response<Person>> {
     return new Promise((resolve, reject) => {
         window.ipcRenderer.send("getPersons");
         window.ipcRenderer.on("getPersonsResponse", (_event, payload) => {
@@ -13,7 +13,7 @@ export function getPersons(): Promise<Response> {
     });
 }
 
-export function addPerson({name}: {name:string}): Promise<Response> {
+export function addPerson({name}: {name:string}): Promise<Response<Person>> {
     return new Promise((resolve, reject) => {
         window.ipcRenderer.send("addPerson", {name});
         window.ipcRenderer.on("addPersonResponse", (_event, payload) => {
@@ -26,7 +26,7 @@ export function addPerson({name}: {name:string}): Promise<Response> {
     });
 }
 
-export function deletePerson(personId: number): Promise<Response> {
+export function deletePerson(personId: number): Promise<Response<Person>> {
     return new Promise((resolve, reject) => {
         window.ipcRenderer.send("deletePerson", {id: personId});
         window.ipcRenderer.on("deletePersonResponse", (_event, payload) => {

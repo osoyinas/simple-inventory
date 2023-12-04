@@ -1,7 +1,7 @@
-export interface Response {
+export interface Response<T> {
   status: string;
   message: string;
-  data?: unknown;
+  data?: T;
 }
 
 export type Item = Material | Person;
