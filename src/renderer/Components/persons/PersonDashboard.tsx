@@ -5,7 +5,6 @@ import { Person, SORT_BY } from "@/types/types";
 import { AsideSection } from "../AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
-import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import { addPerson } from "@/api/person";
 
 
@@ -44,10 +43,7 @@ export function PersonDasboard() {
         
     return (
         <AsideSection>
-            <TableHeader
-                name="Personas"
-                setFilter={setFilter}
-            />
+
             <Table 
                 headers={
                     [
@@ -57,7 +53,8 @@ export function PersonDasboard() {
                 items={sortedPersons} 
                 handleDelete={handleDelete}
                 handleAdd={addPerson}
-                setSort={setSort}/>
+                handleSort={(value:SORT_BY)=>{setSort(value as SORT_BY)}}
+                handleFilter={(value:string)=> {setFilter(value)}}/>
         </AsideSection>
     );
 }

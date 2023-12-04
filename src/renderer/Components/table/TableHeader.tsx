@@ -1,31 +1,32 @@
 import { useRef } from "react";
+import { SORT_BY } from "@/types/types";
 
 interface Props {
     name: string;
-    setFilter: (value:string) => void;
+    handleFilter: (value:string) => void;
+    handleSort: (sort: SORT_BY) => void;
   }
 
-export function TableHeader({name, setFilter} : Props ) {
-    const handleSearchChange = (search: string) => {
-        setFilter(search);
-    };
+export function TableHeader({name, handleFilter, handleSort} : Props ) {
+
+
     return (
         <header className="flex w-full justify-between items-end gap-2 flex-wrap">
             <h1 className="text-4xl font-bold text-left">{name}</h1>
             <aside className="flex gap-8">
-                <ItemSearch handleSearchChange={handleSearchChange} />
+                <SortInput handleSort={handleSort} />
+                <SearchInput handleSearchChange={handleFilter} />
             </aside>
         </header>
     );
 }
 
 
+interface ItemSearchProps {
+    handleSearchChange: (search: string) => void;
+}
 
-function ItemSearch({
-    handleSearchChange,
-}: {
-  handleSearchChange: (search: string) => void;
-}) {
+function SearchInput({ handleSearchChange }: ItemSearchProps) {
     const searchRef = useRef<HTMLInputElement>(null);
 
     return (
@@ -54,4 +55,15 @@ function ItemSearch({
             <button className="btn join-item btn-secondary">Buscar</button>
         </form>
     );
+}
+interface SortInputProps {
+    handleSort: (sort: SORT_BY) => void;
+}
+
+function SortInput ({handleSort}: SortInputProps) {
+    return (
+        <button onClick={()=>{
+            handleSort(SORT_BY.name);
+        }}>Filtrar</button>
+    )
 }

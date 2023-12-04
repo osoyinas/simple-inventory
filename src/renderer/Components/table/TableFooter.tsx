@@ -5,11 +5,11 @@ interface Props {
     handleDelete: (ids:number[]) => void;
     handleAdd: (item: Item) => void;
     selectedItems: number[];
-    setSelectedItems: (ids: number[]) => void;
+    resetSelectedItems: () => void;
     totalPages: number;
     currentPage: number;
     handlePageChange: (pageNumber: number) => void;
-    fields : Field[];
+    formFields : Field[];
 }
 
 interface Field {
@@ -17,16 +17,16 @@ interface Field {
     name: string;
 }
 
-export function TableFooter ({handleDelete, handleAdd, selectedItems, setSelectedItems, totalPages, currentPage, handlePageChange, fields}: Props) {
+export function TableFooter ({handleDelete, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields}: Props) {
     return (
         <footer className="flex items-center justify-between w-full">
             <aside className="flex gap-8">
                 <AddButton 
-                    fields={fields}
+                    fields={formFields}
                     addItem={handleAdd}
                 />
                 <DeleteButton 
-                    setSelectedItems={setSelectedItems}
+                    resetSelectedItems={resetSelectedItems}
                     handleDelete={handleDelete}
                     selectedItems={selectedItems}
                 />
