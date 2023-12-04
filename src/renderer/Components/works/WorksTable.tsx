@@ -1,4 +1,4 @@
-import { SORT_BY, header, Work} from "@/types/types";
+import { SORT_BY, header, Work, STATUS} from "@/types/types";
 import { TableFooter } from  "@/renderer/Components/table/TableFooter";
 import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import {TableHead} from "@/renderer/Components/table/TableHead";
@@ -46,7 +46,8 @@ export function WorksTable({headers ,items, handleDelete, handleAdd, handleSort,
                         },
                         {
                             label: "Fecha de inicio",
-                            name: "date",
+                            type: "date",
+                            name: "start_date",
                         },
                         {
                             label: "Descripción",
@@ -69,6 +70,13 @@ function TableBody ({currentItems, handleCheckChange, selectedItems}: TableBodyP
     return (
         <tbody className="text-xl">
             {currentItems.map((item) => {
+                const dateFormat = new Intl.DateTimeFormat('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                const formatedDate = dateFormat.format(new Date(item.start_date));
+                console.log(formatedDate);
                 return (
                     <tr key={item.id}>
                         <td>
@@ -82,7 +90,6 @@ function TableBody ({currentItems, handleCheckChange, selectedItems}: TableBodyP
                                 />
                             </label>
                         </td>
-                        <td>{item.id}</td>
                         <td
                             title={item.name}
                             className="max-w-[60px] overflow-hidden overflow-ellipsis"
@@ -90,18 +97,15 @@ function TableBody ({currentItems, handleCheckChange, selectedItems}: TableBodyP
                             {item.name}
                         </td>
                         <td
-                            title={item.start_date.toString()}
+                            title={formatedDate}
                             className="max-w-[60px] overflow-hidden overflow-ellipsis"
                         >
-                            {item.start_date.toString()}
+                            {formatedDate}
                         </td>
-
-                        <td
-                            title={item.status}
-                            className="max-w-[60px] overflow-hidden overflow-ellipsis"
-                        >
-                            {item.status}
-                        </td>
+                        {item.status === STATUS.done ? (
+                            <td className="max-w-[60px] overflow-hidden overflow-ellipsis" ><button className="btn btn-success">Terminada</button></td>)
+                            : (<td className="max-w-[60px] overflow-hidden overflow-ellipsis" ><button className="btn btn-warning">Pendiente</button></td>)}
+                    
                         <td
                             title={item.description}
                             className="max-w-[60px] overflow-hidden overflow-ellipsis"

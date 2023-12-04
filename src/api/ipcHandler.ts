@@ -138,6 +138,7 @@ function setupWorksListeners() {
             event: IpcMainEvent,
             data: Work
         ) => {
+            console.log(typeof data.start_date);
             executeQuery(
                 `INSERT INTO Work (name, start_date, status, description) VALUES ('${data.name}', '${data.start_date}', '${data.status}', '${data.description}');`
             )
@@ -155,6 +156,21 @@ function setupWorksListeners() {
                 });
         }
     );
+    ipcMain.on("deleteWork", (event: IpcMainEvent, data: { id: number }) => {
+        executeQuery(`DELETE FROM Work WHERE id = '${data.id}';`)
+            .then(() => {
+                event.reply("deleteWorkResponse", {
+                    status: "success",
+                    message: "Obra eliminada de forma exitosa.",
+                });
+            })
+            .catch((error) => {
+                event.reply("deleteWorkResponse", {
+                    status: "error",
+                    message: error,
+                });
+            });
+    });
 
     ipcMain.on("getPersonsFromWork", 
         (event: IpcMainEvent, data: { id: number }) => {

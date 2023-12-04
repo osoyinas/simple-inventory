@@ -8,6 +8,7 @@ interface Props<T> {
 interface Field {
     label: string;
     name: string;
+    type?: string;
 }
 
 export function AddButton<T> ({addItem, fields}: Props<T>) {
@@ -28,7 +29,7 @@ export function AddButton<T> ({addItem, fields}: Props<T>) {
         setFormValues({});
         closeModal();
     }
-
+    console.log(fields);
     return (
         <>
             <button onClick={openModal} className="btn btn-primary text-primary-content">Añadir</button>
@@ -45,7 +46,7 @@ export function AddButton<T> ({addItem, fields}: Props<T>) {
                                 </div>
                                 <input 
                                     name={field.name} 
-                                    type="text" 
+                                    type={field.type? field.type : "text"}
                                     placeholder="Type here" 
                                     className="input input-bordered input-primary" 
                                     value={formValues[field.name] || ''}

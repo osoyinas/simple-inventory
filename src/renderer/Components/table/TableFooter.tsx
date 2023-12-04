@@ -15,6 +15,7 @@ interface Props<T> {
 interface Field {
     label: string;
     name: string;
+    type?: string;
 }
 
 export function TableFooter<T> ({handleDelete, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields: fields}: Props<T>) {

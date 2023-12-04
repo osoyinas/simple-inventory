@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {  SORT_BY, Work } from "@/types/types";
+import {  SORT_BY, STATUS, Work } from "@/types/types";
 import { AsideSection } from "../AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
@@ -19,7 +19,6 @@ export function WorkDashboard() {
     const refreshWorks = () => {
         getWorks()
             .then((response) => {
-                console.log(response);
                 setWorks(response.data as Work[]);
             })
             .catch((error) => console.error(error));
@@ -27,6 +26,8 @@ export function WorkDashboard() {
 
 
     const handleAdd = (item: Work) => {
+        item.status= STATUS.pending
+        console.log("ITEM A ADD", item);
         addWork(item).catch((error) => console.error(error));
         refreshWorks();
     }
@@ -38,15 +39,12 @@ export function WorkDashboard() {
         refreshWorks();
 
     }
-
         
-    console.log(works);
     return (
         <AsideSection>
             <WorksTable 
                 headers={
                     [
-                        {name: "ID"},
                         {name: "Nombre"},
                         {name: "Fecha de inicio"},
                         {name: "Estado"},
