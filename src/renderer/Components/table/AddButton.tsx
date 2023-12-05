@@ -31,7 +31,6 @@ export function AddButton<T> ({addItem, fields, children}: Props<T>) {
 
     const handleAddClick = () => {
         addItem(formValues as T);
-        console.log(formValues as T);
         setFormValues({});
         closeModal();
     }

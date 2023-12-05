@@ -26,7 +26,6 @@ Eliminar
                         <button className="btn" onClick={closeModal}>No, cancelar</button>
                         <button className="btn btn-error" onClick={()=>{
                             handleDelete(selectedItems);
-                            console.log(selectedItems);
                             resetSelectedItems()
                             closeModal();
                         }}>Sí, eliminar</button>
