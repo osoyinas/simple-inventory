@@ -55,3 +55,12 @@ BEGIN
     SET available_amount = available_amount + CASE WHEN NEW.type = 'IN' THEN NEW.units ELSE -NEW.units END
     WHERE id = NEW.id_material;
 END;
+
+-- Crea una view que obtenga toda la info de un movement, como el nombre del material, la persona y el trabajo
+
+CREATE VIEW IF NOT EXISTS MovementInfo AS
+SELECT Movement.id, Movement.id_person, Movement.id_material, Movement.id_work, Movement.units, Movement.date, Movement.type, Person.name AS person_name, Material.name AS material_name, Work.name AS work_name
+FROM Movement
+INNER JOIN Person ON Movement.id_person = Person.id
+INNER JOIN Material ON Movement.id_material = Material.id
+INNER JOIN Work ON Movement.id_work = Work.id;

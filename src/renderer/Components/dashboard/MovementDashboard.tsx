@@ -5,6 +5,7 @@ import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
+import { TableField } from "@/types/types";
 
 export function MovementDasboard() {
     const [moves, setMoves] = useState<Movement[]>([]);
@@ -36,17 +37,27 @@ export function MovementDasboard() {
         });
     };
 
+
     const headers = [
         {name:"ID"},
-        {name:"Fecha"},
+        {name:"Persona que lo realizó"},
+        {name:"Obra relacionada"},
+        {name:"Material"},
         {name:"Cantidad"},
+        {name:"Fecha"},
         {name:"Tipo"},
     ]    
-    // ["id", "date", "units", "type"]
-    const fields: {key:(keyof Movement), className?:string}[] = [
+
+    const fields: TableField<Movement>[]= [
         {key: "id"},
-        {key: "date"},
+        {key: "person_name"},
+        {key: "work_name"},
+        {key: "material_name"},
         {key: "units"},
+        {key: "date", logic: (item: Movement) => {
+            const date = new Date(item.date);
+            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });}
+        },
         {key: "type"}
     ];
 

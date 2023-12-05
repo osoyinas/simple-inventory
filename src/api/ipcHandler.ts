@@ -7,13 +7,13 @@ function setupIPCListeners() {
     setupPersonsListeners();
     setupMaterialsListeners();
     setupWorksListeners();
+    setupMovementsListeners();
 }
 
 export { setupIPCListeners };
 
 function setupPersonsListeners() {
     ipcMain.on("getPersons", (event: IpcMainEvent) => {
-
         executeQuery("SELECT * FROM Person")
             .then((users) => {
                 event.reply("getPersonsResponse", {
@@ -58,24 +58,30 @@ function setupPersonsListeners() {
             });
     });
 
-    ipcMain.on("updatePerson", (event: IpcMainEvent, data: { id: number, name: string }) => {
-        executeQuery(`UPDATE Person SET name = '${data.name}' WHERE id = '${data.id}';`)
-            .then(() => {
-                return executeQuery(
-                    `SELECT * FROM Person WHERE id = '${data.id}';`
-                );
-            })
-            .then((result) => {
-                event.reply("updatePersonResponse", {
-                    status: "success",
-                    message: "Persona actualizada de forma exitosa.",
-                    data: result,
+    ipcMain.on(
+        "updatePerson",
+        (event: IpcMainEvent, data: { id: number; name: string }) => {
+            executeQuery(
+                `UPDATE Person SET name = '${data.name}' WHERE id = '${data.id}';`
+            )
+                .then(() => {
+                    return executeQuery(`SELECT * FROM Person WHERE id = '${data.id}';`);
+                })
+                .then((result) => {
+                    event.reply("updatePersonResponse", {
+                        status: "success",
+                        message: "Persona actualizada de forma exitosa.",
+                        data: result,
+                    });
+                })
+                .catch((error) => {
+                    event.reply("updatePersonResponse", {
+                        status: "error",
+                        message: error,
+                    });
                 });
-            })
-            .catch((error) => {
-                event.reply("updatePersonResponse", { status: "error", message: error });
-            });
-    });
+        }
+    );
     ipcMain.on("deletePerson", (event: IpcMainEvent, data: { id: number }) => {
         executeQuery(`DELETE FROM Person WHERE id = '${data.id}';`)
             .then(() => {
@@ -125,48 +131,53 @@ function setupMaterialsListeners() {
                 });
             });
     });
+    ipcMain.on("addMaterial", (event: IpcMainEvent, data: Material) => {
+        executeQuery(
+            `INSERT INTO Material (name, units, absolute_amount, available_amount ) VALUES ('${data.name}', '${data.units}', ${data.absolute_amount}, ${data.absolute_amount} );`
+        )
+            .then(() => {
+                event.reply("addMaterialResponse", {
+                    status: "success",
+                    message: "Material añadido de forma exitosa.",
+                });
+            })
+            .catch((error) => {
+                event.reply("addMaterialResponse", {
+                    status: "error",
+                    message: error,
+                });
+            });
+    });
+
     ipcMain.on(
-        "addMaterial",
+        "updateMaterial",
         (
             event: IpcMainEvent,
-            data: Material
+            data: { id: number; name: string; units: string; absolute_amount: number }
         ) => {
             executeQuery(
-                `INSERT INTO Material (name, units, absolute_amount, available_amount ) VALUES ('${data.name}', '${data.units}', ${data.absolute_amount}, ${data.absolute_amount} );`
+                `UPDATE Material SET name = '${data.name}', units = '${data.units}', absolute_amount = ${data.absolute_amount} WHERE id = '${data.id}';`
             )
                 .then(() => {
-                    event.reply("addMaterialResponse", {
+                    return executeQuery(
+                        `SELECT * FROM Material WHERE id = '${data.id}';`
+                    );
+                })
+                .then((result) => {
+                    event.reply("updateMaterialResponse", {
                         status: "success",
-                        message: "Material añadido de forma exitosa.",
+                        message: "Material actualizado de forma exitosa.",
+                        data: result,
                     });
                 })
                 .catch((error) => {
-                    event.reply("addMaterialResponse", {
+                    event.reply("updateMaterialResponse", {
                         status: "error",
                         message: error,
                     });
                 });
         }
     );
-
-    ipcMain.on("updateMaterial", (event: IpcMainEvent, data: { id: number, name: string, units: string, absolute_amount: number }) => {
-        executeQuery(`UPDATE Material SET name = '${data.name}', units = '${data.units}', absolute_amount = ${data.absolute_amount} WHERE id = '${data.id}';`)
-            .then(() => {
-                return executeQuery(
-                    `SELECT * FROM Material WHERE id = '${data.id}';`
-                );
-            })
-            .then((result) => {
-                event.reply("updateMaterialResponse", {
-                    status: "success",
-                    message: "Material actualizado de forma exitosa.",
-                    data: result,
-                });
-            })
-            .catch((error) => {
-                event.reply("updateMaterialResponse", { status: "error", message: error });
-            });
-    });
     ipcMain.on("deleteMaterial", (event: IpcMainEvent, data: { id: number }) => {
         executeQuery(`DELETE FROM Material WHERE id = '${data.id}';`)
             .then(() => {
@@ -186,7 +197,6 @@ function setupMaterialsListeners() {
 
 function setupWorksListeners() {
     ipcMain.on("getWorks", (event: IpcMainEvent) => {
-
         executeQuery("SELECT * FROM Work")
             .then((works) => {
                 event.reply("getWorksResponse", { status: "success", data: works });
@@ -196,50 +206,58 @@ function setupWorksListeners() {
             });
     });
 
+    ipcMain.on("addWork", (event: IpcMainEvent, data: Work) => {
+        executeQuery(
+            `INSERT INTO Work (name, start_date, status, description) VALUES ('${data.name}', '${data.start_date}', '${data.status}', '${data.description}');`
+        )
+            .then(() => {
+                event.reply("addMaterialResponse", {
+                    status: "success",
+                    message: "Obra añadida de forma exitosa.",
+                });
+            })
+            .catch((error) => {
+                event.reply("addMaterialResponse", {
+                    status: "error",
+                    message: error,
+                });
+            });
+    });
     ipcMain.on(
-        "addWork",
+        "updateWork",
         (
             event: IpcMainEvent,
-            data: Work
+            data: {
+        id: number;
+        name: string;
+        start_date: Date;
+        status: string;
+        description: string;
+      }
         ) => {
             executeQuery(
-                `INSERT INTO Work (name, start_date, status, description) VALUES ('${data.name}', '${data.start_date}', '${data.status}', '${data.description}');`
+                `UPDATE Work SET name = '${data.name}', start_date = '${data.start_date}', status = '${data.status}', description = '${data.description}' WHERE id = '${data.id}';`
             )
                 .then(() => {
-                    event.reply("addMaterialResponse", {
+                    return executeQuery(`SELECT * FROM Work WHERE id = '${data.id}';`);
+                })
+                .then((result) => {
+                    event.reply("updateWorkResponse", {
                         status: "success",
-                        message: "Obra añadida de forma exitosa.",
+                        message: "Obra actualizada de forma exitosa.",
+                        data: result,
                     });
                 })
                 .catch((error) => {
-                    event.reply("addMaterialResponse", {
+                    event.reply("updateWorkResponse", {
                         status: "error",
                         message: error,
                     });
                 });
         }
     );
-    ipcMain.on("updateWork", (event: IpcMainEvent, data: { id: number, name: string, start_date: Date, status: string, description: string }) => {
-        executeQuery(`UPDATE Work SET name = '${data.name}', start_date = '${data.start_date}', status = '${data.status}', description = '${data.description}' WHERE id = '${data.id}';`)
-            .then(() => {
-                return executeQuery(
-                    `SELECT * FROM Work WHERE id = '${data.id}';`
-                );
-            })
-            .then((result) => {
-                event.reply("updateWorkResponse", {
-                    status: "success",
-                    message: "Obra actualizada de forma exitosa.",
-                    data: result,
-                });
-            })
-            .catch((error) => {
-                event.reply("updateWorkResponse", { status: "error", message: error });
-            });
-    });
-     
-    ipcMain.on("getWork", (event: IpcMainEvent, data: { id: number }) => {
 
+    ipcMain.on("getWork", (event: IpcMainEvent, data: { id: number }) => {
         executeQuery(`SELECT * FROM Work WHERE id = '${data.id}';`)
             .then((work) => {
                 event.reply("getWorkResponse", { status: "success", data: work });
@@ -264,14 +282,43 @@ function setupWorksListeners() {
             });
     });
 
-    ipcMain.on("getPersonsFromWork", 
+    ipcMain.on(
+        "getPersonsFromWork",
         (event: IpcMainEvent, data: { id: number }) => {
-            executeQuery(`SELECT * FROM Person WHERE id IN (SELECT id_person FROM Movement WHERE id_work = ${data.id});`)
+            executeQuery(
+                `SELECT * FROM Person WHERE id IN (SELECT id_person FROM Movement WHERE id_work = ${data.id});`
+            )
                 .then((persons) => {
-                    event.reply("getPersonsFromWorkResponse", { status: "success", persons: persons });
+                    event.reply("getPersonsFromWorkResponse", {
+                        status: "success",
+                        persons: persons,
+                    });
                 })
                 .catch((error) => {
-                    event.reply("getPersonsFromWorkResponse", { status: "error", message: error });
+                    event.reply("getPersonsFromWorkResponse", {
+                        status: "error",
+                        message: error,
+                    });
                 });
-        });
+        }
+    );
+}
+
+
+export function setupMovementsListeners() {
+    ipcMain.on("getMovements", (event: IpcMainEvent) => {
+        executeQuery("SELECT * FROM MovementInfo")
+            .then((movements) => {
+                event.reply("getMovementsResponse", {
+                    status: "success",
+                    data: movements,
+                });
+            })
+            .catch((error) => {
+                event.reply("getMovementsResponse", {
+                    status: "error",
+                    message: error,
+                });
+            });
+    });
 }
