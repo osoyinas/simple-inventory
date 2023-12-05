@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Movement } from "@/types/types";
-import { AsideSection } from "./AsideSection";
+import { AsideSection } from "../layout/AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";

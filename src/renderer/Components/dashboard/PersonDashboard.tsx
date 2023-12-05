@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
 import { Person } from "@/types/types";
-import { AsideSection } from "./AsideSection";
+import { AsideSection } from "../layout/AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { addPerson } from "@/api/person";

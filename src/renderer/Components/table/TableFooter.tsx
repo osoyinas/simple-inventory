@@ -1,6 +1,6 @@
 import { Field } from "@/types/types";
-import { AddButton } from "./AddButton";
-import { DeleteButton } from "./DeleteButton";
+import { AddButton } from "@/renderer/Components/table/buttons/AddButton";
+import { DeleteButton } from "@/renderer/Components/table/buttons/DeleteButton";
 
 interface Props<T> {
     handleDelete: (ids:number[]) => void;

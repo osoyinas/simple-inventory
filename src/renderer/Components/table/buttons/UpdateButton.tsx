@@ -11,7 +11,7 @@ interface Props<T> {
     children?: ReactNode;
 }
 
-
+//TODO
 export function UpdateButton<T> ({getItem, selectedItem, updateItem, fields, children}: Props<T>) {
     const [toUpdateItem, settoUpdateItem] = useState<T | undefined>();
     const {isOpen, closeModal, openModal} = useModal();
@@ -27,7 +27,6 @@ export function UpdateButton<T> ({getItem, selectedItem, updateItem, fields, chi
         if (toUpdateItem) {
             fields.forEach((field) => {
                 if (typeof toUpdateItem === 'object' && field.name in toUpdateItem) {
-                    field.value = (toUpdateItem as Record<string, any>)[field.name]?.toString();
                     setFormValues((prevValues) => ({
                         ...(prevValues as Record<string, string>),
                         [field.name]: field.value ? field.value : '',

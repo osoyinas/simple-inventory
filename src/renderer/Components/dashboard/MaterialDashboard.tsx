@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Material, SORT_BY } from "@/types/types";
-import { AsideSection } from "./AsideSection";
+import { AsideSection } from "../layout/AsideSection";
 import { getMaterials } from "@/api/material";
 import { addMaterial } from "@/api/material";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { deleteMaterial } from "@/api/material";
-import { GenericTable } from "./table/GenericTable";
+import { GenericTable } from "../table/GenericTable";
 export function MaterialDashboard() {
     const [materials, setMaterials] = useState<Material[]>([]);
     const {filteredItems : filteredMaterials, setFilter} = useFilter<Material>({items: materials, key: "name"});
