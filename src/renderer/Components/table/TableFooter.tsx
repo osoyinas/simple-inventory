@@ -1,13 +1,10 @@
 import { Field } from "@/types/types";
 import { AddButton } from "./AddButton";
 import { DeleteButton } from "./DeleteButton";
-import { Response } from "@/types/types";
 
 interface Props<T> {
     handleDelete: (ids:number[]) => void;
     handleAdd: (item: T) => void;
-    getItem: (id: number) => Promise<Response<T>>;
-    updateItem: (item: T) => void;
     selectedItems: number[];
     resetSelectedItems: () => void;
     totalPages: number;
@@ -18,7 +15,7 @@ interface Props<T> {
 
 
 
-export function TableFooter<T> ({handleDelete,getItem, updateItem, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields: fields}: Props<T>) {
+export function TableFooter<T> ({handleDelete, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields: fields}: Props<T>) {
     console.log("SELECTED ITEM IN TABLE FOOTER", selectedItems[0]);
     return (
         <footer className="flex items-center justify-between w-full">

@@ -4,7 +4,6 @@ import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import {TableHead} from "@/renderer/Components/table/TableHead";
 import { usePagination } from "@/renderer/hooks/usePagination";
 import { useSelection } from "@/renderer/hooks/useSelection";
-import { getPerson, updatePerson } from "@/api/person";
 
 interface Props {
   headers: header[];
@@ -21,7 +20,7 @@ export function PersonTable({headers ,items, handleDelete, handleAdd, handleSort
         totalPages,
         currentPage,
         handlePageChange} = usePagination<Person>({items});
-        
+
     const {selectedItems,
         resetSelectedItems,
         handleCheckChange} = useSelection();
@@ -40,8 +39,6 @@ export function PersonTable({headers ,items, handleDelete, handleAdd, handleSort
                 </table>
                 <TableFooter 
                     selectedItems={selectedItems}
-                    getItem={getPerson}
-                    updateItem={updatePerson}
                     resetSelectedItems={resetSelectedItems}
                     totalPages={totalPages}
                     handlePageChange={handlePageChange}
