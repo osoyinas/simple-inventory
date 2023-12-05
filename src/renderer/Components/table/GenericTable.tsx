@@ -15,25 +15,30 @@ interface Props<T extends Item> {
     handleAdd: (item: T) => void;
     handleSort: (sort: SORT_BY) => void;
     handleFilter: (value:string) => void;
-    formFields: FormField[];
+    handleUpdate: (item: T) => void;
+    formFields: FormField<T>[];
 }
 
-export function GenericTable<T extends Item>({title, headers, fields, items, handleDelete, handleAdd, handleSort, handleFilter, formFields}: Props<T>) {
+export function GenericTable<T extends Item>({title, headers, fields, items, handleDelete, handleAdd,handleUpdate, handleSort, handleFilter, formFields}: Props<T>) {
 
     const {
         currentItems,
         totalPages,
         currentPage,
-        handlePageChange} = usePagination<T>({items});
+        handlePageChange
+    } = usePagination<T>({items});
 
-    const {selectedItems,
+    const {
+        selectedItems,
         resetSelectedItems,
-        handleCheckChange} = useSelection();
+        handleCheckChange
+    } = useSelection({items});
 
+    const selectedItemIds = new Set(selectedItems.map(item => item.id));
     return (
         <>
     
-            <section id="holas" className="relative flex flex-col gap-8 items-end min-w-max max-w-7xl w-full">
+            <section className="relative flex flex-col gap-8 items-end min-w-max max-w-7xl w-full">
                 <TableHeader
                     name={title}
                     handleFilter={handleFilter}
@@ -51,7 +56,7 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
                                             className="checkbox"
                                             onChange={handleCheckChange}
                                             value={item.id}
-                                            checked={selectedItems.includes(item.id)}
+                                            checked={selectedItemIds.has(item.id)}
                                         />
                                     </label>
                                 </td>
@@ -73,6 +78,7 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
                     currentPage={currentPage}
                     handleDelete={handleDelete}
                     handleAdd={handleAdd}
+                    handleUpdate={handleUpdate}
                     formFields={formFields}
                 />
             </section>

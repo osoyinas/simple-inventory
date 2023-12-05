@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
-import { TableField } from "@/types/types";
+import { FormField, TableField } from "@/types/types";
 import { Person } from "@/types/models";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import { useFilter } from "@/renderer/hooks/useFilter";
@@ -42,6 +42,10 @@ export function PersonDasboard() {
                 });
         });
     }
+    
+    const handleUpdate = (item: Person) => {
+        console.log(item);
+    }
 
     const headers = [
         {name:"ID"},
@@ -53,8 +57,8 @@ export function PersonDasboard() {
         {key: "name"},
     ];
 
-    const formFields = [
-        {label:"Nombre", name:"name", type:"text"},
+    const formFields: FormField<Person>[] = [
+        {label:"Nombre", key:"name", type:"text"},
     ]
 
     return (
@@ -66,6 +70,7 @@ export function PersonDasboard() {
                 items={sortedPersons}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
+                handleUpdate={handleUpdate}
                 handleSort={setSort}
                 handleFilter={setFilter}
                 formFields={formFields}

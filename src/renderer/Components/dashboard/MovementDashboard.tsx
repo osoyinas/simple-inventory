@@ -5,7 +5,7 @@ import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
-import { TableField } from "@/types/types";
+import { FormField, TableField } from "@/types/types";
 
 export function MovementDasboard() {
     const [moves, setMoves] = useState<Movement[]>([]);
@@ -37,6 +37,10 @@ export function MovementDasboard() {
         });
     };
 
+    const handleUpdate = (item: Movement) => {
+        console.log(item);
+    }
+
 
     const headers = [
         {name:"ID"},
@@ -61,8 +65,8 @@ export function MovementDasboard() {
         {key: "type"}
     ];
 
-    const formFields = [
-        {label:"Nombre", name:"name", type:"text"},
+    const formFields: FormField<Movement>[]= [
+        {label:"Material", key:"material_name", type:"text"},
     ]
     return (
         <LayoutContainer>
@@ -73,6 +77,7 @@ export function MovementDasboard() {
                 items={sortedPersons}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
+                handleUpdate={handleUpdate}
                 handleSort={setSort}
                 handleFilter={setFilter}
                 formFields={formFields}

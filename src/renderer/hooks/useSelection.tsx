@@ -1,16 +1,22 @@
+import { Item } from "@/types/models";
 import { useState } from "react";
 
-export function useSelection() {
-    const [selectedItems, setSelectedItems] = useState<number[]>([]);
+interface Props<T extends Item> {
+    items: T[];
+}
+export function useSelection<T extends Item>({items}:Props<T>) {
+    const [selectedItems, setSelectedItems] = useState<T[]>([]);
 
     const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const itemId = Number(event.target.value);
+        const item = items.find((item) => item.id === itemId);
         if (event.target.checked) {
             event.target.checked = true;
-            setSelectedItems([...selectedItems, itemId]);
+            if (item)
+                setSelectedItems([...selectedItems, item]);
         } else {
             setSelectedItems(prevSelectedItems =>
-                prevSelectedItems.filter((id) => id !== itemId
+                prevSelectedItems.filter((item) => item.id !== itemId
                 ))
             event.target.checked = false;
         }

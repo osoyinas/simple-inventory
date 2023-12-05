@@ -19,11 +19,10 @@ export interface header {
   name: string;
 }
 
-export interface FormField {
+export interface FormField<T> {
   label: string;
-  name: string;
+  key: keyof T;
   type?: string;
-  value?: string;
 }
 
 export interface TableField<T> {

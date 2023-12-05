@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TableField } from "@/types/types";
+import { FormField, TableField } from "@/types/types";
 import { Work, STATUS } from "@/types/models";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import { useFilter } from "@/renderer/hooks/useFilter";
@@ -40,6 +40,10 @@ export function WorkDashboard() {
 
     }
     
+    const handleUpdate = (item: Work) => {
+        console.log(item);
+    }
+
     const headers = [
         {name:"ID"},
         {name:"Nombre"},
@@ -58,9 +62,9 @@ export function WorkDashboard() {
             : <button className="btn btn-success rounded-full">Finalizada</button>}
     ]; 
 
-    const formFields = [
-        {label:"Nombre", name:"name", type:"text"},
-        {label:"Fecha de inicio", name:"startDate", type:"date"},
+    const formFields: FormField<Work>[] = [
+        {label:"Nombre", key:"name", type:"text"},
+        {label:"Fecha de inicio", key:"start_date", type:"date"},
     ]
     return (
         <LayoutContainer>
@@ -71,6 +75,7 @@ export function WorkDashboard() {
                 items={sortedItems}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
+                handleUpdate={handleUpdate}
                 handleSort={setSort}
                 handleFilter={setFilter}
                 formFields={formFields}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SORT_BY, TableField } from "@/types/types";
+import { FormField, SORT_BY, TableField } from "@/types/types";
 import { Material } from "@/types/models";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import { getMaterials } from "@/api/material";
@@ -46,6 +46,9 @@ export function MaterialDashboard() {
         refreshMaterials();
     }
 
+    const handleUpdate = (item: Material) => {
+        console.log(item);
+    }
     const headers = [
         {name: "ID"},
         {name: "Nombre"},
@@ -66,10 +69,10 @@ export function MaterialDashboard() {
             }}
     ];
 
-    const formFields = [
-        {label:"Nombre", name:"name", type:"text"},
-        {label:"Cantidad total", name:"absolute_amount", type:"number"},
-        {label: "Unidades de medida", name:"units", type:"text"}
+    const formFields: FormField<Material>[] = [
+        {label:"Nombre", key:"name", type:"text"},
+        {label:"Cantidad total", key:"absolute_amount", type:"number"},
+        {label: "Unidades de medida", key:"units", type:"text"}
     ]
     return (
         <LayoutContainer>
@@ -81,6 +84,7 @@ export function MaterialDashboard() {
                 items={sortedMaterials}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
+                handleUpdate={handleUpdate}
                 handleSort={(value:SORT_BY)=>{setSort(value as SORT_BY)}}
                 handleFilter={(value:string)=> {setFilter(value)}}
                 formFields={formFields}

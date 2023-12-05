@@ -1,11 +1,13 @@
 import { useModal } from "@/renderer/hooks/useModal";
-interface Props {
-    selectedItems: number[];
+import { Item } from "@/types/models";
+
+interface Props<T extends Item> {
+    selectedItems: T[];
     resetSelectedItems: () => void;
     handleDelete: (ids:number[]) => void;
 
 }
-export function DeleteButton({selectedItems, resetSelectedItems, handleDelete}: Props) {
+export function DeleteButton<T extends Item>({selectedItems, resetSelectedItems, handleDelete}: Props<T>) {
     const {isOpen, closeModal, openModal} = useModal();
     return (
         <>
@@ -25,7 +27,7 @@ Eliminar
 
                         <button className="btn" onClick={closeModal}>No, cancelar</button>
                         <button className="btn btn-error" onClick={()=>{
-                            handleDelete(selectedItems);
+                            handleDelete(selectedItems.map(item => item.id));
                             resetSelectedItems()
                             closeModal();
                         }}>Sí, eliminar</button>
