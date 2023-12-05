@@ -3,14 +3,13 @@ import { MaterialDashboard } from "@/renderer/Components/dashboard/MaterialDashb
 import { MovementDasboard } from "./dashboard/MovementDashboard";
 import { Navbar } from "./layout/NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AsideSection } from "./AsideSection";
 import { WorkDashboard } from "@/renderer/Components/dashboard/WorksDashboard";
-
+import { LayoutContainer } from "./layout/LayoutContainer";
 function App() {
     return (
         <main className="text-accent-content items-center">
             <Navbar />
-            <AsideSection>
+            <LayoutContainer>
                 <Routes>
                     <Route path="/" element={<Navigate to="/moves" />} />
                     <Route path="/moves" element={<MovementDasboard />} />
@@ -18,7 +17,7 @@ function App() {
                     <Route path="/works" element={<WorkDashboard />} />
                     <Route path="/materials" element={<MaterialDashboard />} />
                 </Routes>
-            </AsideSection>
+            </LayoutContainer>
         </main>
     );
 }
