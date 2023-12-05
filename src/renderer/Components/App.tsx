@@ -12,8 +12,7 @@ function App() {
             <NavBar />
             <AsideSection>
                 <Routes>
-                    <Route path="/" element={<Navigate to="/moves" />} />{" "}
-                    {/* Agrega esta línea */}
+                    <Route path="/" element={<Navigate to="/moves" />} />
                     <Route path="/moves" element={<MovementDasboard />} />
                     <Route path="/persons" element={<PersonDasboard />} />
                     <Route path="/works" element={<WorkDashboard />} />
