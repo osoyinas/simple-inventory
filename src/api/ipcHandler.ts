@@ -27,7 +27,6 @@ function setupPersonsListeners() {
     });
 
     ipcMain.on("getPerson", (event: IpcMainEvent, data: { id: number }) => {
-        console.log("PERSON ID en IPC", data.id);
         executeQuery(`SELECT * FROM Person WHERE id = '${data.id}';`)
             .then((user) => {
                 event.reply("getPersonResponse", {
@@ -203,7 +202,6 @@ function setupWorksListeners() {
             event: IpcMainEvent,
             data: Work
         ) => {
-            console.log(typeof data.start_date);
             executeQuery(
                 `INSERT INTO Work (name, start_date, status, description) VALUES ('${data.name}', '${data.start_date}', '${data.status}', '${data.description}');`
             )

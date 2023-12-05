@@ -1,7 +1,6 @@
 import { Field } from "@/types/types";
 import { AddButton } from "./AddButton";
 import { DeleteButton } from "./DeleteButton";
-import { UpdateButton } from "./UpdateButton";
 import { Response } from "@/types/types";
 
 interface Props<T> {
@@ -33,14 +32,6 @@ export function TableFooter<T> ({handleDelete,getItem, updateItem, handleAdd, se
                     handleDelete={handleDelete}
                     selectedItems={selectedItems}
                 />
-                <UpdateButton 
-                    getItem={getItem}
-                    selectedItem={selectedItems[0]}
-                    updateItem={updateItem}
-                    fields={fields}
-                >
-                    Modificar
-                </UpdateButton>
             </aside>
             {totalPages > 1 && (
                 <div className="pagination join">

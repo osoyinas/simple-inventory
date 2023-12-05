@@ -16,8 +16,15 @@ interface Props {
 }
 export function PersonTable({headers ,items, handleDelete, handleAdd, handleSort, handleFilter}: Props) {
 
-    const {currentItems, totalPages, currentPage, handlePageChange} = usePagination<Person>({items});
-    const {selectedItems, resetSelectedItems, handleCheckChange} = useSelection();
+    const {
+        currentItems,
+        totalPages,
+        currentPage,
+        handlePageChange} = usePagination<Person>({items});
+        
+    const {selectedItems,
+        resetSelectedItems,
+        handleCheckChange} = useSelection();
 
     return (
         <>

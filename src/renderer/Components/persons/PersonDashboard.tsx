@@ -20,7 +20,6 @@ export function PersonDasboard() {
     const refreshPersons = () => {
         getPersons()
             .then((response) => {
-                console.log(response);
                 setPersons(response.data as Person[]);
             })
             .catch((error) => console.error(error));
@@ -36,7 +35,6 @@ export function PersonDasboard() {
         ids.forEach((id) => {
             deletePerson(id)
                 .then(() => {
-                    console.log("eliminado", id);
                     setPersons(prevPersons => prevPersons.filter((person) => person.id !== id));
                 })
                 .catch((error) => {

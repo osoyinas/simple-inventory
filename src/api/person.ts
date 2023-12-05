@@ -28,7 +28,6 @@ export function addPerson({name}: {name:string}): Promise<Response<Person>> {
 
 export function getPerson(id:number): Promise<Response<Person>> {
     return new Promise((resolve, reject) => {
-        console.log("PERSON ID: ", id);
         window.ipcRenderer.send("getPerson", {id});
         window.ipcRenderer.on("getPersonResponse", (_event, payload) => {
             if (payload.status === "error") {
