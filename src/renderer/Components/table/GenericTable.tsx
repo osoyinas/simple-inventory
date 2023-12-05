@@ -32,13 +32,14 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
 
     return (
         <>
-            <TableHeader
-                name={title}
-                handleFilter={handleFilter}
-                handleSort={handleSort}
-            />
-            <section className="w-full relative flex flex-col gap-8 items-end min-w-0">
-                <table className="table bg-white min-w-0 overflow-x-scroll">
+    
+            <section id="holas" className="relative flex flex-col gap-8 items-end min-w-max max-w-7xl w-full">
+                <TableHeader
+                    name={title}
+                    handleFilter={handleFilter}
+                    handleSort={handleSort}
+                />
+                <table className="table bg-white min-w-max">
                     <TableHead headers={headers}/>
                     <tbody className="text-xl">
                         {currentItems.map((item, rowIndex) => (
@@ -55,7 +56,7 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
                                     </label>
                                 </td>
                                 {fields.map((field, colIndex) => (
-                                    <td key={colIndex}  className={`max-w-[60px] overflow-hidden overflow-ellipsis ${field.className}`}>
+                                    <td key={colIndex}  className={`overflow-hidden overflow-ellipsis ${field.className}`}>
                                         {field.logic ? field.logic(item) : item[field.key] as string}
                                     </td>
                                 ))}
