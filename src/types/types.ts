@@ -4,8 +4,10 @@ export interface Response<T> {
   data?: T;
 }
 
-export type Item = Material | Person | Work | Movement;
-
+export interface Item {
+  id: number;
+  name: string;
+}
 
 export interface Person {
   id: number;
