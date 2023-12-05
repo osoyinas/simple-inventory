@@ -6,16 +6,14 @@ export interface Response<T> {
 
 export interface Item {
   id: number;
-  name: string;
 }
 
-export interface Person {
-  id: number;
+export interface Person extends Item  {
   name: string;
+
 }
 
-export interface Material {
-  id: number;
+export interface Material extends Item{
   name: string;
   units: string;
   available_amount?: number;
@@ -23,17 +21,15 @@ export interface Material {
 }
 
 
-export interface Work {
-  id: number;
+export interface Work extends Item{
   name: string;
-  start_date: Date;
+  startDate: Date;
   status: STATUS;
   description: string;
 
 }
 
-export interface Movement {
-  id : number;
+export interface Movement extends Item{
   id_person: number;
   id_material: number;
   id_work: number;

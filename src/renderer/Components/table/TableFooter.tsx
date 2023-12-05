@@ -16,7 +16,6 @@ interface Props<T> {
 
 
 export function TableFooter<T> ({handleDelete, handleAdd, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields: fields}: Props<T>) {
-    console.log("SELECTED ITEM IN TABLE FOOTER", selectedItems[0]);
     return (
         <footer className="flex items-center justify-between w-full">
             <aside className="flex gap-8">

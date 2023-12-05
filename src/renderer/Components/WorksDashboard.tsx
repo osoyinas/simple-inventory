@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import {  SORT_BY, STATUS, Work } from "@/types/types";
-import { AsideSection } from "../AsideSection";
+import { STATUS, Work } from "@/types/types";
+import { AsideSection } from "./AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { deleteWork, getWorks } from "@/api/work";
 import { addWork } from "@/api/work";
-import { WorksTable } from "./WorksTable";
+import {GenericTable} from "@/renderer/Components/table/GenericTable";
 
 export function WorkDashboard() {
     const [works, setWorks] = useState<Work[]>([]);
-    const {filteredItems , setFilter} = useFilter(works);
+    const {filteredItems , setFilter} = useFilter<Work>({items: works, key: "name"});
     const {sortedItems, setSort} = useSort(filteredItems);
 
     useEffect(() => {
@@ -27,7 +27,6 @@ export function WorkDashboard() {
 
     const handleAdd = (item: Work) => {
         item.status= STATUS.pending
-        console.log("ITEM A ADD", item);
         addWork(item).catch((error) => console.error(error));
         refreshWorks();
     }
@@ -39,22 +38,32 @@ export function WorkDashboard() {
         refreshWorks();
 
     }
-        
+    
+    const headers = [
+        {name:"ID"},
+        {name:"Nombre"},
+        {name:"Fecha de inicio"},
+        {name:"Estado"},
+    ]
+    const fields: (keyof Work)[] = ["id", "name", "startDate", "status"];
+
+    const formFields = [
+        {label:"Nombre", name:"name", type:"text"},
+        {label:"Fecha de inicio", name:"startDate", type:"date"},
+    ]
     return (
         <AsideSection>
-            <WorksTable 
-                headers={
-                    [
-                        {name: "Nombre"},
-                        {name: "Fecha de inicio"},
-                        {name: "Estado"},
-                        {name: "Descripción"}
-                    ]} 
-                items={sortedItems as Work[]} 
+            <GenericTable
+                title="Obras"
+                headers={headers}
+                fields={fields}
+                items={sortedItems}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
-                handleSort={(value:SORT_BY)=>{setSort(value as SORT_BY)}}
-                handleFilter={(value:string)=> {setFilter(value)}}/>
+                handleSort={setSort}
+                handleFilter={setFilter}
+                formFields={formFields}
+            />
         </AsideSection>
     );
 }

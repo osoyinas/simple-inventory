@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
 import { Person } from "@/types/types";
-import { AsideSection } from "../AsideSection";
+import { AsideSection } from "./AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { addPerson } from "@/api/person";
@@ -9,7 +9,7 @@ import {GenericTable} from "@/renderer/Components/table/GenericTable";
 
 export function PersonDasboard() {
     const [persons, setPersons] = useState<Person[]>([]);
-    const {filteredItems : filteredPersons, setFilter} = useFilter(persons);
+    const {filteredItems : filteredPersons, setFilter} = useFilter({items: persons, key: "name"});
     const {sortedItems: sortedPersons, setSort} = useSort(filteredPersons);
 
     useEffect(() => {
@@ -37,7 +37,7 @@ export function PersonDasboard() {
                     setPersons(prevPersons => prevPersons.filter((person) => person.id !== id));
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.error(error);
                 });
         });
     }

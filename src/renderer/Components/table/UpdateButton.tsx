@@ -18,10 +18,7 @@ export function UpdateButton<T> ({getItem, selectedItem, updateItem, fields, chi
     const [formValues, setFormValues] = useState<Record<string, string>>({});
 
     useEffect(() => {
-        console.log("selectedItem en UpdateButton", selectedItem);
         getItem(selectedItem).then((response) => {
-            console.log("USEFFECT");
-            console.log(response.data);
             settoUpdateItem(response.data as T);
         });
     }, [selectedItem])
@@ -48,10 +45,8 @@ export function UpdateButton<T> ({getItem, selectedItem, updateItem, fields, chi
         });
     }
 
-    console.log("TOPUDATE", toUpdateItem);
     const handleAddClick = () => {
         updateItem(formValues as T);
-        console.log(formValues as T);
         setFormValues({});
         closeModal();
     }

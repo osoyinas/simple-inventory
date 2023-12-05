@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Material, SORT_BY } from "@/types/types";
-import { AsideSection } from "../AsideSection";
+import { AsideSection } from "./AsideSection";
 import { getMaterials } from "@/api/material";
 import { addMaterial } from "@/api/material";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { deleteMaterial } from "@/api/material";
-import { GenericTable } from "../table/GenericTable";
+import { GenericTable } from "./table/GenericTable";
 export function MaterialDashboard() {
     const [materials, setMaterials] = useState<Material[]>([]);
     const {filteredItems : filteredMaterials, setFilter} = useFilter(materials);
@@ -14,7 +14,6 @@ export function MaterialDashboard() {
     
     useEffect(() => {
         getMaterials().then((response) => {
-            console.log(response);
             setMaterials(response.data as Material[]);
         });
     }, []);
@@ -22,7 +21,6 @@ export function MaterialDashboard() {
     const refreshMaterials = () => {
         getMaterials()
             .then((response) => {
-                console.log(response);
                 setMaterials(response.data as Material[]);
             })
             .catch((error) => console.error(error));
@@ -37,11 +35,10 @@ export function MaterialDashboard() {
         ids.forEach((id) => {
             deleteMaterial(id)
                 .then(() => {
-                    console.log("eliminado", id);
                     setMaterials(prevMaterials => prevMaterials.filter((material) => material.id !== id));
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.error(error);
                 });
         });
         refreshMaterials();

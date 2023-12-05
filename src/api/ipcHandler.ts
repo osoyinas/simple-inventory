@@ -203,7 +203,7 @@ function setupWorksListeners() {
             data: Work
         ) => {
             executeQuery(
-                `INSERT INTO Work (name, start_date, status, description) VALUES ('${data.name}', '${data.start_date}', '${data.status}', '${data.description}');`
+                `INSERT INTO Work (name, start_date, status, description) VALUES ('${data.name}', '${data.startDate}', '${data.status}', '${data.description}');`
             )
                 .then(() => {
                     event.reply("addMaterialResponse", {

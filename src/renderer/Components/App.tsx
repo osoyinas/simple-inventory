@@ -1,9 +1,9 @@
-import { PersonDasboard } from "@/renderer/Components/persons/PersonDashboard";
-import { MaterialDashboard } from "@/renderer/Components/materials/MaterialDashboard";
+import { PersonDasboard } from "@/renderer/Components/PersonDashboard";
+import { MaterialDashboard } from "@/renderer/Components/MaterialDashboard";
 import { NavBar } from "./NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AsideSection } from "./AsideSection";
-import { WorkDashboard } from "./works/WorksDashboard";
+import { WorkDashboard } from "./WorksDashboard";
 
 const Home = () => (
     <AsideSection>
