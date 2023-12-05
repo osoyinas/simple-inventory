@@ -1,4 +1,5 @@
-import { Person, Response } from "@/types/types";
+import { Response } from "@/types/types";
+import { Person } from "@/types/models";
 
 export function getPersons(): Promise<Response<Person[]>> {
     return new Promise((resolve, reject) => {

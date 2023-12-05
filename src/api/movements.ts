@@ -1,4 +1,5 @@
-import { Movement, Response } from "@/types/types";
+import { Response } from "@/types/types";
+import { Movement } from "@/types/models";
 
 export function getMovements(): Promise<Response<Movement[]>> {
     return new Promise((resolve, reject) => {

@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, useEffect, useState } from "react";
 import { useModal } from "@/renderer/hooks/useModal";
-import { Field } from "@/types/types";
+import { FormField } from "@/types/types";
 
 interface Props<T> {
     addItem: (item: T) => void;
-    fields: Field[];
+    fields: FormField[];
     children?: ReactNode;
 }
 

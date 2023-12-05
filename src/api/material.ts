@@ -1,4 +1,5 @@
-import { Material, Response } from "@/types/types";
+import { Response } from "@/types/types";
+import { Material } from "@/types/models";
 
 export function getMaterials(): Promise<Response<Material[]>> {
     return new Promise((resolve, reject) => {

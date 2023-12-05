@@ -1,4 +1,5 @@
-import { SORT_BY, header, Field, Item} from "@/types/types";
+import { SORT_BY, header, FormField, TableField} from "@/types/types";
+import {Item} from "@/types/models";
 import { TableFooter } from  "@/renderer/Components/table/TableFooter";
 import {TableHeader} from "@/renderer/Components/table/TableHeader";
 import {TableHead} from "@/renderer/Components/table/TableHead";
@@ -8,13 +9,13 @@ import { useSelection } from "@/renderer/hooks/useSelection";
 interface Props<T extends Item> {
     title: string;
     headers: header[];
-    fields: (keyof T)[];
+    fields: TableField<T>[];
     items: T[];
     handleDelete: (ids:number[]) => void;
     handleAdd: (item: T) => void;
     handleSort: (sort: SORT_BY) => void;
     handleFilter: (value:string) => void;
-    formFields: Field[];
+    formFields: FormField[];
 }
 
 export function GenericTable<T extends Item>({title, headers, fields, items, handleDelete, handleAdd, handleSort, handleFilter, formFields}: Props<T>) {
@@ -54,7 +55,9 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
                                     </label>
                                 </td>
                                 {fields.map((field, colIndex) => (
-                                    <td key={colIndex}  className="max-w-[60px] overflow-hidden overflow-ellipsis">{(item[field]) as string}</td>
+                                    <td key={colIndex}  className={`max-w-[60px] overflow-hidden overflow-ellipsis ${field.className}`}>
+                                        {field.logic ? field.logic(item) : item[field.key] as string}
+                                    </td>
                                 ))}
                             </tr>
                         ))}

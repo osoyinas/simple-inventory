@@ -1,4 +1,4 @@
-import { Field } from "@/types/types";
+import { FormField } from "@/types/types";
 import { AddButton } from "@/renderer/Components/table/buttons/AddButton";
 import { DeleteButton } from "@/renderer/Components/table/buttons/DeleteButton";
 
@@ -10,7 +10,7 @@ interface Props<T> {
     totalPages: number;
     currentPage: number;
     handlePageChange: (pageNumber: number) => void;
-    formFields : Field[];
+    formFields : FormField[];
 }
 
 

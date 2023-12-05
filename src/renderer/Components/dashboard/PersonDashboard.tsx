@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
-import { Person } from "@/types/types";
+import { TableField } from "@/types/types";
+import { Person } from "@/types/models";
 import { AsideSection } from "../layout/AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
@@ -45,12 +46,17 @@ export function PersonDasboard() {
     const headers = [
         {name:"ID"},
         {name:"Nombre"},
-    ]    
+    ]
+
+    const fields: TableField<Person>[]= [
+        {key: "id"},
+        {key: "name"},
+    ];
 
     const formFields = [
         {label:"Nombre", name:"name", type:"text"},
     ]
-    const fields: (keyof Person)[] = ["id", "name"];
+
     return (
         <AsideSection>
             <GenericTable

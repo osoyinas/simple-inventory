@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Material, SORT_BY } from "@/types/types";
+import { SORT_BY, TableField } from "@/types/types";
+import { Material } from "@/types/models";
 import { AsideSection } from "../layout/AsideSection";
 import { getMaterials } from "@/api/material";
 import { addMaterial } from "@/api/material";
@@ -7,6 +8,7 @@ import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { deleteMaterial } from "@/api/material";
 import { GenericTable } from "../table/GenericTable";
+
 export function MaterialDashboard() {
     const [materials, setMaterials] = useState<Material[]>([]);
     const {filteredItems : filteredMaterials, setFilter} = useFilter<Material>({items: materials, key: "name"});
@@ -50,12 +52,24 @@ export function MaterialDashboard() {
         {name: "Cantidad total"},
         {name: "Cantidad disponible"},
     ]
-    const fields: (keyof Material)[] = ["id", "name", "available_amount", "absolute_amount"];
+    const fields: TableField<Material>[] = [
+        {key: "id"}, 
+        {key: "name"},
+        {key: "available_amount",
+            logic: (item: Material) => {
+                return (<span>{item.absolute_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
+            }
+        },
+        {key: "absolute_amount",
+            logic: (item: Material) => {
+                return (<span>{item.absolute_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
+            }}
+    ];
 
     const formFields = [
         {label:"Nombre", name:"name", type:"text"},
         {label:"Cantidad total", name:"absolute_amount", type:"number"},
-        {label: "Unidades de medida", name:"unit", type:"text"}
+        {label: "Unidades de medida", name:"units", type:"text"}
     ]
     return (
         <AsideSection>

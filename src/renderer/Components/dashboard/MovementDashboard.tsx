@@ -1,10 +1,10 @@
+import { getMovements } from "@/api/movements";
+import { Movement } from "@/types/models";
 import { useState, useEffect } from "react";
-import { Movement } from "@/types/types";
-import { AsideSection } from "../layout/AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
+import { AsideSection } from "../layout/AsideSection";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
-import { getMovements } from "@/api/movements";
 
 export function MovementDasboard() {
     const [moves, setMoves] = useState<Movement[]>([]);
@@ -42,11 +42,17 @@ export function MovementDasboard() {
         {name:"Cantidad"},
         {name:"Tipo"},
     ]    
+    // ["id", "date", "units", "type"]
+    const fields: {key:(keyof Movement), className?:string}[] = [
+        {key: "id"},
+        {key: "date"},
+        {key: "units"},
+        {key: "type"}
+    ];
 
     const formFields = [
         {label:"Nombre", name:"name", type:"text"},
     ]
-    const fields: (keyof Movement)[] = ["id", "date", "units", "type"];
     return (
         <AsideSection>
             <GenericTable

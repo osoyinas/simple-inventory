@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, useEffect, useState } from "react";
 import { useModal } from "@/renderer/hooks/useModal";
-import { Field, Response } from "@/types/types";
+import { FormField, Response } from "@/types/types";
 
 interface Props<T> {
     getItem: (id: number) => Promise<Response<T>>;
     selectedItem: number;
     updateItem: (item: T) => void;
-    fields: Field[];
+    fields: FormField[];
     children?: ReactNode;
 }
 

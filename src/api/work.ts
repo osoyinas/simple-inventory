@@ -1,4 +1,5 @@
-import { Work, Response } from "@/types/types";
+import { Response } from "@/types/types";
+import { Work } from "@/types/models";
 
 export function getWorks(): Promise<Response<Work[]>> {
     return new Promise((resolve, reject) => {

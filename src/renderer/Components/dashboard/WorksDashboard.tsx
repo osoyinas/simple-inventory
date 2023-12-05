@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { STATUS, Work } from "@/types/types";
+import { TableField } from "@/types/types";
+import { Work, STATUS } from "@/types/models";
 import { AsideSection } from "../layout/AsideSection";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
@@ -45,7 +46,17 @@ export function WorkDashboard() {
         {name:"Fecha de inicio"},
         {name:"Estado"},
     ]
-    const fields: (keyof Work)[] = ["id", "name", "startDate", "status"];
+    const fields: TableField<Work>[] = [
+        {key: "id"},
+        {key: "name"},
+        {key: "start_date", logic: (item: Work) => {
+            const date = new Date(item.start_date);
+            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+        }},
+        {key: "status", logic: (item: Work) => item.status === STATUS.pending 
+            ? <button className="btn btn-alert rounded-full">Pendiente</button>
+            : <button className="btn btn-success rounded-full">Finalizada</button>}
+    ]; 
 
     const formFields = [
         {label:"Nombre", name:"name", type:"text"},
