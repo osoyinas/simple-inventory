@@ -13,7 +13,7 @@ export function TableHeader({name, handleFilter, handleSort} : Props ) {
     return (
         <header className="flex w-full justify-between items-end gap-2 flex-wrap">
             <h1 className="text-4xl font-bold text-left">{name}</h1>
-            <aside className="flex gap-8">
+            <aside className="flex gap-8 items-end">
                 <SortInput handleSort={handleSort} />
                 <SearchInput handleSearchChange={handleFilter} />
             </aside>
@@ -62,8 +62,8 @@ interface SortInputProps {
 
 function SortInput ({handleSort}: SortInputProps) {
     return (
-        <button onClick={()=>{
+        <button className="btn btn-info" onClick={()=>{
             handleSort(SORT_BY.name);
-        }}>Filtrar</button>
+        }}>Ordenar por</button>
     )
 }
