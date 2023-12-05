@@ -3,7 +3,7 @@ import { Movement } from "@/types/models";
 import { useState, useEffect } from "react";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
-import { AsideSection } from "../layout/AsideSection";
+import { LayoutContainer } from "../layout/LayoutContainer";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
 
 export function MovementDasboard() {
@@ -54,7 +54,7 @@ export function MovementDasboard() {
         {label:"Nombre", name:"name", type:"text"},
     ]
     return (
-        <AsideSection>
+        <LayoutContainer>
             <GenericTable
                 title="Movimientos"
                 headers={headers}
@@ -66,6 +66,6 @@ export function MovementDasboard() {
                 handleFilter={setFilter}
                 formFields={formFields}
             />
-        </AsideSection>
+        </LayoutContainer>
     );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { TableField } from "@/types/types";
 import { Work, STATUS } from "@/types/models";
-import { AsideSection } from "../layout/AsideSection";
+import { LayoutContainer } from "../layout/LayoutContainer";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { deleteWork, getWorks } from "@/api/work";
@@ -63,7 +63,7 @@ export function WorkDashboard() {
         {label:"Fecha de inicio", name:"startDate", type:"date"},
     ]
     return (
-        <AsideSection>
+        <LayoutContainer>
             <GenericTable
                 title="Obras"
                 headers={headers}
@@ -75,6 +75,6 @@ export function WorkDashboard() {
                 handleFilter={setFilter}
                 formFields={formFields}
             />
-        </AsideSection>
+        </LayoutContainer>
     );
 }

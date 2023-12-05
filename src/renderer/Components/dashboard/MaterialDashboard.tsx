@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SORT_BY, TableField } from "@/types/types";
 import { Material } from "@/types/models";
-import { AsideSection } from "../layout/AsideSection";
+import { LayoutContainer } from "../layout/LayoutContainer";
 import { getMaterials } from "@/api/material";
 import { addMaterial } from "@/api/material";
 import { useFilter } from "@/renderer/hooks/useFilter";
@@ -72,7 +72,7 @@ export function MaterialDashboard() {
         {label: "Unidades de medida", name:"units", type:"text"}
     ]
     return (
-        <AsideSection>
+        <LayoutContainer>
 
             <GenericTable 
                 title="Materiales"
@@ -85,6 +85,6 @@ export function MaterialDashboard() {
                 handleFilter={(value:string)=> {setFilter(value)}}
                 formFields={formFields}
             />
-        </AsideSection>
+        </LayoutContainer>
     );
 }

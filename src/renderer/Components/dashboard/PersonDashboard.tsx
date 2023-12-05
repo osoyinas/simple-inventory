@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { deletePerson, getPersons } from "@/api/person";
 import { TableField } from "@/types/types";
 import { Person } from "@/types/models";
-import { AsideSection } from "../layout/AsideSection";
+import { LayoutContainer } from "../layout/LayoutContainer";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { addPerson } from "@/api/person";
@@ -58,7 +58,7 @@ export function PersonDasboard() {
     ]
 
     return (
-        <AsideSection>
+        <LayoutContainer>
             <GenericTable
                 title="Personas"
                 headers={headers}
@@ -70,6 +70,6 @@ export function PersonDasboard() {
                 handleFilter={setFilter}
                 formFields={formFields}
             />
-        </AsideSection>
+        </LayoutContainer>
     );
 }
