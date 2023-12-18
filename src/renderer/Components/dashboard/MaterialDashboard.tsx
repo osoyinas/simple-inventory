@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { FormField, SORT_BY, TableField } from "@/types/types";
 import { Material } from "@/types/models";
 import { LayoutContainer } from "../layout/LayoutContainer";
-import { getMaterials } from "@/api/material";
-import { addMaterial } from "@/api/material";
+import { getMaterials, addMaterial, updateMaterial } from "@/api/material";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { deleteMaterial } from "@/api/material";
@@ -47,7 +46,8 @@ export function MaterialDashboard() {
     }
 
     const handleUpdate = (item: Material) => {
-        console.log(item);
+        updateMaterial(item).catch((error) => console.error(error));
+        refreshMaterials();
     }
     const headers = [
         {name: "ID"},
