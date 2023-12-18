@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { deletePerson, getPersons } from "@/api/person";
 import { FormField, TableField } from "@/types/types";
 import { Person } from "@/types/models";
+import { addPerson , deletePerson, getPersons, updatePerson } from "@/api/person";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
-import { addPerson } from "@/api/person";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
 
 export function PersonDasboard() {
@@ -31,6 +30,11 @@ export function PersonDasboard() {
         refreshPersons();
     }
 
+    const handleUpdate = (item: Person) => {
+        updatePerson(item).catch((error) => console.error(error));
+        refreshPersons();
+    }
+
     const handleDelete = (ids:number[]) => {
         ids.forEach((id) => {
             deletePerson(id)
@@ -41,10 +45,6 @@ export function PersonDasboard() {
                     console.error(error);
                 });
         });
-    }
-    
-    const handleUpdate = (item: Person) => {
-        console.log(item);
     }
 
     const headers = [
