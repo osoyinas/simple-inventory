@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Menu, MenuItem } from "electron";
 import path from "node:path";
-import { setupIPCListeners } from "../src/ipc/handler";
+import { setupIPCListeners } from "./handler";
 import { closeDatabase } from "../src/models/database";
 import {menuTemplate} from "./menu";
 // The built directory structure

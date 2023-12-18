@@ -1,8 +1,9 @@
 import { ipcMain, IpcMainEvent } from "electron";
 import { executeQuery } from "../models/database";
-import { Material } from "@/types/models";
+import { Item, Material } from "@/types/models";
 
 export function setupMaterialsListeners() {
+
     ipcMain.on("getMaterials", (event: IpcMainEvent) => {
         executeQuery("SELECT * FROM Material")
             .then((materials) => {
@@ -19,7 +20,7 @@ export function setupMaterialsListeners() {
             });
     });
 
-    ipcMain.on("getMaterial", (event: IpcMainEvent, data: { id: number }) => {
+    ipcMain.on("getMaterial", (event: IpcMainEvent, data: Item) => {
         executeQuery(`SELECT * FROM Material WHERE id = '${data.id}';`)
             .then((material) => {
                 event.reply("getMaterialResponse", {
@@ -56,7 +57,7 @@ export function setupMaterialsListeners() {
         "updateMaterial",
         (
             event: IpcMainEvent,
-            data: { id: number; name: string; units: string; absolute_amount: number }
+            data: Material
         ) => {
             executeQuery(
                 `UPDATE Material SET name = '${data.name}', units = '${data.units}', absolute_amount = ${data.absolute_amount} WHERE id = '${data.id}';`
@@ -81,7 +82,7 @@ export function setupMaterialsListeners() {
                 });
         }
     );
-    ipcMain.on("deleteMaterial", (event: IpcMainEvent, data: { id: number }) => {
+    ipcMain.on("deleteMaterial", (event: IpcMainEvent, data: Item) => {
         executeQuery(`DELETE FROM Material WHERE id = '${data.id}';`)
             .then(() => {
                 event.reply("deleteMaterialResponse", {

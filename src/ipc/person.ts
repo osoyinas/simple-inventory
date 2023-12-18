@@ -1,7 +1,9 @@
 import { ipcMain, IpcMainEvent } from "electron";
 import { executeQuery } from "../models/database";
+import { Item, Person } from "@/types/models";
 
 export function setupPersonsListeners() {
+    //Get persons
     ipcMain.on("getPersons", (event: IpcMainEvent) => {
         executeQuery("SELECT * FROM Person")
             .then((users) => {
@@ -15,7 +17,8 @@ export function setupPersonsListeners() {
             });
     });
 
-    ipcMain.on("getPerson", (event: IpcMainEvent, data: { id: number }) => {
+    //Get person
+    ipcMain.on("getPerson", (event: IpcMainEvent, data: Item) => {
         executeQuery(`SELECT * FROM Person WHERE id = '${data.id}';`)
             .then((user) => {
                 event.reply("getPersonResponse", {
@@ -28,7 +31,10 @@ export function setupPersonsListeners() {
             });
     });
 
-    ipcMain.on("addPerson", (event: IpcMainEvent, data: { name: string }) => {
+    //Add person
+    ipcMain.on("addPerson", (event: IpcMainEvent, data: Person) => {
+        console.log("addPerson ", data);
+
         executeQuery(`INSERT INTO Person (name) VALUES ('${data.name}');`)
             .then(() => {
                 return executeQuery(
@@ -47,31 +53,32 @@ export function setupPersonsListeners() {
             });
     });
 
-    ipcMain.on(
-        "updatePerson",
-        (event: IpcMainEvent, data: { id: number; name: string }) => {
-            executeQuery(
-                `UPDATE Person SET name = '${data.name}' WHERE id = '${data.id}';`
-            )
-                .then(() => {
-                    return executeQuery(`SELECT * FROM Person WHERE id = '${data.id}';`);
-                })
-                .then((result) => {
-                    event.reply("updatePersonResponse", {
-                        status: "success",
-                        message: "Persona actualizada de forma exitosa.",
-                        data: result,
-                    });
-                })
-                .catch((error) => {
-                    event.reply("updatePersonResponse", {
-                        status: "error",
-                        message: error,
-                    });
+    //Update person
+    ipcMain.on("updatePerson", (event: IpcMainEvent, data: Person) => {
+        executeQuery(
+            `UPDATE Person SET name = '${data.name}' WHERE id = '${data.id}';`
+        )
+            .then(() => {
+                return executeQuery(`SELECT * FROM Person WHERE id = '${data.id}';`);
+            })
+            .then((result) => {
+                event.reply("updatePersonResponse", {
+                    status: "success",
+                    message: "Persona actualizada de forma exitosa.",
+                    data: result,
                 });
-        }
+            })
+            .catch((error) => {
+                event.reply("updatePersonResponse", {
+                    status: "error",
+                    message: error,
+                });
+            });
+    }
     );
-    ipcMain.on("deletePerson", (event: IpcMainEvent, data: { id: number }) => {
+
+    //Delete person
+    ipcMain.on("deletePerson", (event: IpcMainEvent, data: Item) => {
         executeQuery(`DELETE FROM Person WHERE id = '${data.id}';`)
             .then(() => {
                 event.reply("deletePersonResponse", {

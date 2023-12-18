@@ -1,6 +1,6 @@
 import { ipcMain, IpcMainEvent } from "electron";
 import { executeQuery } from "../models/database";
-import { Work } from "@/types/models";
+import { Work, Item } from "@/types/models";
 
 export function setupWorksListeners() {
     ipcMain.on("getWorks", (event: IpcMainEvent) => {
@@ -30,41 +30,8 @@ export function setupWorksListeners() {
                 });
             });
     });
-    ipcMain.on(
-        "updateWork",
-        (
-            event: IpcMainEvent,
-            data: {
-        id: number;
-        name: string;
-        start_date: Date;
-        status: string;
-        description: string;
-      }
-        ) => {
-            executeQuery(
-                `UPDATE Work SET name = '${data.name}', start_date = '${data.start_date}', status = '${data.status}', description = '${data.description}' WHERE id = '${data.id}';`
-            )
-                .then(() => {
-                    return executeQuery(`SELECT * FROM Work WHERE id = '${data.id}';`);
-                })
-                .then((result) => {
-                    event.reply("updateWorkResponse", {
-                        status: "success",
-                        message: "Obra actualizada de forma exitosa.",
-                        data: result,
-                    });
-                })
-                .catch((error) => {
-                    event.reply("updateWorkResponse", {
-                        status: "error",
-                        message: error,
-                    });
-                });
-        }
-    );
 
-    ipcMain.on("getWork", (event: IpcMainEvent, data: { id: number }) => {
+    ipcMain.on("getWork", (event: IpcMainEvent, data: Item) => {
         executeQuery(`SELECT * FROM Work WHERE id = '${data.id}';`)
             .then((work) => {
                 event.reply("getWorkResponse", { status: "success", data: work });
@@ -73,7 +40,8 @@ export function setupWorksListeners() {
                 event.reply("getWorkResponse", { status: "error", message: error });
             });
     });
-    ipcMain.on("deleteWork", (event: IpcMainEvent, data: { id: number }) => {
+
+    ipcMain.on("deleteWork", (event: IpcMainEvent, data: Item) => {
         executeQuery(`DELETE FROM Work WHERE id = '${data.id}';`)
             .then(() => {
                 event.reply("deleteWorkResponse", {
@@ -89,9 +57,31 @@ export function setupWorksListeners() {
             });
     });
 
+    ipcMain.on("updateWork", (event: IpcMainEvent, data: Work) => {
+        executeQuery(
+            `UPDATE Work SET name = '${data.name}', start_date = '${data.start_date}', status = '${data.status}', description = '${data.description}' WHERE id = '${data.id}';`
+        )
+            .then(() => {
+                return executeQuery(`SELECT * FROM Work WHERE id = '${data.id}';`);
+            })
+            .then((result) => {
+                event.reply("updateWorkResponse", {
+                    status: "success",
+                    message: "Obra actualizada de forma exitosa.",
+                    data: result,
+                });
+            })
+            .catch((error) => {
+                event.reply("updateWorkResponse", {
+                    status: "error",
+                    message: error,
+                });
+            });
+    });
+
     ipcMain.on(
         "getPersonsFromWork",
-        (event: IpcMainEvent, data: { id: number }) => {
+        (event: IpcMainEvent, data: Item) => {
             executeQuery(
                 `SELECT * FROM Person WHERE id IN (SELECT id_person FROM Movement WHERE id_work = ${data.id});`
             )
