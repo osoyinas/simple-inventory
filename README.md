@@ -7,6 +7,7 @@ This desktop application utilizes Vite, Electron, React, TypeScript, and tailwin
 Make sure you have the following tools installed before getting started:
 
 - Node.js and npm
+- Vite
 - Git
 
 ## Installation
