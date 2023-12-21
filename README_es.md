@@ -7,6 +7,7 @@ Esta aplicación de escritorio utiliza Vite, Electron, React, TypeScript, tailwi
 Asegúrate de tener las siguientes herramientas instaladas antes de comenzar:
 
 - Node.js y npm
+- Vite
 - Git
 
 ## Instalación
