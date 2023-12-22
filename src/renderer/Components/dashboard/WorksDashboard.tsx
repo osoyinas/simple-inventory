@@ -4,7 +4,7 @@ import { Work, STATUS } from "@/types/models";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
-import { deleteWork, getWorks } from "@/api/work";
+import { deleteWork, getWorks, updateWork } from "@/api/work";
 import { addWork } from "@/api/work";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
 
@@ -41,7 +41,8 @@ export function WorkDashboard() {
     }
     
     const handleUpdate = (item: Work) => {
-        console.log(item);
+        updateWork(item).catch((error) => console.error(error));
+        refreshWorks();
     }
 
     const headers = [

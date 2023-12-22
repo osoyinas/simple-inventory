@@ -39,3 +39,16 @@ export function deleteWork(workId: number): Promise<Response<Work>> {
         });
     });
 }
+
+export function updateWork(work: Work): Promise<Response<Work>> {
+    return new Promise((resolve, reject) => {
+        window.ipcRenderer.send("updateWork", work);
+        window.ipcRenderer.on("updateWorkResponse", (_event, payload) => {
+            if (payload.status === "error") {
+                reject(payload);
+            } else {
+                resolve(payload.data);
+            }
+        });
+    });
+}
