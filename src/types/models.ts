@@ -20,25 +20,11 @@ export interface Work extends Item {
   description: string;
 }
 
-// [
-//   {
-//       "id": 3,
-//       "id_person": 1,
-//       "id_material": 7,
-//       "id_work": 1,
-//       "units": 10,
-//       "date": "2023-01-06",
-//       "type": "IN",
-//       "person_name": "John Doe",
-//       "material_name": "Tornillos",
-//       "work_name": "Work 1"
-//   }
-// ]
 export interface Movement extends Item {
   id_person: number;
   id_material: number;
   id_work: number;
-  units: number;
+  amount: number;
   date: Date;
   type: MOVEMENT_TYPE;
   person_name: string;
