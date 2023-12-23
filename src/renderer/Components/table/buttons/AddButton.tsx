@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { useModal } from "@/renderer/hooks/useModal";
 import { FormField } from "@/types/types";
 
@@ -20,8 +20,14 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
         handleAdd(formData as T);
         closeModal();
     };
-
-
+    useEffect(() => {
+        fields.forEach((field) => {
+            if (field.type === "select") {
+                formData[field.key] = field.options?.[0].value;
+            }
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fields]);
 
     return (
         <>
@@ -37,9 +43,7 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                     <div className="divider"></div>
                     <main className="flex flex-col w-full  gap-4">
                         {fields.map((field) => {
-                            if (field.type === 'select') {
-                                formData[field.key] = field.options?.[0].value;
-                            }
+                            
                             return (
                                 <label className="form-control w-full" key={field.key as string}>
                                     <div className="label">
