@@ -57,7 +57,7 @@ export function MovementDasboard() {
         {key: "person_name"},
         {key: "work_name"},
         {key: "material_name"},
-        {key: "units"},
+        {key: "amount"},
         {key: "date", logic: (item: Movement) => {
             const date = new Date(item.date);
             return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });}
@@ -67,6 +67,11 @@ export function MovementDasboard() {
 
     const formFields: FormField<Movement>[]= [
         {label:"Material", key:"material_name", type:"text"},
+        {label:"Cantidad", key:"amount", type:"number"},
+        {label:"Fecha", key:"date", type:"date"},
+        {label:"Tipo", key:"type", type:"text"},
+        {label:"Obra", key:"work_name", type:"text"},
+        {label:"Persona", key:"person_name", type:"text"},
     ]
     return (
         <LayoutContainer>
