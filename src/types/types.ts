@@ -19,10 +19,17 @@ export interface header {
   name: string;
 }
 
+export interface Option {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
+  name: string;
+}
+
 export interface FormField<T> {
   label: string;
   key: keyof T;
   type?: string;
+  options?: Option[];
 }
 
 export interface TableField<T> {

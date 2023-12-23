@@ -21,6 +21,8 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
         closeModal();
     };
 
+
+
     return (
         <>
             <button
@@ -34,21 +36,40 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                     <h3 className="font-bold text-xl">{children}</h3>
                     <div className="divider"></div>
                     <main className="flex flex-col w-full  gap-4">
-                        {fields.map((field) => (
-                            <label className="form-control w-full" key={field.key as string}>
-                                <div className="label">
-                                    <span className="label-text">{field.label}</span>
-                                </div>
-                                <input
-                                    name={field.key.toString()}
-                                    type={field.type ? field.type : "text"}
-                                    placeholder="Type here"
-                                    className="input input-bordered input-primary"
-                                    value={(formData[field.key] as string) ?? ""}
-                                    onChange={(e) => handleChange(field.key, e.target.value)}
-                                />
-                            </label>
-                        ))}
+                        {fields.map((field) => {
+                            if (field.type === 'select') {
+                                formData[field.key] = field.options?.[0].value;
+                            }
+                            return (
+                                <label className="form-control w-full" key={field.key as string}>
+                                    <div className="label">
+                                        <span className="label-text">{field.label}</span>
+                                    </div>
+                                    {field.type === 'select' ? (
+                                        <select
+                                            name={field.key.toString()}
+                                            className="input input-bordered input-primary"
+                                            value={formData[field.key] as string}
+                                            onChange={(e) => handleChange(field.key, e.target.value)}
+                                        >
+                                            {field.options?.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            name={field.key.toString()}
+                                            type={field.type ? field.type : "text"}
+                                            placeholder="Type here"
+                                            className="input input-bordered input-primary"
+                                            value={formData[field.key] as string ?? ""}
+                                            onChange={(e) => handleChange(field.key, e.target.value)}
+                                        />
+                                    )}
+                                </label>)
+                        })}
 
                         <div className="divider"></div>
                         <footer className="flex justify-between">

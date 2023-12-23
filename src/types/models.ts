@@ -21,9 +21,9 @@ export interface Work extends Item {
 }
 
 export interface Movement extends Item {
-  id_person: number;
-  id_material: number;
-  id_work: number;
+  person_id: number;
+  material_id: number;
+  work_id: number;
   amount: number;
   date: Date;
   type: MOVEMENT_TYPE;

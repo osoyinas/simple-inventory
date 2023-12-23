@@ -26,7 +26,7 @@ export function MovementDasboard() {
 
 
     const handleAdd = (item: Movement) => {
-        item
+        console.log(item);
         refreshMoves();
     }
 
@@ -66,12 +66,12 @@ export function MovementDasboard() {
     ];
 
     const formFields: FormField<Movement>[]= [
-        {label:"Material", key:"material_name", type:"text"},
+        {label:"Material", key:"material_id", type:"select", options: [{value: 1, name: "Material 1"}, {value: 2, name: "Material 2"}]},
+        {label:"Obra", key:"work_id", type:"select", options: [{value: 1, name: "Obra 1"}, {value: 2, name: "Obra 2"}]},
+        {label:"Persona", key:"person_id", type:"select", options: [{value: 1, name: "Persona 1"}, {value: 2, name: "Persona 2"}]},
         {label:"Cantidad", key:"amount", type:"number"},
         {label:"Fecha", key:"date", type:"date"},
-        {label:"Tipo", key:"type", type:"text"},
-        {label:"Obra", key:"work_name", type:"text"},
-        {label:"Persona", key:"person_name", type:"text"},
+        {label:"Tipo", key:"type", type:"select", options: [{value: "IN", name: "Entrada"}, {value: "OUT", name: "Salida"}]},
     ]
     return (
         <LayoutContainer>
