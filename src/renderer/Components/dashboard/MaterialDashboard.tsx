@@ -51,13 +51,11 @@ export function MaterialDashboard() {
         refreshMaterials();
     }
     const headers = [
-        {name: "ID"},
         {name: "Nombre"},
         {name: "Cantidad total"},
         {name: "Cantidad disponible"},
     ]
     const fields: TableField<Material>[] = [
-        {key: "id"}, 
         {key: "name"},
         {key: "absolute_amount",
             logic: (item: Material) => {
@@ -67,7 +65,7 @@ export function MaterialDashboard() {
             logic: (item: Material) => {
                 return (<span>{item.available_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
             }
-        },
+        }
     ];
 
     const formFields: FormField<Material>[] = [

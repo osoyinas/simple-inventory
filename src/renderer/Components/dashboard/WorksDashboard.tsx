@@ -46,13 +46,11 @@ export function WorkDashboard() {
     }
 
     const headers = [
-        {name:"ID"},
         {name:"Nombre"},
         {name:"Fecha de inicio"},
         {name:"Estado"},
     ]
     const fields: TableField<Work>[] = [
-        {key: "id"},
         {key: "name"},
         {key: "start_date", logic: (item: Work) => {
             const date = new Date(item.start_date);
