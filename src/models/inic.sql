@@ -79,19 +79,3 @@ FROM Movement
 INNER JOIN Person ON Movement.person_id = Person.id
 INNER JOIN Material ON Movement.material_id = Material.id
 INNER JOIN Work ON Movement.work_id = Work.id;
-
-
--- Insert into Person
-INSERT OR IGNORE INTO Person (id, name) VALUES (1, 'John Doe');
-INSERT OR IGNORE INTO Person (id, name) VALUES (2, 'Jane Smith');
-INSERT OR IGNORE INTO Person (id, name) VALUES (3, 'Bob Johnson');
-
--- Insert into Material
-INSERT OR IGNORE INTO Material (id, name,units, available_amount, absolute_amount) VALUES (1, 'Wood','metros', 100, 100);
-INSERT OR IGNORE INTO Material (id, name,units, available_amount, absolute_amount) VALUES (2, 'Metal','metros', 200, 100);
-INSERT OR IGNORE INTO Material (id, name,units, available_amount, absolute_amount) VALUES (3, 'Plastic','metros', 300, 100);
-
--- Insert into Work
-INSERT OR IGNORE INTO Work (id, name) VALUES (1, 'Carpentry');
-INSERT OR IGNORE INTO Work (id, name) VALUES (2, 'Welding');
-INSERT OR IGNORE INTO Work (id, name) VALUES (3, 'Molding');
