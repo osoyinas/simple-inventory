@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FormField, SORT_BY, TableField } from "@/types/types";
+import { FormField, SORT_BY, TableField, UNIT } from "@/types/types";
 import { Material } from "@/types/models";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import { getMaterials, addMaterial, updateMaterial } from "@/api/material";
@@ -72,7 +72,7 @@ export function MaterialDashboard() {
     const formFields: FormField<Material>[] = [
         {label:"Nombre", key:"name", type:"text"},
         {label:"Cantidad total", key:"absolute_amount", type:"number"},
-        {label: "Unidades de medida", key:"units", type:"text"}
+        {label: "Medida", key:"units", type:"select", options: Object.values(UNIT).map((unit) => ({value: unit, name: unit}))}
     ]
     return (
         <LayoutContainer>

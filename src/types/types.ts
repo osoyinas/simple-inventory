@@ -25,6 +25,16 @@ export interface Option {
   name: string;
 }
 
+export enum UNIT {
+  unit = 'uds',
+  meter = 'm',
+  centimeter = 'cm',
+  milimeter = 'mm',
+  kg = 'kg',
+  l = 'l',
+  m2 = 'm2',
+}
+
 export interface FormField<T> {
   label: string;
   key: keyof T;
