@@ -68,9 +68,9 @@ export function MovementDasboard() {
         }
         },
         {key: "type", logic: (item: Movement) => item.type === MOVEMENT_TYPE.in 
-            ? <button className="btn btn-alert rounded-full w-full" onClick={()=> {
+            ? <button className="btn btn-success rounded-full w-full" onClick={()=> {
             }}>Entrada</button>
-            : <button className="btn btn-success rounded-full w-full" onClick={()=> {
+            : <button className="btn btn-error rounded-full w-full" onClick={()=> {
             }}>Salida</button>}
     ];
 
