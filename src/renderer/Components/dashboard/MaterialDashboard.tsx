@@ -71,7 +71,7 @@ export function MaterialDashboard() {
     const formFields: FormField<Material>[] = [
         {label:"Nombre", key:"name", type:"text"},
         {label:"Cantidad total", key:"absolute_amount", type:"number"},
-        {label:"Cantidad total", key:"available_amount", type:"number"},
+        {label:"Cantidad disponible", key:"available_amount", type:"number"},
         {label: "Medida", key:"units", type:"select", options: Object.values(UNIT).map((unit) => ({value: unit, name: unit}))}
     ]
     return (
