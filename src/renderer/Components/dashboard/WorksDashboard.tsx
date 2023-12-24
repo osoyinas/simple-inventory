@@ -59,8 +59,18 @@ export function WorkDashboard() {
             return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
         }},
         {key: "status", logic: (item: Work) => item.status === STATUS.pending 
-            ? <button className="btn btn-alert rounded-full">Pendiente</button>
-            : <button className="btn btn-success rounded-full">Finalizada</button>}
+            ? <button className="btn btn-alert rounded-full" onClick={()=> {
+                console.log(item);
+                item.status = STATUS.done
+                handleUpdate(item)
+                refreshWorks()
+            }}>Pendiente</button>
+            : <button className="btn btn-success rounded-full" onClick={()=> {
+                console.log(item);
+                item.status = STATUS.pending
+                handleUpdate(item)
+                refreshWorks()
+            }}>Finalizada</button>}
     ]; 
 
     const formFields: FormField<Work>[] = [
