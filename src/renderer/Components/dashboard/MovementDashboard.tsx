@@ -44,11 +44,6 @@ export function MovementDasboard() {
         });
     };
 
-    const handleUpdate = (item: Movement) => {
-        console.log(item);
-    }
-
-
     const headers = [
         {name:"ID"},
         {name:"Persona que lo realizó"},
@@ -67,9 +62,14 @@ export function MovementDasboard() {
         {key: "amount"},
         {key: "date", logic: (item: Movement) => {
             const date = new Date(item.date);
-            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });}
+            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
         },
-        {key: "type"}
+        {key: "type", logic: (item: Movement) => item.type === MOVEMENT_TYPE.in 
+            ? <button className="btn btn-alert rounded-full" onClick={()=> {
+            }}>Entrada</button>
+            : <button className="btn btn-success rounded-full" onClick={()=> {
+            }}>Salida</button>}
     ];
 
     const formFields: FormField<Movement>[]= [
@@ -87,10 +87,9 @@ export function MovementDasboard() {
                 headers={headers}
                 fields={fields}
                 items={sortedPersons}
-                handleDelete={handleDelete}
                 handleAdd={handleAdd}
-                handleUpdate={handleUpdate}
                 handleSort={setSort}
+                handleDelete={handleDelete}
                 handleFilter={setFilter}
                 formFields={formFields}
             />

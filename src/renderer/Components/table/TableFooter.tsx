@@ -5,9 +5,9 @@ import { UpdateButton } from "./buttons/UpdateButton";
 import { Item } from "@/types/models";
 
 interface Props<T extends Item> {
-    handleDelete: (ids:number[]) => void;
-    handleAdd: (item: T) => void;
-    handleUpdate: (item: T) => void;
+    handleDelete?: (ids:number[]) => void;
+    handleAdd?: (item: T) => void;
+    handleUpdate?: (item: T) => void;
     selectedItems: T[];
     resetSelectedItems: () => void;
     totalPages: number;
@@ -22,20 +22,24 @@ export function TableFooter<T extends Item> ({handleDelete, handleAdd, handleUpd
     return (
         <footer className="flex items-center justify-between w-full">
             <aside className="flex gap-8">
+                {handleAdd && 
                 <AddButton 
                     fields={fields}
                     handleAdd={handleAdd}
-                > Añadir</AddButton>
-                <DeleteButton 
+                > Añadir</AddButton>}
+                {handleDelete && <DeleteButton 
                     resetSelectedItems={resetSelectedItems}
                     handleDelete={handleDelete}
                     selectedItems={selectedItems}
-                />
+                />}
+                {handleUpdate && 
                 <UpdateButton 
                     fields={fields}
                     handleUpdate={handleUpdate}
                     selectedItem={selectedItems[0]}
-                >Modificar</UpdateButton>
+                >Modificar
+                </UpdateButton>
+                }
             </aside>
             {totalPages > 1 && (
                 <div className="pagination join">

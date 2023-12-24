@@ -11,11 +11,11 @@ interface Props<T extends Item> {
     headers: header[];
     fields: TableField<T>[];
     items: T[];
-    handleDelete: (ids:number[]) => void;
-    handleAdd: (item: T) => void;
+    handleDelete?: (ids:number[]) => void;
+    handleAdd?: (item: T) => void;
     handleSort: (sort: SORT_BY) => void;
     handleFilter: (value:string) => void;
-    handleUpdate: (item: T) => void;
+    handleUpdate?: (item: T) => void;
     formFields: FormField<T>[];
 }
 
