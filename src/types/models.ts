@@ -29,6 +29,7 @@ export interface Movement extends Item {
   type: MOVEMENT_TYPE;
   person_name: string;
   material_name: string;
+  material_units: string;
   work_name: string;
 }
 

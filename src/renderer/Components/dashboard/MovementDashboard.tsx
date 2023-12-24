@@ -12,7 +12,7 @@ import { UseWorkOptions } from "@/renderer/hooks/useWorkOptions";
 
 export function MovementDasboard() {
     const [moves, setMoves] = useState<Movement[]>([]);
-    const {filteredItems , setFilter} = useFilter<Movement>({items: moves, key: "id"});
+    const {filteredItems , setFilter} = useFilter<Movement>({items: moves, key: "material_name"});
     const {sortedItems: sortedPersons, setSort} = useSort(filteredItems);
 
     const {personsAsOptions} = usePersonOptions();
@@ -45,30 +45,32 @@ export function MovementDasboard() {
     };
 
     const headers = [
-        {name:"ID"},
-        {name:"Persona que lo realizó"},
-        {name:"Obra relacionada"},
         {name:"Material"},
         {name:"Cantidad"},
+        {name:"Persona que lo realizó"},
+        {name:"Obra relacionada"},
         {name:"Fecha"},
         {name:"Tipo"},
     ]    
 
     const fields: TableField<Movement>[]= [
-        {key: "id"},
+        {key: "material_name"},
+        {key: "amount", logic: (item: Movement) => (
+            <div className={`font-bold  text-xl `}>
+                {item.type === MOVEMENT_TYPE.in? "+": "-"}{item.amount} {item.material_units}
+            </div>)
+        },
         {key: "person_name"},
         {key: "work_name"},
-        {key: "material_name"},
-        {key: "amount"},
         {key: "date", logic: (item: Movement) => {
             const date = new Date(item.date);
             return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
         }
         },
         {key: "type", logic: (item: Movement) => item.type === MOVEMENT_TYPE.in 
-            ? <button className="btn btn-alert rounded-full" onClick={()=> {
+            ? <button className="btn btn-alert rounded-full w-full" onClick={()=> {
             }}>Entrada</button>
-            : <button className="btn btn-success rounded-full" onClick={()=> {
+            : <button className="btn btn-success rounded-full w-full" onClick={()=> {
             }}>Salida</button>}
     ];
 
