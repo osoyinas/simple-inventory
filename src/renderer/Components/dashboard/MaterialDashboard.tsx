@@ -27,6 +27,7 @@ export function MaterialDashboard() {
             .catch((error) => console.error(error));
     };
 
+    console.log(materials);
     const handleAdd = (item: Material) => {
         addMaterial(item).catch((error) => console.error(error));
         refreshMaterials();
@@ -58,20 +59,21 @@ export function MaterialDashboard() {
     const fields: TableField<Material>[] = [
         {key: "id"}, 
         {key: "name"},
-        {key: "available_amount",
-            logic: (item: Material) => {
-                return (<span>{item.absolute_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
-            }
-        },
         {key: "absolute_amount",
             logic: (item: Material) => {
                 return (<span>{item.absolute_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
-            }}
+            }},
+        {key: "available_amount",
+            logic: (item: Material) => {
+                return (<span>{item.available_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
+            }
+        },
     ];
 
     const formFields: FormField<Material>[] = [
         {label:"Nombre", key:"name", type:"text"},
         {label:"Cantidad total", key:"absolute_amount", type:"number"},
+        {label:"Cantidad disponible", key:"available_amount", type:"number"},
         {label: "Medida", key:"units", type:"select", options: Object.values(UNIT).map((unit) => ({value: unit, name: unit}))}
     ]
     return (

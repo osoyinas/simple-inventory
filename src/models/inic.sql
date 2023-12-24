@@ -41,10 +41,25 @@ CREATE TRIGGER IF NOT EXISTS check_outbound
 BEFORE INSERT ON Movement
 WHEN NEW.type = 'OUT'
 BEGIN
-    SELECT CASE WHEN (SELECT available_amount FROM Material WHERE id = NEW.material_id) < NEW.units
+    SELECT CASE WHEN (SELECT available_amount FROM Material WHERE id = NEW.material_id) < NEW.amount
                 THEN RAISE(ABORT, 'Cantidad no disponible') 
                 ELSE 0
            END;
+END;
+
+CREATE TRIGGER IF NOT EXISTS check_material_update
+BEFORE UPDATE ON Material
+WHEN (NEW.absolute_amount < NEW.available_amount)
+BEGIN
+    UPDATE Material SET available_amount = NEW.absolute_amount WHERE id = NEW.id;
+END;
+
+
+CREATE TRIGGER IF NOT EXISTS check_inbound_increase
+BEFORE INSERT ON Movement
+WHEN NEW.type = 'IN' AND (SELECT absolute_amount FROM Material WHERE id = NEW.material_id) < NEW.amount + (SELECT available_amount FROM Material WHERE id = NEW.material_id)
+BEGIN
+    UPDATE Material SET absolute_amount = absolute_amount + NEW.amount WHERE id = NEW.material_id;
 END;
 
 -- Crear un trigger para actualizar la cantidad disponible después de una transacción
