@@ -41,7 +41,7 @@ CREATE TRIGGER IF NOT EXISTS check_outbound
 BEFORE INSERT ON Movement
 WHEN NEW.type = 'OUT'
 BEGIN
-    SELECT CASE WHEN (SELECT available_amount FROM Material WHERE id = NEW.id_material) < NEW.units
+    SELECT CASE WHEN (SELECT available_amount FROM Material WHERE id = NEW.material_id) < NEW.units
                 THEN RAISE(ABORT, 'Cantidad no disponible') 
                 ELSE 0
            END;
@@ -52,15 +52,31 @@ CREATE TRIGGER IF NOT EXISTS update_available_amount
 AFTER INSERT ON Movement
 BEGIN
     UPDATE Material
-    SET available_amount = available_amount + CASE WHEN NEW.type = 'IN' THEN NEW.units ELSE -NEW.units END
-    WHERE id = NEW.id_material;
+    SET available_amount = available_amount + CASE WHEN NEW.type = 'IN' THEN NEW.amount ELSE -NEW.amount END
+    WHERE id = NEW.material_id;
 END;
 
 -- Crea una view que obtenga toda la info de un movement, como el nombre del material, la persona y el trabajo
 
 CREATE VIEW IF NOT EXISTS MovementInfo AS
-SELECT Movement.id, Movement.id_person, Movement.id_material, Movement.id_work, Movement.units, Movement.date, Movement.type, Person.name AS person_name, Material.name AS material_name, Work.name AS work_name
+SELECT Movement.id, Movement.person_id, Movement.material_id, Movement.work_id, Movement.amount, Movement.date, Movement.type, Person.name AS person_name, Material.name AS material_name, Work.name AS work_name
 FROM Movement
-INNER JOIN Person ON Movement.id_person = Person.id
-INNER JOIN Material ON Movement.id_material = Material.id
-INNER JOIN Work ON Movement.id_work = Work.id;
+INNER JOIN Person ON Movement.person_id = Person.id
+INNER JOIN Material ON Movement.material_id = Material.id
+INNER JOIN Work ON Movement.work_id = Work.id;
+
+
+-- Insert into Person
+INSERT OR IGNORE INTO Person (id, name) VALUES (1, 'John Doe');
+INSERT OR IGNORE INTO Person (id, name) VALUES (2, 'Jane Smith');
+INSERT OR IGNORE INTO Person (id, name) VALUES (3, 'Bob Johnson');
+
+-- Insert into Material
+INSERT OR IGNORE INTO Material (id, name,units, available_amount, absolute_amount) VALUES (1, 'Wood','metros', 100, 100);
+INSERT OR IGNORE INTO Material (id, name,units, available_amount, absolute_amount) VALUES (2, 'Metal','metros', 200, 100);
+INSERT OR IGNORE INTO Material (id, name,units, available_amount, absolute_amount) VALUES (3, 'Plastic','metros', 300, 100);
+
+-- Insert into Work
+INSERT OR IGNORE INTO Work (id, name) VALUES (1, 'Carpentry');
+INSERT OR IGNORE INTO Work (id, name) VALUES (2, 'Welding');
+INSERT OR IGNORE INTO Work (id, name) VALUES (3, 'Molding');
