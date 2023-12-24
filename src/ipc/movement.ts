@@ -35,5 +35,22 @@ export function setupMovementsListeners() {
                     message: error,
                 });
             });
-    },);
+    },
+    );
+
+    ipcMain.on("deleteMovement", (event: IpcMainEvent, id: number) => {
+        executeQuery(`DELETE FROM Movement WHERE id = ${id}`)
+            .then((result) => {
+                event.reply("deleteMovementResponse", {
+                    status: "success",
+                    data: result,
+                });
+            })
+            .catch((error) => {
+                event.reply("deleteMovementResponse", {
+                    status: "error",
+                    message: error,
+                });
+            });
+    });
 }

@@ -1,4 +1,4 @@
-import { addMovement, getMovements } from "@/api/movements";
+import { addMovement, deleteMovement, getMovements } from "@/api/movements";
 import { MOVEMENT_TYPE, Movement } from "@/types/models";
 import { useState, useEffect } from "react";
 import { useFilter } from "@/renderer/hooks/useFilter";
@@ -39,8 +39,8 @@ export function MovementDasboard() {
 
     const handleDelete = (ids:number[]) => {
         ids.forEach((id) => {
-            id
-            //TODO: deleteMovement(id)
+            deleteMovement(id).catch((error) => console.error(error));
+            refreshMoves();
         });
     };
 
