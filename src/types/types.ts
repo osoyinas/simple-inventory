@@ -26,13 +26,14 @@ export interface Option {
 }
 
 export enum UNIT {
-  unit = 'uds',
-  meter = 'm',
-  centimeter = 'cm',
-  milimeter = 'mm',
-  kg = 'kg',
-  l = 'l',
-  m2 = 'm2',
+  unit = 'unidades',
+  meter = 'metros',
+  centimeter = 'centimetros',
+  milimeter = 'milimetros',
+  kg = 'kilogramos',
+  g = 'gramos',
+  l = 'litros',
+  m2 = 'metros^2',
 }
 
 export interface FormField<T> {
