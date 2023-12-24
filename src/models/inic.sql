@@ -25,18 +25,18 @@ CREATE TABLE IF NOT EXISTS Work (
 -- Crear la tabla Movement
 CREATE TABLE IF NOT EXISTS Movement (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_person INT,
-    id_material INT,
-    id_work INT,
-    units INT NOT NULL CHECK (units > 0),
+    person_id INT,
+    material_id INT,
+    work_id INT,
+    amount INT NOT NULL CHECK (amount > 0),
     date DATE,
     type VARCHAR(3) CHECK (type IN ('IN', 'OUT')) NOT NULL,
-    FOREIGN KEY (id_person) REFERENCES Person(id),
-    FOREIGN KEY (id_material) REFERENCES Material(id),
-    FOREIGN KEY (id_work) REFERENCES Work(id)
+    FOREIGN KEY (person_id) REFERENCES Person(id),
+    FOREIGN KEY (material_id) REFERENCES Material(id),
+    FOREIGN KEY (work_id) REFERENCES Work(id)
 );
 
--- Crear un trigger para verificar las transacciones de salida
+-- Trigger para verificar las transacciones de salida
 CREATE TRIGGER IF NOT EXISTS check_outbound
 BEFORE INSERT ON Movement
 WHEN NEW.type = 'OUT'

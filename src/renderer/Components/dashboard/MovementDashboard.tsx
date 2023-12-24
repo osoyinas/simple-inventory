@@ -1,16 +1,23 @@
-import { getMovements } from "@/api/movements";
-import { Movement } from "@/types/models";
+import { addMovement, getMovements } from "@/api/movements";
+import { MOVEMENT_TYPE, Movement } from "@/types/models";
 import { useState, useEffect } from "react";
 import { useFilter } from "@/renderer/hooks/useFilter";
 import { useSort } from "@/renderer/hooks/useSort";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
 import { FormField, TableField } from "@/types/types";
+import { usePersonOptions } from "@/renderer/hooks/usePersonOptions";
+import { useMaterialOptions } from "@/renderer/hooks/useMaterialOptions";
+import { UseWorkOptions } from "@/renderer/hooks/useWorkOptions";
 
 export function MovementDasboard() {
     const [moves, setMoves] = useState<Movement[]>([]);
     const {filteredItems , setFilter} = useFilter<Movement>({items: moves, key: "id"});
     const {sortedItems: sortedPersons, setSort} = useSort(filteredItems);
+
+    const {personsAsOptions} = usePersonOptions();
+    const {materialsAsOptions} = useMaterialOptions();
+    const {worksAsOptions} = UseWorkOptions();
 
     useEffect(() => {
         refreshMoves();
@@ -25,8 +32,8 @@ export function MovementDasboard() {
     };
 
 
-    const handleAdd = (item: Movement) => {
-        console.log(item);
+    const handleAdd = async (item: Movement) => {
+        await addMovement(item).catch((error) => console.error(error));
         refreshMoves();
     }
 
@@ -66,12 +73,12 @@ export function MovementDasboard() {
     ];
 
     const formFields: FormField<Movement>[]= [
-        {label:"Material", key:"material_id", type:"select", options: [{value: 1, name: "Material 1"}, {value: 2, name: "Material 2"}]},
-        {label:"Obra", key:"work_id", type:"select", options: [{value: 1, name: "Obra 1"}, {value: 2, name: "Obra 2"}]},
-        {label:"Persona", key:"person_id", type:"select", options: [{value: 1, name: "Persona 1"}, {value: 2, name: "Persona 2"}]},
+        {label:"Material", key:"material_id", type:"select", options: materialsAsOptions},
+        {label:"Obra", key:"work_id", type:"select", options: worksAsOptions},
+        {label:"Persona", key:"person_id", type:"select", options: personsAsOptions},
         {label:"Cantidad", key:"amount", type:"number"},
         {label:"Fecha", key:"date", type:"date"},
-        {label:"Tipo", key:"type", type:"select", options: [{value: "IN", name: "Entrada"}, {value: "OUT", name: "Salida"}]},
+        {label:"Tipo", key:"type", type:"select", options: [{value: MOVEMENT_TYPE.in, name: "Entrada"}, {value: MOVEMENT_TYPE.out, name: "Salida"}]},
     ]
     return (
         <LayoutContainer>

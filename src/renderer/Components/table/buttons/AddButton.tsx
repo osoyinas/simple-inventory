@@ -17,12 +17,13 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
     };
 
     const handleAddClick = () => {
+        setFormData({});
         handleAdd(formData as T);
         closeModal();
     };
     useEffect(() => {
         fields.forEach((field) => {
-            if (field.type === "select") {
+            if (field.type === "select" && field.options && field.options.length > 0) {
                 formData[field.key] = field.options?.[0].value;
             }
         });
@@ -56,11 +57,15 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                                             value={formData[field.key] as string}
                                             onChange={(e) => handleChange(field.key, e.target.value)}
                                         >
-                                            {field.options?.map((option) => (
-                                                <option key={option.value} value={option.value}>
-                                                    {option.name}
-                                                </option>
-                                            ))}
+                                            {
+                                                field.options && field.options.length > 0 
+                                                    ? field.options.map((option) => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.name}
+                                                        </option>
+                                                    ))
+                                                    : <option value={0}>No hay personas</option>
+                                            }
                                         </select>
                                     ) : (
                                         <input
