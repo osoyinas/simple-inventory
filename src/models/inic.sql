@@ -90,6 +90,15 @@ BEGIN
     WHERE id = NEW.material_id;
 END;
 
+
+CREATE TRIGGER IF NOT EXISTS update_available_amount_delete
+AFTER DELETE ON Movement
+BEGIN
+    UPDATE Material
+    SET available_amount = available_amount + CASE WHEN OLD.type = 'IN' THEN -OLD.amount ELSE +OLD.amount END
+    WHERE id = OLD.material_id;
+END;
+
 -- View para obtener toda la info de un movimiento
 CREATE VIEW IF NOT EXISTS MovementInfo AS
 SELECT Movement.id, Movement.person_id, Movement.material_id, Movement.work_id, Movement.amount, Movement.date, Movement.type, Person.name AS person_name, Material.name AS material_name, Material.units as material_units, Work.name AS work_name
