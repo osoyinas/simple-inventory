@@ -3,7 +3,7 @@ import { AddButton } from "@/renderer/Components/table/buttons/AddButton";
 import { DeleteButton } from "@/renderer/Components/table/buttons/DeleteButton";
 import { UpdateButton } from "./buttons/UpdateButton";
 import { Item } from "@/types/models";
-
+import { LeftArrow, RightArrow } from "@/renderer/Components/icons/Arrows";
 interface Props<T extends Item> {
     handleDelete?: (ids:number[]) => void;
     handleAdd?: (item: T) => void;
@@ -18,7 +18,27 @@ interface Props<T extends Item> {
 
 
 
-export function TableFooter<T extends Item> ({handleDelete, handleAdd, handleUpdate, selectedItems, resetSelectedItems, totalPages, currentPage, handlePageChange, formFields: fields}: Props<T>) {
+export function TableFooter<T extends Item> ({handleDelete,
+    handleAdd,
+    handleUpdate, 
+    selectedItems, 
+    resetSelectedItems, 
+    totalPages, currentPage, 
+    handlePageChange, 
+    formFields: fields}: Props<T>) {
+
+    const PAGINATION_SIZE = 5;
+    const pagesArray =Array(totalPages).fill(0).map((_,index)=> index+1)
+    
+    let currentPages = pagesArray.slice(
+        PAGINATION_SIZE * Math.floor((currentPage-1)/PAGINATION_SIZE),
+        PAGINATION_SIZE* Math.floor((currentPage-1)/PAGINATION_SIZE) + PAGINATION_SIZE); 
+
+    if (currentPage> PAGINATION_SIZE) 
+        currentPages = [1,-1].concat(currentPages)
+    if (currentPage !== totalPages && ! (currentPage-1 > (totalPages - PAGINATION_SIZE))  )
+        currentPages = currentPages.concat(-2,totalPages)
+
     return (
         <footer className="flex items-center justify-between w-full">
             <aside className="flex gap-8">
@@ -44,19 +64,39 @@ export function TableFooter<T extends Item> ({handleDelete, handleAdd, handleUpd
             </aside>
             {totalPages > 1 && (
                 <div className="pagination join">
-                    {Array.from({ length: totalPages }, (_, index) => (
+                    <button className= {currentPage === 1 ? "opacity-0 cursor-default": "" } onClick={()=>{
+                        if (currentPage > 1)
+                            handlePageChange(currentPage - 1);
+                    }}> <LeftArrow height={30} width={30} /> </button>
+                    {currentPages.map( (page, index) => (
                         <input
                             key={index}
                             type="radio"
-                            className="join-item btn btn-square btn-outline"
-                            aria-label={`${index + 1}`}
-                            checked={index + 1 == currentPage}
+                            className={"join-item btn btn-square btn-outline"}
+                            aria-label={`${page < 0? "..." : page}`}
+                            checked={page == currentPage}
                             name="options"
                             onChange={() => {
-                                handlePageChange(index + 1);
+                                if (page >= 0)
+                                    handlePageChange(page);
+                                else if (page == -1)
+                                    handlePageChange(currentPage - PAGINATION_SIZE)
+                                else 
+                                    handlePageChange(currentPage + PAGINATION_SIZE)
                             }}
                         />
-                    ))}
+                    )
+                    )}
+                    
+                    <button  className= {currentPage === totalPages ? "opacity-0 cursor-default": "" } onClick={()=>{
+                        if (currentPage < totalPages)
+                            handlePageChange(currentPage + 1);
+                    }}> <RightArrow height={30} width={30} /> 
+                    </button>
+                        
+                    
+                    
+
                 </div>
             )}
         </footer>
