@@ -20,10 +20,13 @@ export function TableHead<T>({headers, currentItems,setSelectedItems, selectedIt
     return (
         <thead className="text-lg font-bold text-black opacity-70">
             <tr>
-                <th  className='cursor-pointer' onClick={toggleSelected}>#</th>
+                <th>
+                    <button onClick={toggleSelected} title={
+                        selectedItems.some((item)=> currentItems.includes(item)) ? "Deseleccionar todo": "Seleccionar todos"}>#
+                    </button>
+                </th>
                 {headers.map((header) => (
-                    <th key={header.name} 
-                        className='cursor-pointer'>{header.name}</th>
+                    <th key={header.name}>{header.name}</th>
                 ))}
             </tr>
         </thead>
