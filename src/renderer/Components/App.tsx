@@ -4,7 +4,7 @@ import { MovementDasboard } from "./dashboard/MovementDashboard";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { WorkDashboard } from "@/renderer/Components/dashboard/WorksDashboard";
 import { LayoutContainer } from "./layout/LayoutContainer";
-import { Navbar } from "./layout/Navbar";
+import { Navbar } from "./layout/NavBar";
 function App() {
     return (
         <main className="text-accent-content items-center">
