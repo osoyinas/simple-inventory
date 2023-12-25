@@ -63,8 +63,12 @@ export function TableFooter<T extends Item> ({handleDelete,
                 </UpdateButton>
                 }
             </aside>
-            { selectedItems.length == 1 && <p className="text-lg font-bold text-black opacity-70">{selectedItems.length} elemento seleccionado</p>}
-            { selectedItems.length > 1 && <p className="text-lg font-bold text-black opacity-70">{selectedItems.length} elementos seleccionados</p>}
+            <div className="flex items-center gap-4 margin-auto justify-center">
+                { selectedItems.length == 1 && <p className="text-lg font-bold text-black opacity-70">{selectedItems.length} elemento seleccionado</p>}
+                { selectedItems.length > 1 && <p className="text-lg font-bold text-black opacity-70">{selectedItems.length} elementos seleccionados</p>}
+                {selectedItems.length > 0 && <button className="btn btn-accent" onClick={resetSelectedItems}>Deseleccionar todo</button>}
+            </div>
+            
 
             {totalPages > 1 && (
                 <div className="pagination join">
