@@ -30,6 +30,7 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
 
     const {
         selectedItems,
+        setSelectedItems,
         resetSelectedItems,
         handleCheckChange
     } = useSelection({items});
@@ -41,11 +42,17 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
             <section className="relative flex flex-col gap-8 items-end min-w-max max-w-7xl w-full">
                 <TableHeader
                     name={title}
+   
                     handleFilter={handleFilter}
                     handleSort={handleSort}
                 />
                 <table className="table bg-white min-w-max">
-                    <TableHead headers={headers}/>
+                    <TableHead headers={headers}                 
+                        currentItems={currentItems}
+                        selectedItems={selectedItems}
+                        setSelectedItems={setSelectedItems}
+                        resetSelectedItems={resetSelectedItems}
+                    />
                     <tbody className="text-xl">
                         {currentItems.map((item, rowIndex) => (
                             <tr key={rowIndex}>

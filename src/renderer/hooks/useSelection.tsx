@@ -24,5 +24,5 @@ export function useSelection<T extends Item>({items}:Props<T>) {
     const resetSelectedItems = () => {
         setSelectedItems([]);
     }
-    return { selectedItems, resetSelectedItems, handleCheckChange };
+    return { selectedItems,setSelectedItems, resetSelectedItems, handleCheckChange };
 }
