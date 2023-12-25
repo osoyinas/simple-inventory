@@ -59,7 +59,7 @@ END;
 -- Trigger para verificar que no sobrepasa la cantidad absoluta
 CREATE TRIGGER IF NOT EXISTS check_inbound_increase_insert
 BEFORE INSERT ON Movement
-WHEN NEW.type = 'IN' AND (SELECT absolute_amount FROM Material WHERE id = NEW.material_id) < NEW.amount
+WHEN NEW.type = 'IN' AND (SELECT absolute_amount FROM Material WHERE id = NEW.material_id) < NEW.amount + (SELECT available_amount FROM Material WHERE id = NEW.material_id)
 BEGIN
     SELECT RAISE(ABORT, 'Cantidad del movimiento sobrepasa la cantidad total del material');
 END;
@@ -67,7 +67,7 @@ END;
 -- Trigger para verificar que no sobrepasa la cantidad absoluta
 CREATE TRIGGER IF NOT EXISTS check_inbound_increase_update
 BEFORE UPDATE ON Movement
-WHEN NEW.type = 'IN' AND (SELECT absolute_amount FROM Material WHERE id = NEW.material_id) < NEW.amount
+WHEN NEW.type = 'IN' AND (SELECT absolute_amount FROM Material WHERE id = NEW.material_id) < NEW.amount + (SELECT available_amount FROM Material WHERE id = NEW.material_id)
 BEGIN
     SELECT RAISE(ABORT, 'Cantidad del movimiento sobrepasa la cantidad total del material');
 END;
