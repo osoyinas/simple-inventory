@@ -21,7 +21,8 @@ Eliminar
             </button>
             <dialog className="modal" open={isOpen}>
                 <div className="modal-box z-50">
-                    <h3 className="font-bold text-xl">¿Estás seguro de que quieres eliminar {selectedItems.length}?</h3>
+                    { selectedItems.length == 1 && <p className="text-lg font-bold text-black opacity-70">Estás seguro de que quieres eliminar el elemento seleccionado?</p>}
+                    { selectedItems.length > 1 && <p className="text-lg font-bold text-black opacity-70">¿Estás seguro de que quieres eliminar los {selectedItems.length} elementos seleccionados?</p>}
                     <div className="divider"></div>
                     <footer className="flex justify-between">
 
