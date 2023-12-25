@@ -47,11 +47,6 @@ export function TableFooter<T extends Item> ({handleDelete,
                     fields={fields}
                     handleAdd={handleAdd}
                 > Añadir</AddButton>}
-                {handleDelete && <DeleteButton 
-                    resetSelectedItems={resetSelectedItems}
-                    handleDelete={handleDelete}
-                    selectedItems={selectedItems}
-                />}
                 {handleUpdate && 
                 <UpdateButton
                     disabled={selectedItems.length !== 1}
@@ -60,13 +55,17 @@ export function TableFooter<T extends Item> ({handleDelete,
                     handleUpdate={handleUpdate}
                     selectedItem={selectedItems[0]}
                 >Modificar
-                </UpdateButton>
-                }
+                </UpdateButton>}
+                {handleDelete && <DeleteButton 
+                    resetSelectedItems={resetSelectedItems}
+                    handleDelete={handleDelete}
+                    selectedItems={selectedItems}
+                />}
             </aside>
             <div className="flex items-center gap-4 margin-auto justify-center">
                 { selectedItems.length == 1 && <p className="text-lg font-bold text-black opacity-70">{selectedItems.length} elemento seleccionado</p>}
                 { selectedItems.length > 1 && <p className="text-lg font-bold text-black opacity-70">{selectedItems.length} elementos seleccionados</p>}
-                {selectedItems.length > 0 && <button className="btn btn-accent" onClick={resetSelectedItems}>Deseleccionar todo</button>}
+                {selectedItems.length > 0 && <button className="btn btn-neutral" onClick={resetSelectedItems}>Deseleccionar todo</button>}
             </div>
             
 

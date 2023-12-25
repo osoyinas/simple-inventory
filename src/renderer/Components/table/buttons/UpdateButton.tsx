@@ -59,7 +59,7 @@ export function UpdateButton<T extends Item>({
         <>
             <button
                 onClick={openModal}
-                className={`btn btn-primary text-primary-content ${
+                className={`btn btn-accent ${
                     disabled ?  "btn-disabled" :""
                 }`}
             >

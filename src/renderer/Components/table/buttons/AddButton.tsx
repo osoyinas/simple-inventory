@@ -34,7 +34,7 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
         <>
             <button
                 onClick={openModal}
-                className="btn btn-primary text-primary-content"
+                className="btn btn-primary"
             >
                 {children}
             </button>

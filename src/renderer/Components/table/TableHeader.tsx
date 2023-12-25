@@ -52,7 +52,7 @@ function SearchInput({ handleSearchChange }: ItemSearchProps) {
                 />
             </label>
 
-            <button className="btn join-item btn-secondary">Buscar</button>
+            <button className="btn join-item btn-primary">Buscar</button>
         </form>
     );
 }
@@ -62,7 +62,7 @@ interface SortInputProps {
 
 function SortInput ({handleSort}: SortInputProps) {
     return (
-        <button className="btn btn-info" onClick={()=>{
+        <button className="btn btn-accent" onClick={()=>{
             handleSort(SORT_BY.name);
         }}>Ordenar por</button>
     )
