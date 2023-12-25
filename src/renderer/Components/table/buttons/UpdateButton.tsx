@@ -6,6 +6,7 @@ import { Item } from "@/types/models";
 
 interface Props<T extends Item> {
   selectedItem: T | null;
+  resetSelectedItems: () => void;
   handleUpdate: (item: T) => void;
   fields: FormField<T>[];
   children?: ReactNode;
@@ -13,6 +14,7 @@ interface Props<T extends Item> {
 
 export function UpdateButton<T extends Item>({
     selectedItem,
+    resetSelectedItems,
     handleUpdate,
     fields,
     children,
@@ -42,10 +44,11 @@ export function UpdateButton<T extends Item>({
     };
 
     const handleUpdateClick = () => {
-        if (selectedItem) {
+        if (selectedItem) {            
             const updatedItem: T = { ...selectedItem, ...formValues };
             handleUpdate(updatedItem);
             setFormValues({} as Record<keyof T, string>);
+            resetSelectedItems()
             closeModal();
         }
     };
@@ -89,7 +92,9 @@ export function UpdateButton<T extends Item>({
 
                         <div className="divider"></div>
                         <footer className="flex justify-between">
-                            <button className="btn btn-error" onClick={closeModal}>
+                            <button className="btn btn-error" onClick={
+                                closeModal  
+                            }>
                 Cancelar
                             </button>
                             <button className="btn btn-primary" onClick={handleUpdateClick}>

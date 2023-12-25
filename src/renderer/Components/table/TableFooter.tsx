@@ -33,7 +33,8 @@ export function TableFooter<T extends Item> ({handleDelete, handleAdd, handleUpd
                     selectedItems={selectedItems}
                 />}
                 {handleUpdate && 
-                <UpdateButton 
+                <UpdateButton
+                    resetSelectedItems={resetSelectedItems}
                     fields={fields}
                     handleUpdate={handleUpdate}
                     selectedItem={selectedItems[0]}
