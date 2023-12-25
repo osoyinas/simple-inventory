@@ -82,7 +82,11 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
 
                         <div className="divider"></div>
                         <footer className="flex justify-between">
-                            <button className="btn btn-error" onClick={closeModal}>
+                            <button className="btn btn-error" onClick={()=> {
+                                closeModal()
+                                setFormData({}
+                                )
+                            }}>
                 Cancelar
                             </button>
                             <button className="btn btn-primary" onClick={handleAddClick}>
