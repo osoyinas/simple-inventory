@@ -84,8 +84,7 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                         <footer className="flex justify-between">
                             <button className="btn btn-error" onClick={()=> {
                                 closeModal()
-                                setFormData({}
-                                )
+                                setFormData({})
                             }}>
                 Cancelar
                             </button>
