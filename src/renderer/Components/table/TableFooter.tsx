@@ -54,6 +54,7 @@ export function TableFooter<T extends Item> ({handleDelete,
                 />}
                 {handleUpdate && 
                 <UpdateButton
+                    disabled={selectedItems.length !== 1}
                     resetSelectedItems={resetSelectedItems}
                     fields={fields}
                     handleUpdate={handleUpdate}

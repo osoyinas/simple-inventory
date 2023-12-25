@@ -5,6 +5,7 @@ import { FormField } from "@/types/types";
 import { Item } from "@/types/models";
 
 interface Props<T extends Item> {
+ disabled?: boolean;
   selectedItem: T | null;
   resetSelectedItems: () => void;
   handleUpdate: (item: T) => void;
@@ -13,6 +14,7 @@ interface Props<T extends Item> {
 }
 
 export function UpdateButton<T extends Item>({
+    disabled,
     selectedItem,
     resetSelectedItems,
     handleUpdate,
@@ -58,7 +60,7 @@ export function UpdateButton<T extends Item>({
             <button
                 onClick={openModal}
                 className={`btn btn-primary text-primary-content ${
-                    selectedItem ? "" : "btn-disabled"
+                    disabled ?  "btn-disabled" :""
                 }`}
             >
                 {children}
