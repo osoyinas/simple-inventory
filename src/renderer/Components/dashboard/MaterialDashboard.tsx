@@ -27,7 +27,6 @@ export function MaterialDashboard() {
             .catch((error) => console.error(error));
     };
 
-    console.log(materials);
     const handleAdd = (item: Material) => {
         addMaterial(item).catch((error) => console.error(error));
         refreshMaterials();

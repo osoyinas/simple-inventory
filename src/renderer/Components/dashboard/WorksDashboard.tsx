@@ -58,13 +58,11 @@ export function WorkDashboard() {
         }},
         {key: "status", logic: (item: Work) => item.status === STATUS.pending 
             ? <button className="btn btn-alert rounded-full" onClick={()=> {
-                console.log(item);
                 item.status = STATUS.done
                 handleUpdate(item)
                 refreshWorks()
             }}>Pendiente</button>
             : <button className="btn btn-success rounded-full" onClick={()=> {
-                console.log(item);
                 item.status = STATUS.pending
                 handleUpdate(item)
                 refreshWorks()

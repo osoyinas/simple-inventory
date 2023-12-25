@@ -33,8 +33,6 @@ export function setupPersonsListeners() {
 
     //Add person
     ipcMain.on("addPerson", (event: IpcMainEvent, data: Person) => {
-        console.log("addPerson ", data);
-
         executeQuery(`INSERT INTO Person (name) VALUES ('${data.name}');`)
             .then(() => {
                 return executeQuery(
