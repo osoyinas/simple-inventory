@@ -1,4 +1,4 @@
-import { addMovement, deleteMovement, getMovements } from "@/api/movements";
+import { addMovement, deleteMovement, getMovements, updateMovement } from "@/api/movements";
 import { MOVEMENT_TYPE, Movement } from "@/types/models";
 import { useState, useEffect } from "react";
 import { useFilter } from "@/renderer/hooks/useFilter";
@@ -69,8 +69,12 @@ export function MovementDasboard() {
         },
         {key: "type", logic: (item: Movement) => item.type === MOVEMENT_TYPE.in 
             ? <button className="btn btn-success rounded-full w-full" onClick={()=> {
+                updateMovement({...item, type: MOVEMENT_TYPE.out}).catch((error) => console.error(error));
+                refreshMoves();
             }}>Entrada</button>
             : <button className="btn btn-error rounded-full w-full" onClick={()=> {
+                updateMovement({...item, type: MOVEMENT_TYPE.in}).catch((error) => console.error(error));
+                refreshMoves();
             }}>Salida</button>}
     ];
 
@@ -80,7 +84,7 @@ export function MovementDasboard() {
         {label:"Persona", key:"person_id", type:"select", options: personsAsOptions},
         {label:"Cantidad", key:"amount", type:"number"},
         {label:"Fecha", key:"date", type:"date"},
-        {label:"Tipo", key:"type", type:"select", options: [{value: MOVEMENT_TYPE.in, name: "Entrada"}, {value: MOVEMENT_TYPE.out, name: "Salida"}]},
+        {label:"Tipo", key:"type", type:"select", options: [ {value: MOVEMENT_TYPE.out, name: "Salida"}, {value: MOVEMENT_TYPE.in, name: "Entrada"}]},
     ]
     return (
         <LayoutContainer>

@@ -39,3 +39,16 @@ export function deleteMovement(id: number): Promise<Response<Movement>> {
         });
     });
 }
+
+export function updateMovement(data: Movement): Promise<Response<Movement>> {
+    return new Promise((resolve, reject) => {
+        window.ipcRenderer.send("updateMovement", data);
+        window.ipcRenderer.on("updateMovementResponse", (_event, payload) => {
+            if (payload.status === "error") {
+                reject(payload.message);
+            } else {
+                resolve(payload);
+            }
+        });
+    });
+}  
