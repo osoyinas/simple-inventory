@@ -15,7 +15,6 @@ export function TableHead<T>({headers, currentItems,setSelectedItems, selectedIt
         if (selectedItems.length > 0) {
             resetSelectedItems()
         } else {
-            console.log(currentItems);
             setSelectedItems(currentItems)
         }
     }
