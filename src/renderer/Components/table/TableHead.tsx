@@ -4,18 +4,17 @@ interface Props<T> {
     headers: header[];
     currentItems: T[];
     selectedItems: T[];
-    setSelectedItems: (items: T[]) => void;
+    setSelectedItems: React.Dispatch<React.SetStateAction<T[]>>;
     resetSelectedItems: () => void;
 }
 
-
-export function TableHead<T>({headers, currentItems,setSelectedItems, selectedItems, resetSelectedItems}: Props<T>) {
+export function TableHead<T>({headers, currentItems,setSelectedItems, selectedItems}: Props<T>) {
 
     const toggleSelected = () => {
-        if (selectedItems.length > 0) {
-            resetSelectedItems()
+        if (selectedItems.some((item) => currentItems.includes(item))) {
+            setSelectedItems((prevItems)=> prevItems.filter((item) => !currentItems.includes(item)))
         } else {
-            setSelectedItems(currentItems)
+            setSelectedItems((prevItems)=> [...prevItems, ...currentItems])
         }
     }
     return (

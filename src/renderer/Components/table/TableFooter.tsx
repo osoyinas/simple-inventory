@@ -29,7 +29,7 @@ export function TableFooter<T extends Item> ({handleDelete,
 
     const PAGINATION_SIZE = 5;
     const pagesArray =Array(totalPages).fill(0).map((_,index)=> index+1)
-    
+
     let currentPages = pagesArray.slice(
         PAGINATION_SIZE * Math.floor((currentPage-1)/PAGINATION_SIZE),
         PAGINATION_SIZE* Math.floor((currentPage-1)/PAGINATION_SIZE) + PAGINATION_SIZE); 
@@ -62,6 +62,9 @@ export function TableFooter<T extends Item> ({handleDelete,
                 </UpdateButton>
                 }
             </aside>
+            { selectedItems.length == 1 && <p className="text-lg font-bold text-black opacity-70">{selectedItems.length} elemento seleccionado</p>}
+            { selectedItems.length > 1 && <p className="text-lg font-bold text-black opacity-70">{selectedItems.length} elementos seleccionados</p>}
+
             {totalPages > 1 && (
                 <div className="pagination join">
                     <button className= {currentPage === 1 ? "opacity-0 cursor-default": "" } onClick={()=>{
@@ -98,6 +101,7 @@ export function TableFooter<T extends Item> ({handleDelete,
                     
 
                 </div>
+                
             )}
         </footer>
     )
