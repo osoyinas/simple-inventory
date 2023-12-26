@@ -33,6 +33,7 @@ export function MovementDasboard() {
 
 
     const handleAdd = async (item: Movement) => {
+        console.log(item);
         await addMovement(item).catch((error) => console.error(error));
         refreshMoves();
     }
@@ -75,7 +76,8 @@ export function MovementDasboard() {
             : <button className="btn btn-error rounded-full w-full" onClick={()=> {
                 updateMovement({...item, type: MOVEMENT_TYPE.in}).catch((error) => console.error(error));
                 refreshMoves();
-            }}>Salida</button>}
+            }}>Salida</button>
+        },
     ];
 
     const formFields: FormField<Movement>[]= [
@@ -85,6 +87,7 @@ export function MovementDasboard() {
         {label:"Cantidad", key:"amount", type:"number"},
         {label:"Fecha", key:"date", type:"date"},
         {label:"Tipo", key:"type", type:"select", options: [ {value: MOVEMENT_TYPE.out, name: "Salida"}, {value: MOVEMENT_TYPE.in, name: "Entrada"}]},
+        {label:"Descripción (opcional)", key:"description", type:"textarea"},
     ]
     return (
         <LayoutContainer>

@@ -103,7 +103,7 @@ END;
 
 -- View para obtener toda la info de un movimiento
 CREATE VIEW IF NOT EXISTS MovementInfo AS
-SELECT Movement.id, Movement.person_id, Movement.material_id, Movement.work_id, Movement.amount, Movement.date, Movement.type, Person.name AS person_name, Material.name AS material_name, Material.units as material_units, Work.name AS work_name
+SELECT Movement.id, Movement.person_id, Movement.material_id, Movement.work_id, Movement.amount, Movement.date, Movement.type, Person.name AS person_name, Material.name AS material_name, Material.units as material_units, Work.name AS work_name, Movement.description
 FROM Movement
 INNER JOIN Person ON Movement.person_id = Person.id
 INNER JOIN Material ON Movement.material_id = Material.id
