@@ -68,11 +68,11 @@ export function MovementDasboard() {
         }
         },
         {key: "type", logic: (item: Movement) => item.type === MOVEMENT_TYPE.in 
-            ? <button className="btn btn-success rounded-full w-full" onClick={()=> {
+            ? <button className="btn btn-success rounded-full w-28" onClick={()=> {
                 updateMovement({...item, type: MOVEMENT_TYPE.out}).catch((error) => console.error(error));
                 refreshMoves();
             }}>Entrada</button>
-            : <button className="btn btn-error rounded-full w-full" onClick={()=> {
+            : <button className="btn btn-error rounded-full w-28" onClick={()=> {
                 updateMovement({...item, type: MOVEMENT_TYPE.in}).catch((error) => console.error(error));
                 refreshMoves();
             }}>Salida</button>
