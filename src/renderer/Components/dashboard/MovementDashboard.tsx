@@ -13,7 +13,7 @@ import { UseWorkOptions } from "@/renderer/hooks/useWorkOptions";
 export function MovementDasboard() {
     const [moves, setMoves] = useState<Movement[]>([]);
     const {filteredItems , setFilter} = useFilter<Movement>({items: moves, key: "material_name"});
-    const {sortedItems: sortedPersons, setSort} = useSort(filteredItems);
+    const {sortedItems: sortedPersons, setSort, changeSortDirection, sortDirection} = useSort(filteredItems);
 
     const {personsAsOptions} = usePersonOptions();
     const {materialsAsOptions} = useMaterialOptions();
@@ -97,6 +97,8 @@ export function MovementDasboard() {
                 items={sortedPersons}
                 handleAdd={handleAdd}
                 handleSort={setSort}
+                sortDirection={sortDirection}
+                changeSortDirection={changeSortDirection}
                 handleDelete={handleDelete}
                 handleFilter={setFilter}
                 formFields={formFields}

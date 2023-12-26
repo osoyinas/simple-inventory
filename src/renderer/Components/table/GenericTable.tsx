@@ -15,11 +15,13 @@ interface Props<T extends Item> {
     handleAdd?: (item: T) => void;
     handleSort: (sort: keyof T | null) => void;
     handleFilter: (value:string) => void;
+    changeSortDirection: () => void;
+    sortDirection: boolean;
     handleUpdate?: (item: T) => void;
     formFields: FormField<T>[];
 }
 
-export function GenericTable<T extends Item>({title, headers, fields, items, handleDelete, handleAdd,handleUpdate, handleSort, handleFilter, formFields}: Props<T>) {
+export function GenericTable<T extends Item>({title, headers, fields, items, handleDelete, handleAdd, handleUpdate, sortDirection, handleSort, handleFilter, changeSortDirection, formFields}: Props<T>) {
     
     const {
         currentItems,
@@ -42,6 +44,8 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
             <section className="relative flex flex-col gap-8 items-end min-w-max max-w-7xl w-full">
                 <TableHeader
                     name={title}   
+                    sortDirection={sortDirection}
+                    changeSortDirection={changeSortDirection}
                     handleFilter={handleFilter}
                     handleSort={handleSort}
                 />

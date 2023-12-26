@@ -11,7 +11,7 @@ import {GenericTable} from "@/renderer/Components/table/GenericTable";
 export function WorkDashboard() {
     const [works, setWorks] = useState<Work[]>([]);
     const {filteredItems , setFilter} = useFilter<Work>({items: works, key: "name"});
-    const {sortedItems, setSort} = useSort(filteredItems);
+    const {sortedItems, setSort, changeSortDirection, sortDirection} = useSort(filteredItems);
 
     useEffect(() => {
         refreshWorks();
@@ -87,6 +87,8 @@ export function WorkDashboard() {
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
                 handleUpdate={handleUpdate}
+                sortDirection={sortDirection}
+                changeSortDirection={changeSortDirection}
                 handleSort={setSort}
                 handleFilter={setFilter}
                 formFields={formFields}

@@ -11,7 +11,7 @@ import { GenericTable } from "../table/GenericTable";
 export function MaterialDashboard() {
     const [materials, setMaterials] = useState<Material[]>([])
     const {filteredItems : filteredMaterials, setFilter} = useFilter<Material>({items: materials, key: "name"})
-    const {sortedItems: sortedMaterials, setSort} = useSort<Material>(filteredMaterials)
+    const {sortedItems: sortedMaterials, setSort, changeSortDirection, sortDirection} = useSort<Material>(filteredMaterials)
 
     useEffect(() => {
         getMaterials().then((response) => {
@@ -76,15 +76,16 @@ export function MaterialDashboard() {
     ]
     return (
         <LayoutContainer>
-
             <GenericTable 
                 title="Materiales"
                 headers={headers}
                 fields={fields}
                 items={sortedMaterials}
+                changeSortDirection={changeSortDirection}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
                 handleUpdate={handleUpdate}
+                sortDirection={sortDirection}
                 handleSort={(value:keyof Material| null)=>{setSort(value)}}
                 handleFilter={(value:string)=> {setFilter(value)}}
                 formFields={formFields}

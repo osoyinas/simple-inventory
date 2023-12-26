@@ -10,7 +10,7 @@ import {GenericTable} from "@/renderer/Components/table/GenericTable";
 export function PersonDasboard() {
     const [persons, setPersons] = useState<Person[]>([]);
     const {filteredItems : filteredPersons, setFilter} = useFilter({items: persons, key: "name"});
-    const {sortedItems: sortedPersons, setSort} = useSort(filteredPersons);
+    const {sortedItems: sortedPersons, setSort, sortDirection, changeSortDirection} = useSort(filteredPersons);
 
     useEffect(() => {
         refreshPersons();
@@ -72,6 +72,8 @@ export function PersonDasboard() {
                 handleAdd={handleAdd}
                 handleUpdate={handleUpdate}
                 handleSort={setSort}
+                sortDirection={sortDirection}
+                changeSortDirection={changeSortDirection}
                 handleFilter={setFilter}
                 formFields={formFields}
             />

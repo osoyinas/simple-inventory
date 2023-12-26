@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Item } from '@/types/models';
 import { useState, useMemo } from 'react';
 
-export function useSort<T>( items: T[] ) {
-    const [sort, setSort] = useState<keyof T | null>();
+export function useSort<T extends Item>( items: T[] ) {
+    const [sort, setSort] = useState<keyof T | null>("id" as keyof T);
     const [sortDirection, setSortDirection] = useState<boolean>(true); // true = asc, false = desc
 
 
-    const handleSort = (sort: keyof T | null, sortDirection: boolean) => {
-        setSort(sort)
-        setSortDirection(sortDirection)
+    const changeSortDirection = () => {
+        setSortDirection((prev) => !prev);
     }
 
     const sortedItems =  useMemo(() => {
@@ -25,7 +25,8 @@ export function useSort<T>( items: T[] ) {
                     return (a[sort as keyof T] as string).localeCompare(b[sort as keyof T] as string)
                 else return 0;
             });
-        } else
+        } 
+        else
             return [...items].sort((a: T, b: T) => {
                 if (typeof a[sort as keyof T] === "number") 
                     return (b[sort as keyof T] as number) - (a[sort as keyof T] as number);
@@ -34,8 +35,6 @@ export function useSort<T>( items: T[] ) {
                 else return 0;
             });
 
-    }, [sort, items]);
-
-
-    return { sortedItems, handleSort, sortDirection };
+    }, [sort, items, sortDirection]);
+    return { sortedItems, setSort, sortDirection, changeSortDirection };
 }

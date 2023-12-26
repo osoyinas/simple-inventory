@@ -3,17 +3,17 @@ import { useRef } from "react";
 interface Props<T> {
     name: string;
     handleFilter: (value:string) => void;
+    changeSortDirection: () => void;
     handleSort: (value: keyof T | null) => void;
+    sortDirection : boolean;
   }
 
-export function TableHeader<T>({name, handleFilter, handleSort} : Props<T> ) {
-
-
+export function TableHeader<T>({name, handleFilter, changeSortDirection, sortDirection} : Props<T> ) {
     return (
         <header className="flex w-full justify-between items-end gap-2 flex-wrap">
             <h1 className="text-4xl font-bold text-left">{name}</h1>
             <aside className="flex gap-8 items-end">
-                <SortInput handleSort={handleSort} />
+                <SortInput changeSortDirection={changeSortDirection} sortDirection={sortDirection} />
                 <SearchInput handleSearchChange={handleFilter} />
             </aside>
         </header>
@@ -55,14 +55,18 @@ function SearchInput({ handleSearchChange }: ItemSearchProps) {
         </form>
     );
 }
-interface SortInputProps<T> {
-    handleSort: (sort: keyof T | null) => void;
+interface SortInputProps {
+    sortDirection: boolean;
+    changeSortDirection: () => void;
 }
 
-function SortInput<T>({handleSort}: SortInputProps<T>) {
+function SortInput({changeSortDirection, sortDirection}: SortInputProps) {
     return (
         <button className="btn btn-accent" onClick={()=>{
-            handleSort(null);
-        }}> Desordenar</button>
+            console.log("cambiando dir");
+            changeSortDirection()
+        }}>
+            {sortDirection ? "Ascendente" : "Descendente"}
+        </button>
     )
 }
