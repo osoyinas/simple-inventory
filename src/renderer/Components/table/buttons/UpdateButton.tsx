@@ -30,7 +30,7 @@ export function UpdateButton<T extends Item>({
         if (selectedItem) {
             const values: Record<keyof T, string> = {} as Record<keyof T, string>;
             fields.forEach((field) => {
-                values[field.key] = selectedItem[field.key] as string;
+                values[field.key] = selectedItem[field.key] as string??"";
             });
             setFormValues(values);
         } else {
@@ -70,27 +70,27 @@ export function UpdateButton<T extends Item>({
                     <h3 className="font-bold text-xl">{children}</h3>
                     <div className="divider"></div>
                     <main className="flex flex-col w-full gap-4">
-                        {fields.map((field) => (
-                            <label className="form-control w-full" key={field.label}>
-                                <div className="label">
-                                    <span className="label-text">{field.label}</span>
-                                </div>
-                                <input
-                                    name={field.key.toString()}
-                                    type={field.type ? field.type : "text"}
-                                    placeholder="Type here"
-                                    className="input input-bordered input-primary"
-                                    value={
-                                        selectedItem
-                                            ? formValues[field.key] ||
-                        (selectedItem[field.key] as string)
-                                            : ""
-                                    }
-                                    onChange={handleInputChange}
-                                    readOnly={field.key === "id"} // Hacer el campo id readonly
-                                />
-                            </label>
-                        ))}
+                        {fields.map((field) => {
+                            const value = selectedItem ? formValues[field.key] || (selectedItem[field.key] as string): ""
+
+                            return (
+                                <label className="form-control w-full" key={field.label}>
+                                    <div className="label">
+                                        <span className="label-text">{field.label}</span>
+                                    </div>
+                                    <input
+                                        name={field.key.toString()}
+                                        type={field.type ? field.type : "text"}
+                                        placeholder="Type here"
+                                        className="input input-bordered input-primary"
+                                        value={
+                                            value??""
+                                        }
+                                        onChange={handleInputChange}
+                                        readOnly={field.key === "id"} // Hacer el campo id readonly
+                                    />
+                                </label>
+                            )})}
 
                         <div className="divider"></div>
                         <footer className="flex justify-between">

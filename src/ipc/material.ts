@@ -60,7 +60,7 @@ export function setupMaterialsListeners() {
             data: Material
         ) => {
             executeQuery(
-                `UPDATE Material SET name = '${data.name}', units = '${data.units}', absolute_amount = ${data.absolute_amount},available_amount = ${data.available_amount} WHERE id = '${data.id}';`
+                `UPDATE Material SET name = '${data.name}', units = '${data.units}', absolute_amount = ${data.absolute_amount},available_amount = ${data.available_amount}, description = '${data.description}' WHERE id = '${data.id}' ;`
             )
                 .then(() => {
                     return executeQuery(
