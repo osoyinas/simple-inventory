@@ -33,7 +33,6 @@ export function MovementDasboard() {
 
 
     const handleAdd = async (item: Movement) => {
-        console.log(item);
         await addMovement(item).catch((error) => console.error(error));
         refreshMoves();
     }

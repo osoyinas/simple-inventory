@@ -1,4 +1,4 @@
-import { header } from "@/types/types";
+import { TableField, header } from "@/types/types";
 
 interface Props<T> {
     headers: header[];
@@ -6,9 +6,11 @@ interface Props<T> {
     selectedItems: T[];
     setSelectedItems: React.Dispatch<React.SetStateAction<T[]>>;
     resetSelectedItems: () => void;
+    fields: TableField<T>[];
+    handleSort: (sort: keyof T) => void;
 }
 
-export function TableHead<T>({headers, currentItems,setSelectedItems, selectedItems}: Props<T>) {
+export function TableHead<T>({headers, currentItems,setSelectedItems, selectedItems, fields, handleSort}: Props<T>) {
 
     const toggleSelected = () => {
         if (selectedItems.some((item) => currentItems.includes(item))) {
@@ -25,8 +27,10 @@ export function TableHead<T>({headers, currentItems,setSelectedItems, selectedIt
                         selectedItems.some((item)=> currentItems.includes(item)) ? "Deseleccionar todo": "Seleccionar todos"}>#
                     </button>
                 </th>
-                {headers.map((header) => (
-                    <th key={header.name}>{header.name}</th>
+                {headers.map((header, index) => (
+                    <th key={header.name}><button onClick={()=> {
+                        handleSort(fields[index].key)
+                    }}>{header.name}</button></th>
                 ))}
             </tr>
         </thead>

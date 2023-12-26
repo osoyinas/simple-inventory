@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FormField, SORT_BY, TableField, UNIT } from "@/types/types";
+import { FormField, TableField, UNIT } from "@/types/types";
 import { Material } from "@/types/models";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import { getMaterials, addMaterial, updateMaterial } from "@/api/material";
@@ -9,16 +9,15 @@ import { deleteMaterial } from "@/api/material";
 import { GenericTable } from "../table/GenericTable";
 
 export function MaterialDashboard() {
-    const [materials, setMaterials] = useState<Material[]>([]);
-    const {filteredItems : filteredMaterials, setFilter} = useFilter<Material>({items: materials, key: "name"});
-    const {sortedItems: sortedMaterials, setSort} = useSort(filteredMaterials);
-    
+    const [materials, setMaterials] = useState<Material[]>([])
+    const {filteredItems : filteredMaterials, setFilter} = useFilter<Material>({items: materials, key: "name"})
+    const {sortedItems: sortedMaterials, setSort} = useSort<Material>(filteredMaterials)
+
     useEffect(() => {
         getMaterials().then((response) => {
             setMaterials(response.data as Material[]);
         });
     }, []);
-
     const refreshMaterials = () => {
         getMaterials()
             .then((response) => {
@@ -86,7 +85,7 @@ export function MaterialDashboard() {
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
                 handleUpdate={handleUpdate}
-                handleSort={(value:SORT_BY)=>{setSort(value as SORT_BY)}}
+                handleSort={(value:keyof Material| null)=>{setSort(value)}}
                 handleFilter={(value:string)=> {setFilter(value)}}
                 formFields={formFields}
             />

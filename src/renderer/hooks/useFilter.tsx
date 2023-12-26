@@ -10,7 +10,7 @@ export function useFilter<T>({items, key}: params<T>) {
 
     const filteredItems = useMemo(()=>{
         if (filter !== null && filter.length > 0) {
-            return items.filter((item: T) => {
+            return [...items].filter((item: T) => {
                 return (item[key] as string).toLowerCase().includes(filter.toLowerCase().trim());
             })
         }

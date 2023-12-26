@@ -1,27 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useMemo } from 'react';
-import { Item, Material, SORT_BY } from "@/types/types";
-
-export function useSort(items: T) {
-    const [sort, setSort] = useState<SORT_BY>(SORT_BY.none);
 
 
+export function useSort<T>( items: T[] ) {
+    const [sort, setSort] = useState<keyof T | null>();
 
-    const sortedItems =  useMemo(()=>{
-        if (sort === SORT_BY.none) {
-            return items;
+
+    const sortedItems =  useMemo(() => {
+        if (!sort) {
+            return items
         }
-        const compareProperties: Record<string,(item: unknown)=> any> ={
-            [SORT_BY.name]: item => (item as Item).name,
-            [SORT_BY.id]: item => (item as Item).id.toString(),
-            [SORT_BY.available_quantity]: item => (item as Material).absolute_amount,
-            [SORT_BY.total_quantity]: item => (item as Material).absolute_amount,
-            [SORT_BY.units]: item => (item as Material).units,
-        }
-        return items.sort((a: Item, b: Item) => {
-
-            return compareProperties[sort](a).localeCompare(compareProperties[sort](b));
+        return [...items].sort((a: T, b: T) => {
+            if (typeof a[sort as keyof T] === "number") 
+                return (b[sort as keyof T] as number) - (a[sort as keyof T] as number);
+            else if (typeof a[sort as keyof T] === "string") 
+                return (a[sort as keyof T] as string).localeCompare(b[sort as keyof T] as string)
+            else return 0;
         });
+
     }, [sort, items]);
 
 

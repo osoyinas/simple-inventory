@@ -1,4 +1,4 @@
-import { SORT_BY, header, FormField, TableField} from "@/types/types";
+import { header, FormField, TableField } from "@/types/types";
 import {Item} from "@/types/models";
 import { TableFooter } from  "@/renderer/Components/table/TableFooter";
 import {TableHeader} from "@/renderer/Components/table/TableHeader";
@@ -13,14 +13,14 @@ interface Props<T extends Item> {
     items: T[];
     handleDelete?: (ids:number[]) => void;
     handleAdd?: (item: T) => void;
-    handleSort: (sort: SORT_BY) => void;
+    handleSort: (sort: keyof T | null) => void;
     handleFilter: (value:string) => void;
     handleUpdate?: (item: T) => void;
     formFields: FormField<T>[];
 }
 
 export function GenericTable<T extends Item>({title, headers, fields, items, handleDelete, handleAdd,handleUpdate, handleSort, handleFilter, formFields}: Props<T>) {
-
+    
     const {
         currentItems,
         totalPages,
@@ -41,8 +41,7 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
     
             <section className="relative flex flex-col gap-8 items-end min-w-max max-w-7xl w-full">
                 <TableHeader
-                    name={title}
-   
+                    name={title}   
                     handleFilter={handleFilter}
                     handleSort={handleSort}
                 />
@@ -52,6 +51,8 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
                         selectedItems={selectedItems}
                         setSelectedItems={setSelectedItems}
                         resetSelectedItems={resetSelectedItems}
+                        fields={fields}
+                        handleSort={handleSort}
                     />
                     <tbody className="text-xl">
                         {currentItems.map((item, rowIndex) => (

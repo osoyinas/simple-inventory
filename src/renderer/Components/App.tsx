@@ -11,7 +11,7 @@ function App() {
             <Navbar />
             <LayoutContainer>
                 <Routes>
-                    <Route path="/" element={<Navigate to="/moves" />} />
+                    <Route path="/" element={<Navigate to="/materials" />} />
                     <Route path="/moves" element={<MovementDasboard />} />
                     <Route path="/persons" element={<PersonDasboard />} />
                     <Route path="/works" element={<WorkDashboard />} />

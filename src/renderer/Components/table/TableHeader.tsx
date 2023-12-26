@@ -1,13 +1,12 @@
 import { useRef } from "react";
-import { SORT_BY } from "@/types/types";
 
-interface Props {
+interface Props<T> {
     name: string;
     handleFilter: (value:string) => void;
-    handleSort: (sort: SORT_BY) => void;
+    handleSort: (value: keyof T | null) => void;
   }
 
-export function TableHeader({name, handleFilter, handleSort} : Props ) {
+export function TableHeader<T>({name, handleFilter, handleSort} : Props<T> ) {
 
 
     return (
@@ -56,14 +55,14 @@ function SearchInput({ handleSearchChange }: ItemSearchProps) {
         </form>
     );
 }
-interface SortInputProps {
-    handleSort: (sort: SORT_BY) => void;
+interface SortInputProps<T> {
+    handleSort: (sort: keyof T | null) => void;
 }
 
-function SortInput ({handleSort}: SortInputProps) {
+function SortInput<T>({handleSort}: SortInputProps<T>) {
     return (
         <button className="btn btn-accent" onClick={()=>{
-            handleSort(SORT_BY.name);
-        }}>Ordenar por</button>
+            handleSort(null);
+        }}> Desordenar</button>
     )
 }
