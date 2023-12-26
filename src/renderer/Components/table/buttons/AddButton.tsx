@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, useState, useEffect } from "react";
 import { useModal } from "@/renderer/hooks/useModal";
 import { FormField } from "@/types/types";
@@ -15,19 +16,21 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
     const handleChange = (key: keyof T, value: unknown) => {
         setFormData((prevData) => ({ ...prevData, [key]: value }));
     };
-
     const handleAddClick = () => {
         setFormData({});
         handleAdd(formData as T);
         closeModal();
     };
+
     useEffect(() => {
         fields.forEach((field) => {
             if (field.type === "select" && field.options && field.options.length > 0) {
-                formData[field.key] = field.options?.[0].value;
+                setFormData((prevData) => ({ ...prevData, [field.key]: field.options?.[0].value } as Partial<T>));
+            }
+            else if (field.type === "date") {
+                setFormData((prevData) => ({ ...prevData, [field.key]: new Date().toISOString().split('T')[0] } as Partial<T>));
             }
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fields]);
 
     return (
@@ -44,7 +47,8 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                     <div className="divider"></div>
                     <main className="flex flex-col w-full  gap-4">
                         {fields.map((field) => {
-                            
+                            const inputName = field.key.toString();
+                            const value = formData[field.key] as string ??"";
                             return (
                                 <label className="form-control w-full" key={field.key as string}>
                                     <div className="label">
@@ -69,11 +73,11 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                                         </select>
                                     ) : (
                                         <input
-                                            name={field.key.toString()}
+                                            name={inputName}
                                             type={field.type ? field.type : "text"}
                                             placeholder="Type here"
                                             className="input input-bordered input-primary"
-                                            value={formData[field.key] as string ?? ""}
+                                            value={value}
                                             onChange={(e) => handleChange(field.key, e.target.value)}
                                         />
                                     )}
