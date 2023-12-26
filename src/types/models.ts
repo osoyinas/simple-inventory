@@ -11,13 +11,14 @@ export interface Material extends Item {
   units: string;
   available_amount?: number;
   absolute_amount: number;
+  description?: string;
 }
 
 export interface Work extends Item {
   name: string;
   start_date: Date;
   status: STATUS;
-  description: string;
+  description?: string;
 }
 
 export interface Movement extends Item {
@@ -31,6 +32,7 @@ export interface Movement extends Item {
   material_name: string;
   material_units: string;
   work_name: string;
+  description?: string;
 }
 
 export enum STATUS {

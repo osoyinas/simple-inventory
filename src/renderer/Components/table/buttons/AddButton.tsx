@@ -49,6 +49,8 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                         {fields.map((field) => {
                             const inputName = field.key.toString();
                             const value = formData[field.key] as string ??"";
+                            const className = field.type=== "textarea"? "textarea textarea-bordered scroll-x-auto": "input input-bordered input-primary"
+
                             return (
                                 <label className="form-control w-full" key={field.key as string}>
                                     <div className="label">
@@ -75,8 +77,8 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                                         <input
                                             name={inputName}
                                             type={field.type ? field.type : "text"}
-                                            placeholder="Type here"
-                                            className="input input-bordered input-primary"
+                                            placeholder="Escribe aquí"
+                                            className={className}
                                             value={value}
                                             onChange={(e) => handleChange(field.key, e.target.value)}
                                         />

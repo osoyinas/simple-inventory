@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS Material (
     name VARCHAR(255) NOT NULL,
     units VARCHAR(255) NOT NULL,
     absolute_amount INT NOT NULL,
-    available_amount INT NOT NULL CHECK (available_amount >= 0)
+    available_amount INT NOT NULL CHECK (available_amount >= 0),
+    description TEXT
 );
 
 -- Crear la tabla Work
@@ -30,6 +31,7 @@ CREATE TABLE IF NOT EXISTS Movement (
     work_id INT,
     amount INT NOT NULL CHECK (amount > 0),
     date DATE,
+    description TEXT,
     type VARCHAR(3) CHECK (type IN ('IN', 'OUT')) NOT NULL,
     FOREIGN KEY (person_id) REFERENCES Person(id),
     FOREIGN KEY (material_id) REFERENCES Material(id),

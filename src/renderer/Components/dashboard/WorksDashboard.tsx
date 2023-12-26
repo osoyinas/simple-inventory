@@ -49,6 +49,7 @@ export function WorkDashboard() {
         {name:"Nombre"},
         {name:"Fecha de inicio"},
         {name:"Estado"},
+        {name:"Descripción"}
     ]
     const fields: TableField<Work>[] = [
         {key: "name"},
@@ -66,12 +67,15 @@ export function WorkDashboard() {
                 item.status = STATUS.pending
                 handleUpdate(item)
                 refreshWorks()
-            }}>Finalizada</button>}
+            }}>Finalizada</button>
+        },
+        {key: "description"},
     ]; 
 
     const formFields: FormField<Work>[] = [
         {label:"Nombre", key:"name", type:"text"},
         {label:"Fecha de inicio", key:"start_date", type:"date"},
+        {label:"Descripción (opcional)", key:"description", type:"textarea"},
     ]
     return (
         <LayoutContainer>

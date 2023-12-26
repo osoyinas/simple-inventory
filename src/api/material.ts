@@ -15,9 +15,9 @@ export function getMaterials(): Promise<Response<Material[]>> {
 }
 
 
-export function addMaterial({name, units, absolute_amount}:{name:string, units:string, absolute_amount:number}): Promise<Response<Material>> {
+export function addMaterial(material : Material): Promise<Response<Material>> {
     return new Promise((resolve, reject) => {
-        window.ipcRenderer.send("addMaterial", {name, units, absolute_amount});
+        window.ipcRenderer.send("addMaterial", material);
         window.ipcRenderer.on("addMaterialResponse", (_event, payload) => {
             if (payload.status === "error") {
                 reject(payload.message);
