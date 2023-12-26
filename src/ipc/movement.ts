@@ -20,7 +20,6 @@ export function setupMovementsListeners() {
     });
 
     ipcMain.on("addMovement", (event: IpcMainEvent, data: Movement) => {
-        console.log(data);
         executeQuery(
             `INSERT INTO Movement (person_id, material_id, work_id, amount, date, type, description) VALUES (${data.person_id}, ${data.material_id}, ${data.work_id}, ${data.amount}, '${data.date}', '${data.type}', '${data.description}')`
         )
@@ -57,7 +56,7 @@ export function setupMovementsListeners() {
 
     ipcMain.on("updateMovement", (event: IpcMainEvent, data: Movement) => {
         executeQuery(
-            `UPDATE Movement SET person_id = ${data.person_id}, material_id = ${data.material_id}, work_id = ${data.work_id}, amount = ${data.amount}, date = '${data.date}', type = '${data.type}' description='${data.description}'  WHERE id = ${data.id}`
+            `UPDATE Movement SET person_id = ${data.person_id}, material_id = ${data.material_id}, work_id = ${data.work_id}, amount = ${data.amount}, date = '${data.date}', type = '${data.type}', description='${data.description}'  WHERE id = ${data.id}`
         )
             .then((result) => {
                 event.reply("updateMovementResponse", {
