@@ -1,4 +1,6 @@
-import { useRef } from "react";
+import { header } from "@/types/types";
+import { useMemo, useRef } from "react";
+import { DownTriangle, UpTriangle } from "../icons/Triangles";
 
 interface Props<T> {
     name: string;
@@ -6,14 +8,15 @@ interface Props<T> {
     changeSortDirection: () => void;
     handleSort: (value: keyof T | null) => void;
     sortDirection : boolean;
+    getCurrentSort: () => header;
   }
 
-export function TableHeader<T>({name, handleFilter, changeSortDirection, sortDirection} : Props<T> ) {
+export function TableHeader<T>({name, handleFilter, changeSortDirection, sortDirection, getCurrentSort } : Props<T> ) {
     return (
         <header className="flex w-full justify-between items-end gap-2 flex-wrap">
             <h1 className="text-4xl font-bold text-left">{name}</h1>
             <aside className="flex gap-8 items-end">
-                <SortInput changeSortDirection={changeSortDirection} sortDirection={sortDirection} />
+                <SortInput changeSortDirection={changeSortDirection} sortDirection={sortDirection}  getCurrentSort={getCurrentSort}/>
                 <SearchInput handleSearchChange={handleFilter} />
             </aside>
         </header>
@@ -58,15 +61,22 @@ function SearchInput({ handleSearchChange }: ItemSearchProps) {
 interface SortInputProps {
     sortDirection: boolean;
     changeSortDirection: () => void;
+    getCurrentSort: () => header;
 }
 
-function SortInput({changeSortDirection, sortDirection}: SortInputProps) {
+function SortInput({changeSortDirection, sortDirection,getCurrentSort}: SortInputProps) {
+    const currentSort = useMemo(() => getCurrentSort(), [getCurrentSort]);
     return (
-        <button className="btn btn-accent" onClick={()=>{
-            console.log("cambiando dir");
-            changeSortDirection()
-        }}>
-            {sortDirection ? "Ascendente" : "Descendente"}
-        </button>
+        <label className="form-control" >
+            <div className="label">
+                <span className="label-text">Ordenar por </span>
+            </div>
+            <button className="btn btn-accent flex justify-between" onClick={()=>{
+                changeSortDirection()
+            }}>
+                {`${currentSort.name}`}{sortDirection ? <UpTriangle / > : <DownTriangle />}
+
+            </button>
+        </label>
     )
 }

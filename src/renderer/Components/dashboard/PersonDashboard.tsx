@@ -8,9 +8,24 @@ import { useSort } from "@/renderer/hooks/useSort";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
 
 export function PersonDasboard() {
+    const HEADERS = [
+        {name:"ID"},
+        {name:"Nombre"},
+    ]
+
+    const FIELDS: TableField<Person>[]= [
+        {key: "id"},
+        {key: "name"},
+    ];
+
+    const FORM_FIELDS: FormField<Person>[] = [
+        {label:"Nombre", key:"name", type:"text"},
+    ]
+
+
     const [persons, setPersons] = useState<Person[]>([]);
     const {filteredItems : filteredPersons, setFilter} = useFilter({items: persons, key: "name"});
-    const {sortedItems: sortedPersons, setSort, sortDirection, changeSortDirection} = useSort(filteredPersons);
+    const {sortedItems: sortedPersons, setSort, sortDirection, changeSortDirection, getCurrentSort} = useSort(filteredPersons, HEADERS, FIELDS);
 
     useEffect(() => {
         refreshPersons();
@@ -47,26 +62,12 @@ export function PersonDasboard() {
         });
     }
 
-    const headers = [
-        {name:"ID"},
-        {name:"Nombre"},
-    ]
-
-    const fields: TableField<Person>[]= [
-        {key: "id"},
-        {key: "name"},
-    ];
-
-    const formFields: FormField<Person>[] = [
-        {label:"Nombre", key:"name", type:"text"},
-    ]
-
     return (
         <LayoutContainer>
             <GenericTable
                 title="Personas"
-                headers={headers}
-                fields={fields}
+                headers={HEADERS}
+                fields={FIELDS}
                 items={sortedPersons}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
@@ -75,7 +76,8 @@ export function PersonDasboard() {
                 sortDirection={sortDirection}
                 changeSortDirection={changeSortDirection}
                 handleFilter={setFilter}
-                formFields={formFields}
+                formFields={FORM_FIELDS}
+                getCurrentSort={getCurrentSort}
             />
         </LayoutContainer>
     );

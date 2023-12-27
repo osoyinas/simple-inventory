@@ -19,9 +19,10 @@ interface Props<T extends Item> {
     sortDirection: boolean;
     handleUpdate?: (item: T) => void;
     formFields: FormField<T>[];
+    getCurrentSort: () => header;
 }
 
-export function GenericTable<T extends Item>({title, headers, fields, items, handleDelete, handleAdd, handleUpdate, sortDirection, handleSort, handleFilter, changeSortDirection, formFields}: Props<T>) {
+export function GenericTable<T extends Item>({title, headers, fields, items, handleDelete, handleAdd, handleUpdate, sortDirection, handleSort, handleFilter, changeSortDirection, formFields, getCurrentSort}: Props<T>) {
     
     const {
         currentItems,
@@ -48,6 +49,7 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
                     changeSortDirection={changeSortDirection}
                     handleFilter={handleFilter}
                     handleSort={handleSort}
+                    getCurrentSort={getCurrentSort}
                 />
                 <table className="table bg-white min-w-max">
                     <TableHead headers={headers}                 

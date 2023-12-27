@@ -2,8 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Item } from '@/types/models';
 import { useState, useMemo } from 'react';
+import { TableField, header } from '@/types/types';
 
-export function useSort<T extends Item>( items: T[] ) {
+export function useSort<T extends Item>( items: T[], headers: header[], fields: TableField<T>[] ) {
     const [sort, setSort] = useState<keyof T | null>("id" as keyof T);
     const [sortDirection, setSortDirection] = useState<boolean>(true); // true = asc, false = desc
 
@@ -12,6 +13,12 @@ export function useSort<T extends Item>( items: T[] ) {
         setSortDirection((prev) => !prev);
     }
 
+    const getCurrentSort = () => {
+        console.log(fields);
+        const index = fields.indexOf(fields.find((field) => field.key === sort) as TableField<T>);
+        console.log(index);
+        return headers[index];
+    }
     const sortedItems =  useMemo(() => {
         if (!sort) 
             return items
@@ -36,5 +43,5 @@ export function useSort<T extends Item>( items: T[] ) {
             });
 
     }, [sort, items, sortDirection]);
-    return { sortedItems, setSort, sortDirection, changeSortDirection };
+    return { sortedItems, setSort, sortDirection, changeSortDirection, getCurrentSort };
 }

@@ -8,10 +8,42 @@ import { useSort } from "@/renderer/hooks/useSort";
 import { deleteMaterial } from "@/api/material";
 import { GenericTable } from "../table/GenericTable";
 
+
+
+
 export function MaterialDashboard() {
+    const HEADERS = [
+        {name: "ID"},
+        {name: "Nombre"},
+        {name: "Cantidad total"},
+        {name: "Cantidad disponible"},
+        {name: "Descripción"},
+    ]
+    const FIELDS: TableField<Material>[] = [
+        {key: "id"},
+        {key: "name"},
+        {key: "absolute_amount",
+            logic: (item: Material) => {
+                return (<span>{item.absolute_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
+            }},
+        {key: "available_amount",
+            logic: (item: Material) => {
+                return (<span>{item.available_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
+            }
+        },
+        {key: "description"}
+    ];
+    
+    const FORM_FIELDS: FormField<Material>[] = [
+        {label:"Nombre", key:"name", type:"text"},
+        {label:"Cantidad total", key:"absolute_amount", type:"number"},
+        {label:"Cantidad disponible", key:"available_amount", type:"number"},
+        {label: "Medida", key:"units", type:"select", options: Object.values(UNIT).map((unit) => ({value: unit, name: unit}))},
+        {label:"Descripción (opcional)", key:"description", type:"textarea"}
+    ]
     const [materials, setMaterials] = useState<Material[]>([])
     const {filteredItems : filteredMaterials, setFilter} = useFilter<Material>({items: materials, key: "name"})
-    const {sortedItems: sortedMaterials, setSort, changeSortDirection, sortDirection} = useSort<Material>(filteredMaterials)
+    const {sortedItems: sortedMaterials, setSort, changeSortDirection, sortDirection, getCurrentSort} = useSort<Material>(filteredMaterials, HEADERS, FIELDS)
 
     useEffect(() => {
         getMaterials().then((response) => {
@@ -47,39 +79,12 @@ export function MaterialDashboard() {
         updateMaterial(item).catch((error) => console.error(error));
         refreshMaterials();
     }
-    const headers = [
-        {name: "Nombre"},
-        {name: "Cantidad total"},
-        {name: "Cantidad disponible"},
-        {name: "Descripción"}
-    ]
-    const fields: TableField<Material>[] = [
-        {key: "name"},
-        {key: "absolute_amount",
-            logic: (item: Material) => {
-                return (<span>{item.absolute_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
-            }},
-        {key: "available_amount",
-            logic: (item: Material) => {
-                return (<span>{item.available_amount} <span className="opacity-90 text-lg">{item.units}</span></span>)
-            }
-        },
-        {key: "description"}
-    ];
-
-    const formFields: FormField<Material>[] = [
-        {label:"Nombre", key:"name", type:"text"},
-        {label:"Cantidad total", key:"absolute_amount", type:"number"},
-        {label:"Cantidad disponible", key:"available_amount", type:"number"},
-        {label: "Medida", key:"units", type:"select", options: Object.values(UNIT).map((unit) => ({value: unit, name: unit}))},
-        {label:"Descripción (opcional)", key:"description", type:"textarea"}
-    ]
     return (
         <LayoutContainer>
             <GenericTable 
                 title="Materiales"
-                headers={headers}
-                fields={fields}
+                headers={HEADERS}
+                fields={FIELDS}
                 items={sortedMaterials}
                 changeSortDirection={changeSortDirection}
                 handleDelete={handleDelete}
@@ -88,7 +93,8 @@ export function MaterialDashboard() {
                 sortDirection={sortDirection}
                 handleSort={(value:keyof Material| null)=>{setSort(value)}}
                 handleFilter={(value:string)=> {setFilter(value)}}
-                formFields={formFields}
+                formFields={FORM_FIELDS}
+                getCurrentSort={getCurrentSort}
             />
         </LayoutContainer>
     );

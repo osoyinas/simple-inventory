@@ -9,9 +9,44 @@ import { addWork } from "@/api/work";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
 
 export function WorkDashboard() {
+    const HEADERS = [
+        {name:"ID"},
+        {name:"Nombre"},
+        {name:"Fecha de inicio"},
+        {name:"Estado"},
+        {name:"Descripción"}
+    ]
+    const FIELDS: TableField<Work>[] = [
+        {key: "id"},
+        {key: "name"},
+        {key: "start_date", logic: (item: Work) => {
+            const date = new Date(item.start_date);
+            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+        }},
+        {key: "status", logic: (item: Work) => item.status === STATUS.pending 
+            ? <button className="btn btn-alert rounded-full" onClick={()=> {
+                item.status = STATUS.done
+                handleUpdate(item)
+                refreshWorks()
+            }}>Pendiente</button>
+            : <button className="btn btn-success rounded-full" onClick={()=> {
+                item.status = STATUS.pending
+                handleUpdate(item)
+                refreshWorks()
+            }}>Finalizada</button>
+        },
+        {key: "description"},
+    ]; 
+
+    const FORM_FIELDS: FormField<Work>[] = [
+        {label:"Nombre", key:"name", type:"text"},
+        {label:"Fecha de inicio", key:"start_date", type:"date"},
+        {label:"Descripción (opcional)", key:"description", type:"textarea"},
+    ]
+
     const [works, setWorks] = useState<Work[]>([]);
     const {filteredItems , setFilter} = useFilter<Work>({items: works, key: "name"});
-    const {sortedItems, setSort, changeSortDirection, sortDirection} = useSort(filteredItems);
+    const {sortedItems, setSort, changeSortDirection, sortDirection, getCurrentSort} = useSort(filteredItems, HEADERS, FIELDS);
 
     useEffect(() => {
         refreshWorks();
@@ -45,44 +80,13 @@ export function WorkDashboard() {
         refreshWorks();
     }
 
-    const headers = [
-        {name:"Nombre"},
-        {name:"Fecha de inicio"},
-        {name:"Estado"},
-        {name:"Descripción"}
-    ]
-    const fields: TableField<Work>[] = [
-        {key: "name"},
-        {key: "start_date", logic: (item: Work) => {
-            const date = new Date(item.start_date);
-            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
-        }},
-        {key: "status", logic: (item: Work) => item.status === STATUS.pending 
-            ? <button className="btn btn-alert rounded-full" onClick={()=> {
-                item.status = STATUS.done
-                handleUpdate(item)
-                refreshWorks()
-            }}>Pendiente</button>
-            : <button className="btn btn-success rounded-full" onClick={()=> {
-                item.status = STATUS.pending
-                handleUpdate(item)
-                refreshWorks()
-            }}>Finalizada</button>
-        },
-        {key: "description"},
-    ]; 
-
-    const formFields: FormField<Work>[] = [
-        {label:"Nombre", key:"name", type:"text"},
-        {label:"Fecha de inicio", key:"start_date", type:"date"},
-        {label:"Descripción (opcional)", key:"description", type:"textarea"},
-    ]
+    
     return (
         <LayoutContainer>
             <GenericTable
                 title="Obras"
-                headers={headers}
-                fields={fields}
+                headers={HEADERS}
+                fields={FIELDS}
                 items={sortedItems}
                 handleDelete={handleDelete}
                 handleAdd={handleAdd}
@@ -91,7 +95,8 @@ export function WorkDashboard() {
                 changeSortDirection={changeSortDirection}
                 handleSort={setSort}
                 handleFilter={setFilter}
-                formFields={formFields}
+                formFields={FORM_FIELDS}
+                getCurrentSort={getCurrentSort}
             />
         </LayoutContainer>
     );
