@@ -14,9 +14,7 @@ export function useSort<T extends Item>( items: T[], headers: header[], fields: 
     }
 
     const getCurrentSort = () => {
-        console.log(fields);
         const index = fields.indexOf(fields.find((field) => field.key === sort) as TableField<T>);
-        console.log(index);
         return headers[index];
     }
     const sortedItems =  useMemo(() => {
