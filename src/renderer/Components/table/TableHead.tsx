@@ -28,7 +28,7 @@ export function TableHead<T>({headers, currentItems,setSelectedItems, selectedIt
                     </button>
                 </th>
                 {headers.map((header, index) => (
-                    <th key={header.name}><button onClick={()=> {
+                    <th key={header.name}><button className="hover:bg-accent rounded-2xl text-left py-1 px-4 w-full transition-all" onClick={()=> {
                         handleSort(fields[index].key)
                     }}>{header.name}</button></th>
                 ))}
