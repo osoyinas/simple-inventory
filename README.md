@@ -1,7 +1,9 @@
-# Warehouse Inventory Desktop App
+# Inventory Desktop App
 
 This desktop application utilizes Vite, Electron, React, TypeScript, and tailwindcss to manage the inventory of a warehouse. It allows storing information about individuals, materials, projects, or jobs, as well as tracking transactions that describe when an individual withdraws a material, the quantity withdrawn, and the project to which it is allocated.
-
+![image](https://github.com/osoyinas/simple-inventory/assets/99898902/4d746d1a-9d4d-4447-a1f1-4128c3063a9f)
+![image](https://github.com/osoyinas/simple-inventory/assets/99898902/1cfc3685-a9dc-4c47-8d3c-08642385c350)
+![image](https://github.com/osoyinas/simple-inventory/assets/99898902/6a84a95e-5f5d-4148-8ede-e43e3d77eb7e)
 ## Prerequisites
 
 Make sure you have the following tools installed before getting started:
