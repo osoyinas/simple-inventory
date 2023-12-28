@@ -14,7 +14,10 @@ Make sure you have the following tools installed before getting started:
 - Git
 
 ## Installation
+
 To install the desktop app, watch out the latest releases.
+
+
 1. **Clone the Repository**
 
     ```bash
