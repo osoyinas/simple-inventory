@@ -14,7 +14,7 @@ Make sure you have the following tools installed before getting started:
 - Git
 
 ## Installation
-
+To install the desktop app, watch out the latest releases.
 1. **Clone the Repository**
 
     ```bash
@@ -27,12 +27,9 @@ Make sure you have the following tools installed before getting started:
     ```bash
     npm install
     ```
+    
 
-3. **Configure Environment Variables (if necessary)**
-
-    Copy the `.env.example` file and rename it to `.env`. Adjust the environment variables as needed.
-
-4. **Run the Application in Development Mode**
+3. **Run the Application in Development Mode**
 
     ```bash
     npm run dev
@@ -40,7 +37,7 @@ Make sure you have the following tools installed before getting started:
 
     This will start the application in development mode.
 
-5. **Build the Application for Production**
+4. **Build the Application for Production**
 
     ```bash
     npm run build
