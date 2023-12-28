@@ -2,9 +2,9 @@
 
 This desktop application utilizes Vite, Electron, React, TypeScript, and TailwindCSS to manage the inventory of a warehouse. It allows storing information about individuals, materials, jobs, as well as tracking transactions that describe when an individual withdraws a material, the quantity withdrawn, and the job to which it is allocated.
 
-![image](https://github.com/osoyinas/simple-inventory/assets/1.png)
-![image](https://github.com/osoyinas/simple-inventory/assets/2.png)
-![image](https://github.com/osoyinas/simple-inventory/assets/3.png)
+![image](https://github.com/osoyinas/simple-inventory/blob/main/assets/1.png)
+![image](https://github.com/osoyinas/simple-inventory/blob/main/assets/2.png)
+![image](https://github.com/osoyinas/simple-inventory/blob/main/assets/3.png)
 
 ## Prerequisites
 
