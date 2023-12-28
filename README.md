@@ -21,8 +21,8 @@ To install the desktop app, watch out [Releases](https://github.com/osoyinas/sim
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/inventario-almacen-app.git
-    cd inventario-almacen-app
+    git clone https://github.com/osoyinas/simple-inventory.git
+    cd simple-inventory
     ```
 
 2. **Install Dependencies**
