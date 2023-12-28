@@ -74,8 +74,11 @@ function SortInput({changeSortDirection, sortDirection,getCurrentSort}: SortInpu
             <button className="btn btn-accent flex justify-between" onClick={()=>{
                 changeSortDirection()
             }}>
-                {`${currentSort.name}`}{sortDirection ? <UpTriangle / > : <DownTriangle />}
+                {`${currentSort.name}`}
+                <div className="pointer-events-none">
 
+                    {sortDirection ? <UpTriangle /> : <DownTriangle />}
+                </div>
             </button>
         </label>
     )
