@@ -1,13 +1,13 @@
 import sqlite3 = require("sqlite3");
 import fs = require('fs');
 
-const db = new sqlite3.Database("data/database.db", (err: Error | null) => {
+const db = new sqlite3.Database("resources/data/database.db", (err: Error | null) => {
     if (err) {
         console.error(err.message);
     } else {
         console.log("Connected to the SQLite database.");
         // Ejecuta el archivo inic.sql al inicio
-        const sqlFile = fs.readFileSync("data/inic.sql", 'utf8');
+        const sqlFile = fs.readFileSync("resources/data/inic.sql", 'utf8');
         db.exec(sqlFile, (err: Error | null) => {
             if (err) {
                 console.error(err.message);

@@ -1,7 +1,9 @@
 {
   "name": "electron-vite-project",
+  "productName": "Inventario",
+  "description": "A simple inventory app to manage people, materials, work, and more.",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
