@@ -16,14 +16,14 @@ const db = new sqlite3.Database("src/models/database.db", (err: Error | null) =>
             }
         });
 
-        const sqlDataFile = fs.readFileSync("src/models/data.sql", 'utf8');
-        db.exec(sqlDataFile, (err: Error | null) => {
-            if (err) {
-                console.error(err.message);
-            } else {
-                console.log("Tables created successfully.");
-            }
-        });
+        // const sqlDataFile = fs.readFileSync("src/models/data.sql", 'utf8');
+        // db.exec(sqlDataFile, (err: Error | null) => {
+        //     if (err) {
+        //         console.error(err.message);
+        //     } else {
+        //         console.log("Tables created successfully.");
+        //     }
+        // });
     }
 });
 
