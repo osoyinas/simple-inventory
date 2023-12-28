@@ -1,8 +1,7 @@
-import { app, BrowserWindow, Menu, MenuItem } from "electron";
+import { app, BrowserWindow, Menu } from "electron";
 import path from "node:path";
 import { setupIPCListeners } from "./handler";
 import { closeDatabase } from "../src/models/database";
-import {menuTemplate} from "./menu";
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -22,15 +21,18 @@ let win: BrowserWindow | null;
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 
 function createWindow() {
+
     win = new BrowserWindow({
         icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+        width: 1280,
+        height: 720,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         },
     }
     );
     const defaultMenu = Menu.getApplicationMenu();
-    defaultMenu?.append(new MenuItem(menuTemplate[0]));
+    // defaultMenu?.append(new MenuItem(menuTemplate[0]));
 
     win.setMenu(defaultMenu);
     // Test active push message to Renderer-process.
