@@ -30,14 +30,9 @@ export function TableFooter<T extends Item> ({handleDelete,
     const PAGINATION_SIZE = 5;
     const pagesArray =Array(totalPages).fill(0).map((_,index)=> index+1)
 
-    let currentPages = pagesArray.slice(
+    const currentPages = pagesArray.slice(
         PAGINATION_SIZE * Math.floor((currentPage-1)/PAGINATION_SIZE),
-        PAGINATION_SIZE* Math.floor((currentPage-1)/PAGINATION_SIZE) + PAGINATION_SIZE); 
-
-    if (currentPage> PAGINATION_SIZE) 
-        currentPages = [1,-1].concat(currentPages)
-    if (currentPage !== totalPages && ! (currentPage-1 > (totalPages - PAGINATION_SIZE))  )
-        currentPages = currentPages.concat(-2,totalPages)
+        PAGINATION_SIZE* Math.floor((currentPage-1)/PAGINATION_SIZE) + PAGINATION_SIZE);
 
     return (
         <footer className="flex items-center justify-between w-full">
@@ -71,9 +66,9 @@ export function TableFooter<T extends Item> ({handleDelete,
 
             {totalPages > 1 && (
                 <div className="pagination join">
-                    <button className= {currentPage === 1 ? "opacity-0 cursor-default": "" } onClick={()=>{
-                        if (currentPage > 1)
-                            handlePageChange(currentPage - 1);
+                    <button className= {PAGINATION_SIZE - currentPage >= 0  ? "opacity-0 cursor-default": "" } onClick={()=>{
+                        if (PAGINATION_SIZE - currentPage < 0 )
+                            handlePageChange(currentPage -  PAGINATION_SIZE);
                     }}> <LeftArrow height={30} width={30} /> </button>
                     {currentPages.map( (page, index) => (
                         <input
@@ -95,9 +90,9 @@ export function TableFooter<T extends Item> ({handleDelete,
                     )
                     )}
                     
-                    <button  className= {currentPage === totalPages ? "opacity-0 cursor-default": "" } onClick={()=>{
-                        if (currentPage < totalPages)
-                            handlePageChange(currentPage + 1);
+                    <button  className= {totalPages - currentPage < (totalPages % PAGINATION_SIZE) ? "opacity-0 cursor-default": "" } onClick={()=>{
+                        if (totalPages - currentPage >= (totalPages % PAGINATION_SIZE))
+                            handlePageChange(currentPage + PAGINATION_SIZE);
                     }}> <RightArrow height={30} width={30} /> 
                     </button>
                         
