@@ -1,4 +1,4 @@
-# Inventario Almacén Desktop App
+# Simple Inventory
 
 Esta aplicación de escritorio utiliza Vite, Electron, React, TypeScript, tailwindcss para gestionar el inventario de un almacén. Permite almacenar información sobre personas, materiales, obras o trabajos, así como realizar un seguimiento de las transacciones que describen cuándo una persona retira un material, la cantidad retirada y a qué trabajo se destina.
 
