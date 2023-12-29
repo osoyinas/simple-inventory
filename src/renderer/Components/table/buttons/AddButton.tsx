@@ -70,7 +70,7 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                                                             {option.name}
                                                         </option>
                                                     ))
-                                                    : <option value={0}>No hay personas</option>
+                                                    : <option value={0}>-</option>
                                             }
                                         </select>
                                     ) : (
