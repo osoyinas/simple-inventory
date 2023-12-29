@@ -59,7 +59,7 @@ export function setupWorksListeners() {
 
     ipcMain.on("updateWork", (event: IpcMainEvent, data: Work) => {
         executeQuery(
-            `UPDATE Work SET name = '${data.name}', start_date = '${data.start_date}', status = '${data.status}', description = '${data.description}' WHERE id = '${data.id}';`
+            `UPDATE Work SET name = '${data.name}', start_date = '${data.start_date}', status = '${data.status}', description = '${data.description??""}' WHERE id = '${data.id}';`
         )
             .then(() => {
                 return executeQuery(`SELECT * FROM Work WHERE id = '${data.id}';`);

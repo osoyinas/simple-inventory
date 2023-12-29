@@ -37,7 +37,7 @@ export function setupMaterialsListeners() {
     });
     ipcMain.on("addMaterial", (event: IpcMainEvent, data: Material) => {
         executeQuery(
-            `INSERT INTO Material (name, units, absolute_amount, available_amount, description ) VALUES ('${data.name}', '${data.units}', ${data.absolute_amount}, ${data.absolute_amount}, '${data.description}');`
+            `INSERT INTO Material (name, units, absolute_amount, available_amount, description ) VALUES ('${data.name}', '${data.units}', ${data.absolute_amount}, ${data.absolute_amount}, '${data.description??""}');`
         )
             .then(() => {
                 event.reply("addMaterialResponse", {

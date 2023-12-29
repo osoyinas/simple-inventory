@@ -56,7 +56,7 @@ export function setupMovementsListeners() {
 
     ipcMain.on("updateMovement", (event: IpcMainEvent, data: Movement) => {
         executeQuery(
-            `UPDATE Movement SET person_id = ${data.person_id}, material_id = ${data.material_id}, work_id = ${data.work_id}, amount = ${data.amount}, date = '${data.date}', type = '${data.type}', description='${data.description}'  WHERE id = ${data.id}`
+            `UPDATE Movement SET person_id = ${data.person_id}, material_id = ${data.material_id}, work_id = ${data.work_id}, amount = ${data.amount}, date = '${data.date}', type = '${data.type}', description='${data.description??""}'  WHERE id = ${data.id}`
         )
             .then((result) => {
                 event.reply("updateMovementResponse", {
