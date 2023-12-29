@@ -17,7 +17,7 @@ Make sure you have the following tools installed before getting started:
 
 ## Installation
 
-To install the desktop app, watch out [Releases](https://github.com/osoyinas/simple-inventory/releases) . Or you can do it manually following the next steps:
+To install the desktop app, watch out the latest [release](https://github.com/osoyinas/simple-inventory/releases) . Or you can do it manually following the next steps:
 
 1. **Clone the Repository**
 
