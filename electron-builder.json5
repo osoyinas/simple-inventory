@@ -22,7 +22,7 @@
       },
     ],
     artifactName: "${productName}-Windows-${version}-Setup.${ext}",
-    icon: "public/icon.png",
+    icon: "public/icon.ico",
   },
   nsis: {
     oneClick: false,
