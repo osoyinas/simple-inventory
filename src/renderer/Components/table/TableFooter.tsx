@@ -66,7 +66,7 @@ export function TableFooter<T extends Item> ({handleDelete,
 
             {totalPages > 1 && (
                 <div className="pagination join">
-                    <button className= {PAGINATION_SIZE - currentPage >= 0  ? "opacity-0 cursor-default": "" } onClick={()=>{
+                    <button className= {PAGINATION_SIZE - currentPage >= 0  ? "opacity-10 cursor-default": "" } onClick={()=>{
                         if (PAGINATION_SIZE - currentPage < 0 )
                             handlePageChange(currentPage -  PAGINATION_SIZE);
                     }}> <LeftArrow height={30} width={30} /> </button>
@@ -90,8 +90,8 @@ export function TableFooter<T extends Item> ({handleDelete,
                     )
                     )}
                     
-                    <button  className= {totalPages - currentPage < (totalPages % PAGINATION_SIZE) ? "opacity-0 cursor-default": "" } onClick={()=>{
-                        if (totalPages - currentPage >= (totalPages % PAGINATION_SIZE))
+                    <button  className= {totalPages - currentPage < PAGINATION_SIZE ? "opacity-10 cursor-default": "" } onClick={()=>{
+                        if (totalPages - currentPage >= PAGINATION_SIZE)
                             handlePageChange(currentPage + PAGINATION_SIZE);
                     }}> <RightArrow height={30} width={30} /> 
                     </button>
