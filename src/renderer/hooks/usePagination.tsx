@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 8;
 
 interface Params<T> {
     items: T[];
