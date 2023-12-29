@@ -34,7 +34,7 @@ export function MovementDasboard() {
         {key: "work_name"},
         {key: "date", logic: (item: Movement) => {
             const date = new Date(item.date);
-            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric', year: 'numeric' });
         }
         },
         {key: "type", logic: (item: Movement) => item.type === MOVEMENT_TYPE.in 
@@ -67,7 +67,6 @@ export function MovementDasboard() {
     const [moves, setMoves] = useState<Movement[]>([]);
     const {filteredItems , setFilter} = useFilter<Movement>({items: moves, key: "material_name"});
     const {sortedItems: sortedPersons, setSort, changeSortDirection, sortDirection, getCurrentSort} = useSort(filteredItems, HEADERS, FIELDS);
-
 
     useEffect(() => {
         refreshMoves();
