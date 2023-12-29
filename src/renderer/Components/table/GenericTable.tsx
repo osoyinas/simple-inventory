@@ -40,63 +40,62 @@ export function GenericTable<T extends Item>({title, headers, fields, items, han
 
     const selectedItemIds = new Set(selectedItems.map(item => item.id));
     return (
-        <>
-    
-            <section className="relative flex flex-col gap-8 items-end min-w-max max-w-7xl w-full">
-                <TableHeader
-                    name={title}   
-                    sortDirection={sortDirection}
-                    changeSortDirection={changeSortDirection}
-                    handleFilter={handleFilter}
-                    handleSort={handleSort}
-                    getCurrentSort={getCurrentSort}
-                />
-                <table className="table bg-white min-w-max">
-                    <TableHead headers={headers}                 
-                        currentItems={currentItems}
-                        selectedItems={selectedItems}
-                        setSelectedItems={setSelectedItems}
-                        resetSelectedItems={resetSelectedItems}
-                        fields={fields}
-                        handleSort={handleSort}
-                    />
-                    <tbody className="text-xl">
-                        {currentItems.map((item, rowIndex) => (
-                            <tr key={rowIndex}>
-                                <td>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            className="checkbox"
-                                            onChange={handleCheckChange}
-                                            value={item.id}
-                                            checked={selectedItemIds.has(item.id)}
-                                        />
-                                    </label>
-                                </td>
-                                {fields.map((field, colIndex) => (
-                                    <td key={colIndex}  className={`overflow-hidden overflow-ellipsis ${field.className}`}>
-                                        {field.logic ? field.logic(item) : item[field.key] as string}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                    
-                </table>
-                <TableFooter 
+        <section className="relative flex flex-col gap-8 items-end min-w-max max-w-7xl w-full">
+                
+            <TableHeader
+                name={title}   
+                sortDirection={sortDirection}
+                changeSortDirection={changeSortDirection}
+                handleFilter={handleFilter}
+                handleSort={handleSort}
+                getCurrentSort={getCurrentSort}
+            />
+            <table className="table bg-white">
+                <TableHead headers={headers}                 
+                    currentItems={currentItems}
                     selectedItems={selectedItems}
+                    setSelectedItems={setSelectedItems}
                     resetSelectedItems={resetSelectedItems}
-                    totalPages={totalPages}
-                    handlePageChange={handlePageChange}
-                    currentPage={currentPage}
-                    handleDelete={handleDelete}
-                    handleAdd={handleAdd}
-                    handleUpdate={handleUpdate}
-                    formFields={formFields}
+                    fields={fields}
+                    handleSort={handleSort}
                 />
-            </section>
+                <tbody className="text-xl">
+                    {currentItems.map((item, rowIndex) => (
+                        <tr key={rowIndex}>
+                            <td>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        className="checkbox"
+                                        onChange={handleCheckChange}
+                                        value={item.id}
+                                        checked={selectedItemIds.has(item.id)}
+                                    />
+                                </label>
+                            </td>
+                            {fields.map((field, colIndex) => (
+                                <td key={colIndex}  className={`overflow-hidden overflow-ellipsis ${field.className}`}>
+                                    {field.logic ? field.logic(item) : item[field.key] as string}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
 
-        </>
+            
+            </table>
+
+            <TableFooter 
+                selectedItems={selectedItems}
+                resetSelectedItems={resetSelectedItems}
+                totalPages={totalPages}
+                handlePageChange={handlePageChange}
+                currentPage={currentPage}
+                handleDelete={handleDelete}
+                handleAdd={handleAdd}
+                handleUpdate={handleUpdate}
+                formFields={formFields}
+            />
+        </section>
     );
 }
