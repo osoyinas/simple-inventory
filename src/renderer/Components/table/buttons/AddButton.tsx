@@ -42,10 +42,10 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                 {children}
             </button>
             <dialog className="modal" open={isOpen}>
-                <div className="modal-box z-50">
+                <div className="modal-box z-50 relative">
                     <h3 className="font-bold text-xl">{children}</h3>
                     <div className="divider"></div>
-                    <main className="flex flex-col w-full  gap-4">
+                    <main className="flex flex-col w-full gap-4 pr-2 relative">
                         {fields.map((field) => {
                             const inputName = field.key.toString();
                             const value = formData[field.key] as string ??"";
@@ -86,19 +86,20 @@ export function AddButton<T>({ handleAdd, fields, children }: Props<T>) {
                                 </label>)
                         })}
 
-                        <div className="divider"></div>
-                        <footer className="flex justify-between">
-                            <button className="btn btn-error" onClick={()=> {
-                                closeModal()
-                                setFormData({})
-                            }}>
-                Cancelar
-                            </button>
-                            <button className="btn btn-primary" onClick={handleAddClick}>
-                Añadir
-                            </button>
-                        </footer>
+                        
                     </main>
+                    <div className="divider"></div>
+                    <footer className="flex justify-between">
+                        <button className="btn btn-error" onClick={()=> {
+                            closeModal()
+                            setFormData({})
+                        }}>
+                Cancelar
+                        </button>
+                        <button className="btn btn-primary" onClick={handleAddClick}>
+                Añadir
+                        </button>
+                    </footer>
                 </div>
                 <div className="modal-background absolute w-full h-full bg-black opacity-60"></div>
             </dialog>
