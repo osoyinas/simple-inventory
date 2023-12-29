@@ -22,13 +22,13 @@ export function TableHead<T>({headers, currentItems,setSelectedItems, selectedIt
     return (
         <thead className="text-lg font-bold text-black opacity-70">
             <tr>
-                <th>
+                <th className="w-[2px]">
                     <button onClick={toggleSelected} title={
                         selectedItems.some((item)=> currentItems.includes(item)) ? "Deseleccionar todo": "Seleccionar todos"}>#
                     </button>
                 </th>
                 {headers.map((header, index) => (
-                    <th key={header.name}><button className="hover:bg-accent rounded-2xl text-left py-1 px-2 w-full transition-all" onClick={()=> {
+                    <th key={header.name}><button className="hover:bg-accent rounded-md text-left py-1 px-1 transition-all" onClick={()=> {
                         handleSort(fields[index].key)
                     }}>{header.name}</button></th>
                 ))}
