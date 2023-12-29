@@ -6,6 +6,8 @@ This desktop application uses Vite, Electron, React, TypeScript, and TailwindCSS
 ![image](https://github.com/osoyinas/simple-inventory/blob/main/assets/2.png)
 ![image](https://github.com/osoyinas/simple-inventory/blob/main/assets/3.png)
 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VTs-7p7NeBI?si=87BVd8RGTTbP4KJK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ## Prerequisites
 
 Make sure you have the following tools installed before getting started:
