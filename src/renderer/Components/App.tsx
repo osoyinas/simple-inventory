@@ -7,7 +7,7 @@ import { LayoutContainer } from "./layout/LayoutContainer";
 import { Navbar } from "./layout/NavBar";
 function App() {
     return (
-        <main className="text-accent-content items-center">
+        <main className="text-accent-content items-center relative">
             <Navbar />
             <LayoutContainer>
                 <Routes>
