@@ -2,6 +2,8 @@
 
 Esta aplicación de escritorio utiliza Vite, Electron, React, TypeScript, tailwindcss para gestionar el inventario de un almacén. Permite almacenar información sobre personas, materiales, obras o trabajos, así como realizar un seguimiento de las transacciones que describen cuándo una persona retira un material, la cantidad retirada y a qué trabajo se destina.
 
+https://github.com/osoyinas/simple-inventory/assets/99898902/5ad91f8f-7d83-4e2d-8186-5d2d304addc8
+
 ## Requisitos Previos
 
 Asegúrate de tener las siguientes herramientas instaladas antes de comenzar:
