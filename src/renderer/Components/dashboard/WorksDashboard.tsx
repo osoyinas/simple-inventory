@@ -14,7 +14,8 @@ export function WorkDashboard() {
         {name:"Nombre"},
         {name:"Fecha de inicio"},
         {name:"Estado"},
-        {name:"Descripción"}
+        {name:"Descripción"},
+        {name:"Matrícula"}
     ]
     const FIELDS: TableField<Work>[] = [
         {key: "id"},
