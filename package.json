@@ -10,7 +10,6 @@
     "provider": "github",
     "releaseType": "release"
   },
-  
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
@@ -18,6 +17,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.6",
     "autoprefixer": "^10.4.16",
     "i": "^0.3.7",
     "postcss": "^8.4.31",
