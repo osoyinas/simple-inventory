@@ -16,7 +16,6 @@ export function MovementDasboard() {
         {name:"ID"},
         {name:"Material"},
         {name:"Cantidad"},
-        {name:"Persona que lo realizó"},
         {name:"Obra relacionada"},
         {name:"Fecha"},
         {name:"Tipo"},
