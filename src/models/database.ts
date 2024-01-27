@@ -1,7 +1,17 @@
 import sqlite3 = require("sqlite3");
 import fs = require('fs');
+import { app } from 'electron';
 
-const db = new sqlite3.Database("resources/data/database.db", (err: Error | null) => {
+
+import path = require('path');
+const dataPath = path.join(app.getPath('appData'), 'InventarioData');
+if (!fs.existsSync(dataPath)) {
+    // Crea el directorio si no existe
+    fs.mkdirSync(dataPath, { recursive: true });
+}
+const databasePath = path.join(dataPath, 'database.db');
+
+const db = new sqlite3.Database(databasePath, (err: Error | null) => {
     if (err) {
         console.error(err.message);
     } else {
