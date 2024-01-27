@@ -1,7 +1,7 @@
 -- Crear la tabla Person
 CREATE TABLE IF NOT EXISTS Person (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL
 );
 
 -- Crear la tabla Material
