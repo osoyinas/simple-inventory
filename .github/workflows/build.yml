@@ -15,12 +15,14 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm install
+        
       - name: Create Release
-        uses: ncipollo/release-action@v1
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          name: ${{ startsWith(github.ref, 'refs/tags/v') }}
-          tag: ${{github.ref}}
-          token: ${{ secrets.github_token }}
+          name: ${{ github.ref }}
+          tag_name: ${{github.ref}}
 
       - name: Build/release Electron app
         uses: paneron/action-electron-builder@v1.8.1
