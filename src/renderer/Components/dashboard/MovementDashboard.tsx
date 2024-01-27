@@ -6,7 +6,7 @@ import { useSort } from "@/renderer/hooks/useSort";
 import { LayoutContainer } from "../layout/LayoutContainer";
 import {GenericTable} from "@/renderer/Components/table/GenericTable";
 import { FormField, TableField } from "@/types/types";
-import { usePersonOptions } from "@/renderer/hooks/usePersonOptions";
+// import { usePersonOptions } from "@/renderer/hooks/usePersonOptions";
 import { useMaterialOptions } from "@/renderer/hooks/useMaterialOptions";
 import { UseWorkOptions } from "@/renderer/hooks/useWorkOptions";
 
@@ -30,7 +30,6 @@ export function MovementDasboard() {
                 {item.type === MOVEMENT_TYPE.in? "+": "-"}{item.amount} {item.material_units}
             </div>)
         },
-        {key: "person_name"},
         {key: "work_name"},
         {key: "date", logic: (item: Movement) => {
             const date = new Date(item.date);
@@ -49,7 +48,7 @@ export function MovementDasboard() {
         },
     ];
 
-    const {personsAsOptions} = usePersonOptions();
+    // const {personsAsOptions} = usePersonOptions();
     const {materialsAsOptions} = useMaterialOptions();
     const {worksAsOptions} = UseWorkOptions();
 
@@ -57,7 +56,6 @@ export function MovementDasboard() {
     const FORM_FIELDS: FormField<Movement>[]= [
         {label:"Material", key:"material_id", type:"select", options: materialsAsOptions},
         {label:"Obra", key:"work_id", type:"select", options: worksAsOptions},
-        {label:"Persona", key:"person_id", type:"select", options: personsAsOptions},
         {label:"Cantidad", key:"amount", type:"number"},
         {label:"Fecha", key:"date", type:"date"},
         {label:"Tipo", key:"type", type:"select", options: [ {value: MOVEMENT_TYPE.out, name: "Salida"}, {value: MOVEMENT_TYPE.in, name: "Entrada"}]},
