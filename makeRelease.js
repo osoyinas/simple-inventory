@@ -15,7 +15,7 @@ function release(version) {
     execSync(`git commit -am v${version}`);
 
     // Etiqueta el commit
-    execSync(`git tag v${version}`);
+    execSync(`git tag ${version}`);
 
     // Hace push de los cambios a GitHub
     execSync("git push && git push --tags");
