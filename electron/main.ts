@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Menu } from "electron";
 import path from "node:path";
-import { setupIPCListeners } from "./handler";
+import { setupIPCListeners, sendUpdateToRenderer, sendNotUpdateToRenderer, sendProgressToRenderer } from "./handler";
 import { closeDatabase } from "../src/models/database";
 import { autoUpdater } from 'electron-updater';
 
@@ -69,13 +69,23 @@ app.whenReady().then(() => {
     createWindow();
 });
 
-autoUpdater.on('checking-for-update', () => {
-    console.log('Checking for update...');
+autoUpdater.on('error', () => {
+    sendNotUpdateToRenderer(win!)
 });
 
-autoUpdater.on('update-available', () => {
-    console.log('Update available. Downloading...');
+autoUpdater.on('update-not-available', () => {
+    sendNotUpdateToRenderer(win!)
+}
+);
+
+
+autoUpdater.on('update-available', (info) => {
+    sendUpdateToRenderer(win!, info.version);
     autoUpdater.downloadUpdate();
+});
+
+autoUpdater.on('download-progress', (progress) => {
+    sendProgressToRenderer(win!, progress.percent);
 });
 
 autoUpdater.on('update-downloaded', () => {
