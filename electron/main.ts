@@ -13,6 +13,8 @@ process.env.VITE_PUBLIC = app.isPackaged
     ? process.env.DIST
     : path.join(process.env.DIST, "../public");
 
+const isDev = process.env.NODE_ENV === 'development';
+
 let win: BrowserWindow | null;
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
@@ -67,6 +69,12 @@ app.whenReady().then(() => {
     autoUpdater.checkForUpdates();
     setupIPCListeners();
     createWindow();
+    console.log(isDev);
+    if (isDev) {
+        setTimeout(() => {
+            sendNotUpdateToRenderer(win!);
+        }, 4000);
+    }
 });
 
 autoUpdater.on('error', () => {
