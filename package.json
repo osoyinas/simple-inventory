@@ -4,7 +4,7 @@
   "productName": "Inventario",
   "description": "A simple inventory app to manage people, materials, work, and more.",
   "private": true,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "repository": "https://github.com/osoyinas/simple-inventory",
   "publish": {
     "provider": "github",
