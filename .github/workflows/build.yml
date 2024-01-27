@@ -8,12 +8,13 @@ jobs:
     runs-on: windows-latest
     steps:
 
-      - name: Obtener nombre de etiqueta del último commit
-        id: get_tag
-        run: echo "{TAG_NAME}=$(git describe --tags --abbrev=0)">> $GITHUB_OUTPUT
-
-      - name: Mostrar nombre de etiqueta
-        run: echo ${{ steps.get_tag.outputs.TAG_NAME }} 
+      - name: Get release info
+        id: release_info
+        uses: revam/gh-action-get-tag-and-version@v1
+        with:
+          tag: ${{ github.ref }}
+          prefix: v
+          prefixRegex: "[vV]?"
 
         
       - name: Create Release
@@ -21,8 +22,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          release_name: ${{ github.ref }}
-          tag_name: ${{ github.ref }}
+          release_name: ${{ steps.release_info.outputs.version }}
+          tag_name: ${{ steps.release_info.outputs.version}}
       - name: Check out Git repository
         uses: actions/checkout@v1
 
