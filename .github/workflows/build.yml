@@ -13,8 +13,7 @@ jobs:
         run: echo "::set-output name=TAG_NAME::$(git describe --tags --abbrev=0)"
       
       - name: Mostrar nombre de etiqueta
-        run: echo "Nombre de etiqueta del último commit: ${{ steps.get_tag.outputs.TAG_NAME }}"
-        
+        run: echo ${{ steps.get_tag.outputs.TAG_NAME }} 
       - name: Create Release
         uses: actions/create-release@v1
         env:
