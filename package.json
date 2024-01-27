@@ -1,5 +1,6 @@
 {
-  "name": "electron-vite-project",
+  "name": "electron-inventory",
+  "author": "Pablo Piñas",
   "productName": "Inventario",
   "description": "A simple inventory app to manage people, materials, work, and more.",
   "private": true,
