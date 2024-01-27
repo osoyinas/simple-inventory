@@ -2,15 +2,12 @@ import { app, BrowserWindow, Menu } from "electron";
 import path from "node:path";
 import { setupIPCListeners } from "./handler";
 import { closeDatabase } from "../src/models/database";
-// The built directory structure
-//
-// ├─┬─┬ dist
-// │ │ └── index.html
-// │ │
-// │ ├─┬ dist-electron
-// │ │ ├── main.js
-// │ │ └── preload.js
-// │
+import { autoUpdater } from 'electron-updater';
+
+
+autoUpdater.autoDownload = false;
+autoUpdater.autoInstallOnAppQuit = true;
+
 process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged
     ? process.env.DIST
@@ -21,7 +18,6 @@ let win: BrowserWindow | null;
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 
 function createWindow() {
-
     win = new BrowserWindow({
         icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
         width: 1280,
@@ -68,6 +64,21 @@ app.on("activate", () => {
 });
 
 app.whenReady().then(() => {
+    autoUpdater.checkForUpdates();
     setupIPCListeners();
     createWindow();
+});
+
+autoUpdater.on('checking-for-update', () => {
+    console.log('Checking for update...');
+});
+
+autoUpdater.on('update-available', () => {
+    console.log('Update available. Downloading...');
+    autoUpdater.downloadUpdate();
+});
+
+autoUpdater.on('update-downloaded', () => {
+    console.log('Update downloaded. Installing...');
+    autoUpdater.quitAndInstall();
 });
