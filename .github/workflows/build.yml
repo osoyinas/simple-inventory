@@ -21,7 +21,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
           tag_name: ${{github.ref}}
 
       - name: Build/release Electron app
