@@ -10,10 +10,12 @@ jobs:
 
       - name: Obtener nombre de etiqueta del último commit
         id: get_tag
-        run: echo "::set-output name=TAG_NAME::$(git describe --tags --abbrev=0)"
-      
+        run: echo "{TAG_NAME}=$(git describe --tags --abbrev=0)">> $GITHUB_OUTPUT
+
       - name: Mostrar nombre de etiqueta
         run: echo ${{ steps.get_tag.outputs.TAG_NAME }} 
+
+        
       - name: Create Release
         uses: actions/create-release@v1
         env:
