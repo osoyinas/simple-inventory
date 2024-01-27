@@ -1,22 +1,29 @@
 name: Build/release
 
-on: 
-  push:
-    tags:
-        - 'v*'
+on: push
 
 jobs:
   release:
+    permissions: write-all
     runs-on: windows-latest
     steps:
-    
+
+      - name: Get release info
+        id: release_info
+        uses: revam/gh-action-get-tag-and-version@v1
+        with:
+          tag: ${{ github.ref }}
+          prefix: v
+          prefixRegex: "[vV]?"
+
+        
       - name: Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          release_name: ${{ github.ref }}
-          tag_name: ${{ github.ref }}
+          release_name: ${{ steps.release_info.outputs.version }}
+          tag_name: ${{ steps.release_info.outputs.version}}
       - name: Check out Git repository
         uses: actions/checkout@v1
 
