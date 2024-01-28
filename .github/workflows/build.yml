@@ -58,6 +58,8 @@ jobs:
       
     - name: Make build
       run: npm run build
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload build to release
       id: upload-release-asset 
