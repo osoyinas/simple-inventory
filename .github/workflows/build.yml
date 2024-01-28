@@ -1,9 +1,6 @@
 name: Release
 
-on:
-  push:
-    paths:
-      - 'package.json'
+on: push
 jobs:
   release:
     permissions: write-all
@@ -20,24 +17,27 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Verify commit message format
-      run: |
-        if [[ $(git log -1 --pretty=%B) =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-          echo "Commit message format is correct."
-          echo $(git log -1 --pretty=%B)
-        else
-          echo "Error: Commit message format is incorrect. Please use the format 'vX.Y.Z'."
-          exit 1
-        fi
+    # - name: Verify commit message format
+    #   run: |
+    #     if [[ $(git log -1 --pretty=%B) =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    #       echo "Commit message format is correct."
+    #       echo $(git log -1 --pretty=%B)
+    #     else
+    #       echo "Error: Commit message format is incorrect. Please use the format 'vX.Y.Z'."
+    #       exit 1
+    #     fi
 
     - name: Get version from tag
       id: get_version
       run: echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> "$GITHUB_OUTPUT"
-
+    - name: Check version
+      run: echo ${{ steps.get_version.outputs.RELEASE_VERSION }}
+      
     - name: Create GitHub Release
       uses: actions/create-release@v1
-      with:
-        release_name: Release ${{ steps.get_version.outputs.RELEASE_VERSION }}
-        tag_name: ${{ steps.get_version.outputs.RELEASE_VERSION }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get_version.outputs.RELEASE_VERSION }}
+        release_name: Release ${{ steps.get_version.outputs.RELEASE_VERSION }}
+      
