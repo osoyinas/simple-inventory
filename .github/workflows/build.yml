@@ -4,7 +4,7 @@ on: push
 jobs:
   Create_release:
     permissions: write-all
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -13,7 +13,16 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '20'
-
+        
+    - name: Verify commit message format
+      run: |
+        if [[ $(git log -1 --pretty=%B) =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Commit message format is correct."
+          echo $(git log -1 --pretty=%B)
+        else
+          echo "Error: Commit message format is incorrect. Please use the format 'vX.Y.Z'."
+          exit 1
+        fi
     - name: Get version from commit
       id: get_version
       run: echo "RELEASE_VERSION=$(git log -1 --pretty=%B)" >> "$GITHUB_OUTPUT"
@@ -35,7 +44,12 @@ jobs:
       with:
         tag_name: ${{ steps.get_tag.outputs.TAG }}
         release_name: Release ${{ steps.get_version.outputs.RELEASE_VERSION }}
+    - name: Export url release
+      run: echo "RELEASE_URL=${{steps.create_release.outputs.upload_url}}" >> "$GITHUB_ENV"
 
+  Create-windows-build:
+    runs-on: windows-latest
+    steps:
     - name: Install dependencies
       run: npm install
       
@@ -48,7 +62,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        upload_url: $RELEASE_URL
         asset_path: ./release/${{ steps.get_tag.outputs.TAG }}/*.exe
         asset_name: Inventario-Windows-${{steps.get_tag.outputs.TAG }}-Setup.exe
         asset_content_type: application/octet-stream
