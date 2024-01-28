@@ -8,11 +8,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
         
     - name: Verify commit message format
       run: |
@@ -50,11 +45,19 @@ jobs:
   Create-windows-build:
     runs-on: windows-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+        
     - name: Install dependencies
       run: npm install
       
     - name: Make build
-      run: npm build
+      run: npm run build
 
     - name: Upload build to release
       id: upload-release-asset 
