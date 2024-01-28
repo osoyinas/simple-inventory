@@ -29,7 +29,8 @@ jobs:
 
     - name: Get version from tag
       id: get_version
-      run: echo "RELEASE_VERSION=$(git describe --tags --abbrev=0) " >> "$GITHUB_OUTPUT"
+      run: echo "RELEASE_VERSION=$(git --version)" >> "$GITHUB_OUTPUT"
+      # run: echo "RELEASE_VERSION=$(git describe --tags --abbrev=0) " >> "$GITHUB_OUTPUT"
       
 
       
