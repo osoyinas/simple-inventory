@@ -9,13 +9,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
+    # - name: Setup Node.js
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: '20'
 
-    - name: Install dependencies
-      run: npm install
+    # - name: Install dependencies
+    #   run: npm install
 
     # - name: Verify commit message format
     #   run: |
@@ -30,8 +30,10 @@ jobs:
     - name: Get version from tag
       id: get_version
       run: echo "RELEASE_VERSION=$(git describe --tags --abbrev=0)" >> "$GITHUB_OUTPUT"
+
+      
     - name: Check version
-      run: echo ${{ steps.get_version.outputs.RELEASE_VERSION }}
+      run: echo "${{ steps.get_version.outputs.RELEASE_VERSION }}"
       
     - name: Create GitHub Release
       uses: actions/create-release@v1
