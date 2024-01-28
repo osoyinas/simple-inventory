@@ -2,9 +2,9 @@ name: Release
 
 on: push
 jobs:
-  release:
+  Create_release:
     permissions: write-all
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -13,9 +13,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '20'
-
-    # - name: Install dependencies
-    #   run: npm install
 
     - name: Verify commit message format
       run: |
@@ -41,10 +38,27 @@ jobs:
       run: echo "${{ steps.get_version.outputs.RELEASE_VERSION }}"
       
     - name: Create GitHub Release
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.get_tag.outputs.TAG }}
         release_name: Release ${{ steps.get_version.outputs.RELEASE_VERSION }}
+
+    - name: Install dependencies
+      run: npm install
       
+    - name: Make build
+      run: npm build
+
+    - name: Upload build to release
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./release/${{ steps.get_tag.outputs.TAG }}/*.exe
+        asset_name: Inventario-Windows-${{steps.get_tag.outputs.TAG }}-Setup.exe
+        asset_content_type: application/octet-stream
